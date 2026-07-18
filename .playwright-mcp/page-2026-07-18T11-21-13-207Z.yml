@@ -1,0 +1,40 @@
+- generic [ref=f20e3]:
+  - complementary [ref=f20e4]:
+    - img "Citisoft Solutions" [ref=f20e6]
+    - navigation "Main navigation" [ref=f20e7]:
+      - link "Dashboard" [ref=f20e8] [cursor=pointer]:
+        - /url: /
+      - link "Invoice inbox" [ref=f20e15] [cursor=pointer]:
+        - /url: /inbox
+        - generic "2 items" [ref=f20e20]
+      - link "PO matching" [ref=f20e21] [cursor=pointer]:
+        - /url: /po-matching
+      - link "Bank upload" [ref=f20e30] [cursor=pointer]:
+        - /url: /bank-upload
+      - link "AR matching" [ref=f20e35] [cursor=pointer]:
+        - /url: /ar-matching
+        - generic "3 items" [ref=f20e40]
+      - link "Reminders" [ref=f20e41] [cursor=pointer]:
+        - /url: /reminders
+      - link "Agent" [ref=f20e48] [cursor=pointer]:
+        - /url: /agent
+      - link "Connections" [ref=f20e53] [cursor=pointer]:
+        - /url: /connections
+  - generic [ref=f20e57]:
+    - banner [ref=f20e58]:
+      - textbox "Search invoices, payments, vendors…" [ref=f20e60]
+      - generic [ref=f20e61]: Xero · Connected
+      - button "Notifications" [ref=f20e64] [cursor=pointer]
+      - generic [ref=f20e68]:
+        - generic "Amara Okafor" [ref=f20e69]: AO
+        - generic [ref=f20e70]:
+          - generic [ref=f20e71]: Amara Okafor
+          - generic [ref=f20e72]: Financial controller
+    - main [ref=f20e73]:
+      - generic [ref=f20e74]:
+        - generic [ref=f20e76]:
+          - heading "Bank statement upload" [level=1] [ref=f20e77]
+          - paragraph [ref=f20e78]: Import a bank statement to match deposits against open AR invoices
+        - generic [ref=f20e96]:
+          - generic [ref=f20e100]: chase-statement-jul-2026.pdf
+          - generic [ref=f20e101]: Parsing…

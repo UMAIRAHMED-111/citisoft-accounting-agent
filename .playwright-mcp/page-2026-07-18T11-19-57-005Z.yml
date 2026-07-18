@@ -1,0 +1,77 @@
+- generic [ref=f17e3]:
+  - complementary [ref=f17e4]:
+    - img "Citisoft Solutions" [ref=f17e6]
+    - navigation "Main navigation" [ref=f17e7]:
+      - link "Dashboard" [ref=f17e8] [cursor=pointer]:
+        - /url: /
+      - link "Invoice inbox" [ref=f17e15] [cursor=pointer]:
+        - /url: /inbox
+        - generic "2 items" [ref=f17e20]
+      - link "PO matching" [ref=f17e21] [cursor=pointer]:
+        - /url: /po-matching
+      - link "Bank upload" [ref=f17e30] [cursor=pointer]:
+        - /url: /bank-upload
+      - link "AR matching" [ref=f17e35] [cursor=pointer]:
+        - /url: /ar-matching
+        - generic "3 items" [ref=f17e40]
+      - link "Reminders" [ref=f17e41] [cursor=pointer]:
+        - /url: /reminders
+      - link "Agent" [ref=f17e48] [cursor=pointer]:
+        - /url: /agent
+      - link "Connections" [ref=f17e53] [cursor=pointer]:
+        - /url: /connections
+  - generic [ref=f17e57]:
+    - banner [ref=f17e58]:
+      - textbox "Search invoices, payments, vendors…" [ref=f17e60]
+      - generic [ref=f17e61]: Xero · Connected
+      - button "Notifications" [ref=f17e64] [cursor=pointer]
+      - generic [ref=f17e68]:
+        - generic "Amara Okafor" [ref=f17e69]: AO
+        - generic [ref=f17e70]:
+          - generic [ref=f17e71]: Amara Okafor
+          - generic [ref=f17e72]: Financial controller
+    - main [ref=f17e73]:
+      - generic [ref=f17e74]:
+        - generic [ref=f17e75]:
+          - img "Citisoft Solutions" [ref=f17e76]
+          - generic [ref=f17e78]:
+            - heading "CitiSoft Reconciliation Agent" [level=1] [ref=f17e79]
+            - paragraph [ref=f17e80]: Reading your ledger · 6 AP · 8 AR
+        - generic [ref=f17e87]:
+          - paragraph [ref=f17e88]: "Y"
+          - table [ref=f17e92]:
+            - rowgroup [ref=f17e93]:
+              - row [ref=f17e94]:
+                - columnheader "Type" [ref=f17e95]
+                - columnheader "Ref" [ref=f17e96]
+                - columnheader "Description" [ref=f17e97]
+            - rowgroup [ref=f17e98]:
+              - row [ref=f17e99]:
+                - cell "ap mismatch" [ref=f17e100]
+                - cell "78875" [ref=f17e101]
+                - 'cell "AP invoice 78875: Amount $951.96 is $51.96 over PO po-11166" [ref=f17e102]'
+              - row [ref=f17e103]:
+                - cell "ap no po" [ref=f17e104]
+                - cell "13992" [ref=f17e105]
+                - cell "AP invoice 13992 has no purchase-order reference" [ref=f17e106]
+              - row [ref=f17e107]:
+                - cell "ar partial" [ref=f17e108]
+                - cell "AR-2026-0061" [ref=f17e109]
+                - 'cell "AR-2026-0061: $3,000.00 of $5,875.50 applied — $2,875.50 still open" [ref=f17e110]'
+              - row [ref=f17e111]:
+                - cell "ar unmatched deposit" [ref=f17e112]
+                - cell "txn-6" [ref=f17e113]
+                - 'cell "Bank txn txn-6 ($500.00): No invoice matches this deposit" [ref=f17e114]'
+              - row [ref=f17e115]:
+                - cell "ar unmatched deposit" [ref=f17e116]
+                - cell "txn-7" [ref=f17e117]
+                - 'cell "Bank txn txn-7 ($2,750.00): No invoice matches this deposit" [ref=f17e118]'
+        - generic [ref=f17e120]:
+          - generic [ref=f17e121]:
+            - generic [ref=f17e122] [cursor=pointer]: What needs my attention today
+            - generic [ref=f17e123] [cursor=pointer]: Show unmatched payments
+            - generic [ref=f17e124] [cursor=pointer]: Why wasn't invoice 78875 auto-approved
+            - generic [ref=f17e125] [cursor=pointer]: Overdue invoices
+          - generic [ref=f17e126]:
+            - textbox "Ask about exceptions, invoices, payments…" [ref=f17e130]
+            - button "Send message" [disabled] [ref=f17e131]: Send

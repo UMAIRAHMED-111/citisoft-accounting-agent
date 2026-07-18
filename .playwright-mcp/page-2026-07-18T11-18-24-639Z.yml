@@ -1,0 +1,137 @@
+- generic [ref=f11e3]:
+  - complementary [ref=f11e4]:
+    - img "Citisoft Solutions" [ref=f11e6]
+    - navigation "Main navigation" [ref=f11e7]:
+      - link "Dashboard" [ref=f11e8] [cursor=pointer]:
+        - /url: /
+      - link "Invoice inbox 2" [ref=f11e16] [cursor=pointer]:
+        - /url: /inbox
+        - generic [ref=f11e21]: Invoice inbox
+        - generic [ref=f11e22]: "2"
+      - link "PO matching" [ref=f11e23] [cursor=pointer]:
+        - /url: /po-matching
+      - link "Bank upload" [ref=f11e33] [cursor=pointer]:
+        - /url: /bank-upload
+      - link "AR matching 3" [ref=f11e39] [cursor=pointer]:
+        - /url: /ar-matching
+        - generic [ref=f11e44]: AR matching
+        - generic [ref=f11e45]: "3"
+      - link "Reminders" [ref=f11e46] [cursor=pointer]:
+        - /url: /reminders
+      - link "Agent" [ref=f11e54] [cursor=pointer]:
+        - /url: /agent
+      - link "Connections" [ref=f11e60] [cursor=pointer]:
+        - /url: /connections
+    - paragraph [ref=f11e67]: Citisoft AP/AR
+  - generic [ref=f11e68]:
+    - banner [ref=f11e69]:
+      - textbox "Search invoices, payments, vendors…" [ref=f11e71]
+      - generic [ref=f11e72]: Xero · Connected
+      - button "Notifications" [ref=f11e75] [cursor=pointer]
+      - generic [ref=f11e79]:
+        - generic "Amara Okafor" [ref=f11e80]: AO
+        - generic [ref=f11e81]:
+          - generic [ref=f11e82]: Amara Okafor
+          - generic [ref=f11e83]: Financial controller
+    - main [ref=f11e84]:
+      - generic [ref=f11e85]:
+        - generic [ref=f11e86]:
+          - heading "Good afternoon, Amara" [level=1] [ref=f11e87]
+          - paragraph [ref=f11e88]:
+            - text: You have
+            - strong [ref=f11e89]: 5 items
+            - text: that need your review.
+        - generic [ref=f11e90]:
+          - generic [ref=f11e91]:
+            - generic [ref=f11e92]: Open AP
+            - generic [ref=f11e97]: $1.5K
+          - generic [ref=f11e99]:
+            - generic [ref=f11e100]: Open AR
+            - generic [ref=f11e106]: $23.6K
+          - generic [ref=f11e108]:
+            - generic [ref=f11e109]: Exceptions
+            - generic [ref=f11e114]: "5"
+          - generic [ref=f11e116]:
+            - generic [ref=f11e117]: Reconciled MTD
+            - generic [ref=f11e123]: $71.0K
+        - generic [ref=f11e125]:
+          - generic [ref=f11e126]:
+            - generic [ref=f11e127]:
+              - generic [ref=f11e128]: Needs your attention
+              - generic [ref=f11e129]: 5 items
+            - generic [ref=f11e130]:
+              - generic [ref=f11e131]:
+                - generic [ref=f11e135]: 78875Amount $951.96 is $51.96 over PO po-11166
+                - link "Review" [ref=f11e136] [cursor=pointer]:
+                  - /url: /po-matching
+              - generic [ref=f11e137]:
+                - generic [ref=f11e141]: 13992AP invoice has no purchase-order reference
+                - link "Review" [ref=f11e142] [cursor=pointer]:
+                  - /url: /po-matching
+              - generic [ref=f11e143]:
+                - generic [ref=f11e147]: AR-2026-0061$3,000.00 of $5,875.50 applied — $2,875.50 still open
+                - link "Review" [ref=f11e148] [cursor=pointer]:
+                  - /url: /ar-matching
+              - generic [ref=f11e149]:
+                - generic [ref=f11e153]: "txn-6Bank txn ($500.00): No invoice matches this deposit"
+                - link "Review" [ref=f11e154] [cursor=pointer]:
+                  - /url: /ar-matching
+              - generic [ref=f11e155]:
+                - generic [ref=f11e159]: "txn-7Bank txn ($2,750.00): No invoice matches this deposit"
+                - link "Review" [ref=f11e160] [cursor=pointer]:
+                  - /url: /ar-matching
+          - generic [ref=f11e161]:
+            - generic [ref=f11e162]:
+              - paragraph [ref=f11e163]: Cash position
+              - generic [ref=f11e165]:
+                - generic [ref=f11e166]: Open AP
+                - generic [ref=f11e167]: $1,534.77
+              - generic [ref=f11e172]:
+                - generic [ref=f11e173]: Open AR
+                - generic [ref=f11e174]: $23,625.50
+              - generic [ref=f11e178]:
+                - generic [ref=f11e179]: Net exposure
+                - generic [ref=f11e180]: $22,090.73
+            - generic [ref=f11e181]:
+              - generic [ref=f11e182]: Recent activity
+              - generic [ref=f11e183]:
+                - generic [ref=f11e184]:
+                  - generic [ref=f11e189]:
+                    - paragraph [ref=f11e190]: ACH CREDIT GLOBAL AEROSPACE FABRICATORS REF AR-2026-0055
+                    - paragraph [ref=f11e191]: Jul 15, 2026
+                  - generic [ref=f11e192]: $22,100.00
+                - generic [ref=f11e193]:
+                  - generic [ref=f11e198]:
+                    - paragraph [ref=f11e199]: WIRE KEYSTONE INDL SUPPLY LUMP PYMT AR-2026-0067 AR-2026-0072
+                    - paragraph [ref=f11e200]: Jul 12, 2026
+                  - generic [ref=f11e201]: $23,840.00
+                - generic [ref=f11e202]:
+                  - generic [ref=f11e206]:
+                    - paragraph [ref=f11e207]: AP invoice 78875 received from A Plus Powder Coaters
+                    - paragraph [ref=f11e208]: Jul 10, 2026
+                  - generic [ref=f11e209]: $951.96
+                - generic [ref=f11e210]:
+                  - generic [ref=f11e215]:
+                    - paragraph [ref=f11e216]: ACH CREDIT DELTA MACHINING SOLUTIONS PARTIAL AR-2026-0061
+                    - paragraph [ref=f11e217]: Jul 10, 2026
+                  - generic [ref=f11e218]: $3,000.00
+                - generic [ref=f11e219]:
+                  - generic [ref=f11e224]:
+                    - paragraph [ref=f11e225]: WIRE INBOUND UNKNOWN SENDER 0047291
+                    - paragraph [ref=f11e226]: Jul 8, 2026
+                  - generic [ref=f11e227]: $2,750.00
+                - generic [ref=f11e228]:
+                  - generic [ref=f11e233]:
+                    - paragraph [ref=f11e234]: WIRE RIDGEWAY FABRICATION INC REF AR-2026-0078
+                    - paragraph [ref=f11e235]: Jul 7, 2026
+                  - generic [ref=f11e236]: $3,300.00
+                - generic [ref=f11e237]:
+                  - generic [ref=f11e241]:
+                    - paragraph [ref=f11e242]: AP invoice 13992 received from Anago Cleaning Service
+                    - paragraph [ref=f11e243]: Jul 6, 2026
+                  - generic [ref=f11e244]: $407.81
+                - generic [ref=f11e245]:
+                  - generic [ref=f11e250]:
+                    - paragraph [ref=f11e251]: CASH DEPOSIT — BRANCH TELLER
+                    - paragraph [ref=f11e252]: Jul 3, 2026
+                  - generic [ref=f11e253]: $500.00

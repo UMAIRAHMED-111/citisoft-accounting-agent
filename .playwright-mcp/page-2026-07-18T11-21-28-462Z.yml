@@ -1,0 +1,88 @@
+- generic [ref=f21e3]:
+  - complementary [ref=f21e4]:
+    - generic [ref=f21e5]:
+      - img "Citisoft Solutions" [ref=f21e6]
+      - img "Powered by Claude" [ref=f21e7]
+    - navigation "Main navigation" [ref=f21e8]:
+      - link "Dashboard" [ref=f21e9] [cursor=pointer]:
+        - /url: /
+      - link "Invoice inbox" [ref=f21e16] [cursor=pointer]:
+        - /url: /inbox
+        - generic "2 items" [ref=f21e21]
+      - link "PO matching" [ref=f21e22] [cursor=pointer]:
+        - /url: /po-matching
+      - link "Bank upload" [ref=f21e31] [cursor=pointer]:
+        - /url: /bank-upload
+      - link "AR matching" [ref=f21e36] [cursor=pointer]:
+        - /url: /ar-matching
+        - generic "3 items" [ref=f21e41]
+      - link "Reminders" [ref=f21e42] [cursor=pointer]:
+        - /url: /reminders
+      - link "Agent" [ref=f21e49] [cursor=pointer]:
+        - /url: /agent
+      - link "Connections" [ref=f21e54] [cursor=pointer]:
+        - /url: /connections
+  - generic [ref=f21e58]:
+    - banner [ref=f21e59]:
+      - textbox "Search invoices, payments, vendors…" [ref=f21e61]
+      - generic [ref=f21e62]: Xero · Connected
+      - button "Notifications" [ref=f21e65] [cursor=pointer]
+      - generic [ref=f21e69]:
+        - generic "Amara Okafor" [ref=f21e70]: AO
+        - generic [ref=f21e71]:
+          - generic [ref=f21e72]: Amara Okafor
+          - generic [ref=f21e73]: Financial controller
+    - main [ref=f21e74]:
+      - generic [ref=f21e75]:
+        - generic [ref=f21e77]:
+          - heading "Connections" [level=1] [ref=f21e78]
+          - paragraph [ref=f21e79]: Manage ERP and accounting system integrations
+        - paragraph [ref=f21e80]: Your ledger stays the source of truth. The agent reads open POs and invoices from your ERP and writes reconciled bills and payments back.
+        - generic [ref=f21e81]:
+          - generic [ref=f21e82]:
+            - generic [ref=f21e83]:
+              - img "Xero logo" [ref=f21e85]
+              - generic [ref=f21e86]:
+                - paragraph [ref=f21e87]: Xero
+                - paragraph [ref=f21e88]: Cloud accounting for mid-market businesses.
+            - generic [ref=f21e90]:
+              - generic [ref=f21e91]: Connected
+              - paragraph [ref=f21e93]: Last sync 2 min ago
+          - generic [ref=f21e94]:
+            - generic [ref=f21e95]:
+              - img "Oracle NetSuite logo" [ref=f21e97]
+              - generic [ref=f21e98]:
+                - paragraph [ref=f21e99]: Oracle NetSuite
+                - paragraph [ref=f21e100]: ERP suite for finance, inventory, and supply chain.
+            - generic [ref=f21e102]:
+              - generic [ref=f21e103]: Connected
+              - paragraph [ref=f21e105]: Last sync 5 min ago
+          - generic [ref=f21e106]:
+            - generic [ref=f21e107]:
+              - img "Microsoft Dynamics 365 logo" [ref=f21e109]
+              - generic [ref=f21e110]:
+                - paragraph [ref=f21e111]: Microsoft Dynamics 365
+                - paragraph [ref=f21e112]: Unified business apps across finance and operations.
+            - generic [ref=f21e114]:
+              - generic [ref=f21e115]: Connected
+              - paragraph [ref=f21e117]: Last sync 8 min ago
+          - generic [ref=f21e118]:
+            - generic [ref=f21e119]:
+              - img "QuickBooks Online logo" [ref=f21e121]
+              - generic [ref=f21e122]:
+                - paragraph [ref=f21e123]: QuickBooks Online
+                - paragraph [ref=f21e124]: Accounting software for small and growing businesses.
+            - button "Connect" [ref=f21e126] [cursor=pointer]
+        - generic [ref=f21e127]:
+          - paragraph [ref=f21e128]: Xero sync settings
+          - generic [ref=f21e130]:
+            - generic [ref=f21e131]:
+              - generic [ref=f21e132]:
+                - paragraph [ref=f21e133]: Auto-post reconciled bills
+                - paragraph [ref=f21e134]: Approved bills are automatically posted to Xero after reconciliation.
+              - switch [checked] [ref=f21e136] [cursor=pointer]
+            - generic [ref=f21e139]:
+              - generic [ref=f21e140]:
+                - paragraph [ref=f21e141]: Two-way sync
+                - paragraph [ref=f21e142]: Changes made in Xero are reflected back in the agent's ledger view.
+              - switch [ref=f21e144] [cursor=pointer]

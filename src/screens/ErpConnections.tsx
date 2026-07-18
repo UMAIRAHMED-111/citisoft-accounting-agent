@@ -13,11 +13,8 @@ import { Toast } from '../ds/Toast';
 interface ErpEntry {
   id: string;
   name: string;
-  mark: string;  // short typographic mark for the monogram tile
+  logo: string;  // real brand mark, served from public/logos/
   descriptor: string;
-  // monogram bg: a CSS gradient or background string using only tokens/rgba
-  monogramBg: string;
-  monogramFg: string;
   connected: boolean;
 }
 
@@ -25,37 +22,29 @@ const ERPS: ErpEntry[] = [
   {
     id: 'xero',
     name: 'Xero',
-    mark: 'X',
+    logo: '/logos/xero.svg',
     descriptor: 'Cloud accounting for mid-market businesses.',
-    monogramBg: 'linear-gradient(135deg, var(--blue-azure) 0%, var(--blue-mid) 100%)',
-    monogramFg: 'var(--text-on-brand)',
     connected: true,
   },
   {
     id: 'netsuite',
     name: 'Oracle NetSuite',
-    mark: 'NS',
+    logo: '/logos/netsuite.svg',
     descriptor: 'ERP suite for finance, inventory, and supply chain.',
-    monogramBg: 'var(--slate-100)',
-    monogramFg: 'var(--slate-700)',
     connected: true,
   },
   {
     id: 'dynamics',
     name: 'Microsoft Dynamics 365',
-    mark: 'D',
+    logo: '/logos/dynamics365.svg',
     descriptor: 'Unified business apps across finance and operations.',
-    monogramBg: 'var(--slate-100)',
-    monogramFg: 'var(--slate-700)',
     connected: true,
   },
   {
     id: 'qbo',
     name: 'QuickBooks Online',
-    mark: 'QB',
+    logo: '/logos/quickbooks.svg',
     descriptor: 'Accounting software for small and growing businesses.',
-    monogramBg: 'var(--slate-100)',
-    monogramFg: 'var(--slate-700)',
     connected: false,
   },
 ];
@@ -72,18 +61,16 @@ interface ToastItem {
 let _toastId = 0;
 
 // ---------------------------------------------------------------------------
-// Monogram tile
+// Logo tile — real brand mark on a neutral tile
 // ---------------------------------------------------------------------------
 
-function MonogramTile({
-  mark,
-  bg,
-  fg,
+function LogoTile({
+  logo,
+  name,
   connected,
 }: {
-  mark: string;
-  bg: string;
-  fg: string;
+  logo: string;
+  name: string;
   connected: boolean;
 }) {
   const size = 52;
@@ -91,29 +78,18 @@ function MonogramTile({
     width: size,
     height: size,
     borderRadius: 'var(--radius-md)',
-    background: connected
-      ? 'linear-gradient(135deg, var(--blue-azure) 0%, var(--blue-mid) 100%)'
-      : bg,
+    background: 'var(--surface-card)',
+    border: '1px solid var(--border-default)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     flexShrink: 0,
-    boxShadow: connected ? 'var(--shadow-brand)' : 'var(--shadow-xs)',
-    transition: 'background var(--dur-slow) var(--ease-out), box-shadow var(--dur-slow) var(--ease-out)',
-  };
-  const textStyle: React.CSSProperties = {
-    fontFamily: 'var(--font-sans)',
-    fontWeight: 'var(--fw-bold)' as React.CSSProperties['fontWeight'],
-    fontSize: mark.length === 1 ? 22 : 16,
-    letterSpacing: 'var(--ls-snug)',
-    color: connected ? 'var(--text-on-brand)' : fg,
-    lineHeight: 1,
-    transition: 'color var(--dur-slow) var(--ease-out)',
-    userSelect: 'none',
+    boxShadow: connected ? 'var(--shadow-sm)' : 'var(--shadow-xs)',
+    transition: 'box-shadow var(--dur-slow) var(--ease-out)',
   };
   return (
     <div style={style}>
-      <span style={textStyle}>{mark}</span>
+      <img src={logo} alt={`${name} logo`} style={{ width: 30, height: 30, objectFit: 'contain' }} />
     </div>
   );
 }
@@ -150,12 +126,11 @@ function ErpTile({
           : 'var(--shadow-sm)',
       }}
     >
-      {/* Header row: monogram + name */}
+      {/* Header row: brand logo + name */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
-        <MonogramTile
-          mark={erp.mark}
-          bg={erp.monogramBg}
-          fg={erp.monogramFg}
+        <LogoTile
+          logo={erp.logo}
+          name={erp.name}
           connected={erp.connected}
         />
         <div style={{ minWidth: 0 }}>

@@ -32,7 +32,13 @@ export function ErpSyncPanel({ invoice }: ErpSyncPanelProps) {
     setToast(docNo);
   }
 
-  const erpInitial = erpName.charAt(0);
+  const ERP_LOGOS: Record<string, string> = {
+    Xero: '/logos/xero.svg',
+    NetSuite: '/logos/netsuite.svg',
+    Dynamics: '/logos/dynamics365.svg',
+    QuickBooks: '/logos/quickbooks.svg',
+  };
+  const erpLogo = ERP_LOGOS[erpName] ?? '/logos/xero.svg';
 
   const statusBadge =
     localStatus === 'posted' ? (
@@ -129,31 +135,22 @@ export function ErpSyncPanel({ invoice }: ErpSyncPanelProps) {
           marginBottom: 'var(--space-5)',
         }}
       >
-        {/* ERP monogram */}
+        {/* ERP brand logo */}
         <div
           style={{
             width: 44,
             height: 44,
             borderRadius: 'var(--radius-md)',
-            background: 'var(--grad-brand)',
+            background: 'var(--surface-card)',
+            border: '1px solid var(--border-default)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
-            boxShadow: 'var(--shadow-brand)',
+            boxShadow: 'var(--shadow-xs)',
           }}
         >
-          <span
-            style={{
-              fontFamily: 'var(--font-sans)',
-              fontSize: 18,
-              fontWeight: 'var(--fw-bold)',
-              color: 'var(--text-on-brand)',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            {erpInitial}
-          </span>
+          <img src={erpLogo} alt={`${erpName} logo`} style={{ width: 26, height: 26, objectFit: 'contain' }} />
         </div>
 
         <div style={{ flex: 1, minWidth: 0 }}>

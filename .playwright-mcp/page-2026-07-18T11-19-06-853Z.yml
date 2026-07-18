@@ -1,0 +1,219 @@
+- generic [ref=f12e3]:
+  - complementary [ref=f12e4]:
+    - img "Citisoft Solutions" [ref=f12e6]
+    - navigation "Main navigation" [ref=f12e7]:
+      - link "Dashboard" [ref=f12e8] [cursor=pointer]:
+        - /url: /
+      - link "Invoice inbox" [ref=f12e15] [cursor=pointer]:
+        - /url: /inbox
+        - generic "2 items" [ref=f12e20]
+      - link "PO matching" [ref=f12e21] [cursor=pointer]:
+        - /url: /po-matching
+      - link "Bank upload" [ref=f12e30] [cursor=pointer]:
+        - /url: /bank-upload
+      - link "AR matching" [ref=f12e35] [cursor=pointer]:
+        - /url: /ar-matching
+        - generic "3 items" [ref=f12e40]
+      - link "Reminders" [ref=f12e41] [cursor=pointer]:
+        - /url: /reminders
+      - link "Agent" [ref=f12e48] [cursor=pointer]:
+        - /url: /agent
+      - link "Connections" [ref=f12e53] [cursor=pointer]:
+        - /url: /connections
+  - generic [ref=f12e57]:
+    - banner [ref=f12e58]:
+      - textbox "Search invoices, payments, vendors…" [ref=f12e60]
+      - generic [ref=f12e61]: Xero · Connected
+      - button "Notifications" [ref=f12e64] [cursor=pointer]
+      - generic [ref=f12e68]:
+        - generic "Amara Okafor" [ref=f12e69]: AO
+        - generic [ref=f12e70]:
+          - generic [ref=f12e71]: Amara Okafor
+          - generic [ref=f12e72]: Financial controller
+    - main [ref=f12e73]:
+      - generic [ref=f12e74]:
+        - generic [ref=f12e76]:
+          - heading "Invoice inbox" [level=1] [ref=f12e77]
+          - paragraph [ref=f12e78]: Review incoming AP invoices, verify PO matching, and post to your ERP
+        - generic [ref=f12e79]:
+          - generic [ref=f12e80]:
+            - generic [ref=f12e81]:
+              - generic [ref=f12e82]: 6 invoices
+              - generic [ref=f12e83]: 2 pending
+            - button "Alro Steel Corporation GFB3506PV Auto-approved $3,419.49" [ref=f12e84] [cursor=pointer]:
+              - generic [ref=f12e85]:
+                - generic [ref=f12e86]:
+                  - generic [ref=f12e87]: Alro Steel Corporation
+                  - generic [ref=f12e88]: GFB3506PV
+                  - generic [ref=f12e89]: Auto-approved
+                - generic [ref=f12e90]: $3,419.49
+            - button "Curbell Plastics, Inc. 91918970 Auto-approved $17,173.58" [ref=f12e91] [cursor=pointer]:
+              - generic [ref=f12e92]:
+                - generic [ref=f12e93]:
+                  - generic [ref=f12e94]: Curbell Plastics, Inc.
+                  - generic [ref=f12e95]: "91918970"
+                  - generic [ref=f12e96]: Auto-approved
+                - generic [ref=f12e97]: $17,173.58
+            - button "McMaster-Carr Supply Co. 66861386 Auto-approved $732.67" [ref=f12e98] [cursor=pointer]:
+              - generic [ref=f12e99]:
+                - generic [ref=f12e100]:
+                  - generic [ref=f12e101]: McMaster-Carr Supply Co.
+                  - generic [ref=f12e102]: "66861386"
+                  - generic [ref=f12e103]: Auto-approved
+                - generic [ref=f12e104]: $732.67
+            - button "Klein Plating Works, Inc. 142924 Auto-approved $175.00" [ref=f12e105] [cursor=pointer]:
+              - generic [ref=f12e106]:
+                - generic [ref=f12e107]:
+                  - generic [ref=f12e108]: Klein Plating Works, Inc.
+                  - generic [ref=f12e109]: "142924"
+                  - generic [ref=f12e110]: Auto-approved
+                - generic [ref=f12e111]: $175.00
+            - button "A Plus Powder Coaters 78875 Needs review $951.96" [ref=f12e112] [cursor=pointer]:
+              - generic [ref=f12e113]:
+                - generic [ref=f12e114]:
+                  - generic [ref=f12e115]: A Plus Powder Coaters
+                  - generic [ref=f12e116]: "78875"
+                  - generic [ref=f12e117]: Needs review
+                - generic [ref=f12e118]: $951.96
+            - button "Anago Cleaning Service 13992 Needs review $407.81" [ref=f12e119] [cursor=pointer]:
+              - generic [ref=f12e120]:
+                - generic [ref=f12e121]:
+                  - generic [ref=f12e122]: Anago Cleaning Service
+                  - generic [ref=f12e123]: "13992"
+                  - generic [ref=f12e124]: Needs review
+                - generic [ref=f12e125]: $407.81
+          - generic [ref=f12e127]:
+            - generic [ref=f12e129]:
+              - generic [ref=f12e130]:
+                - generic [ref=f12e131]: Alro Steel Corporation
+                - generic [ref=f12e132]: GFB3506PV
+                - generic [ref=f12e133]:
+                  - generic [ref=f12e134]: Auto-approved
+                  - generic [ref=f12e135]:
+                    - text: Posted ·
+                    - generic [ref=f12e136]: BILL-10482
+              - generic [ref=f12e137]:
+                - generic [ref=f12e138]: $3,419.49
+                - generic [ref=f12e139]: Due Jul 2, 2026
+            - generic [ref=f12e140]:
+              - generic [ref=f12e141]:
+                - generic [ref=f12e142]: OCR-extracted fields
+                - button [ref=f12e143] [cursor=pointer]
+              - generic [ref=f12e150]:
+                - generic [ref=f12e151]:
+                  - generic [ref=f12e152]: Vendor
+                  - generic [ref=f12e154]:
+                    - text: Alro Steel Corporation
+                    - generic [ref=f12e155]: 98%
+                - generic [ref=f12e156]:
+                  - generic [ref=f12e157]: Invoice no.
+                  - generic [ref=f12e159]:
+                    - text: GFB3506PV
+                    - generic [ref=f12e160]: 99%
+                - generic [ref=f12e161]:
+                  - generic [ref=f12e162]: Amount
+                  - generic [ref=f12e164]:
+                    - text: $3,419.49
+                    - generic [ref=f12e165]: 97%
+                - generic [ref=f12e166]:
+                  - generic [ref=f12e167]: Received
+                  - generic [ref=f12e169]:
+                    - text: Jun 3, 2026
+                    - generic [ref=f12e170]: 95%
+                - generic [ref=f12e171]:
+                  - generic [ref=f12e172]: PO reference
+                  - generic [ref=f12e174]:
+                    - text: po-28954
+                    - generic [ref=f12e175]: 94%
+            - button "Alro Steel Corporation — Invoice GFB3506PV Open in new tab" [ref=f12e177] [cursor=pointer]:
+              - generic [ref=f12e181]: Alro Steel Corporation — Invoice GFB3506PV
+              - button "Open in new tab" [ref=f12e182]
+            - generic [ref=f12e190]:
+              - generic [ref=f12e191]: Line-item matching
+              - generic [ref=f12e192]:
+                - generic [ref=f12e193]:
+                  - generic [ref=f12e195]:
+                    - meter "Confidence 100%" [ref=f12e196]
+                    - generic [ref=f12e198]: 100%
+                  - generic [ref=f12e199]: 5/5 lines matched
+                - generic [ref=f12e200]:
+                  - generic [ref=f12e201]: Invoice — extracted
+                  - generic [ref=f12e202]: Purchase order
+                - generic [ref=f12e203]:
+                  - generic [ref=f12e204]:
+                    - generic [ref=f12e205]:
+                      - generic [ref=f12e206]: "02201600"
+                      - generic [ref=f12e210]: 1/2 RD CF C1144, 12 FT (15 LNG, 121 LB)
+                      - generic [ref=f12e211]:
+                        - generic [ref=f12e212]: $134.31
+                        - generic [ref=f12e213]: 121 × $1.11
+                    - generic [ref=f12e214]:
+                      - generic [ref=f12e215]: "02201600"
+                      - generic [ref=f12e217]: 1/2 RD CF C1144, 12 FT (15 LNG, 121 LB)
+                      - generic [ref=f12e218]:
+                        - generic [ref=f12e219]: $134.31
+                        - generic [ref=f12e220]: 121 × $1.11
+                  - generic [ref=f12e221]:
+                    - generic [ref=f12e222]:
+                      - generic [ref=f12e223]: RT12523349
+                      - generic [ref=f12e227]: 1/2 RD 316/316L Stainless, 12 FT (90 LNG, 726 LB)
+                      - generic [ref=f12e228]:
+                        - generic [ref=f12e229]: $3,216.18
+                        - generic [ref=f12e230]: 726 × $4.43
+                    - generic [ref=f12e231]:
+                      - generic [ref=f12e232]: RT12523349
+                      - generic [ref=f12e234]: 1/2 RD 316/316L Stainless, 12 FT (90 LNG, 726 LB)
+                      - generic [ref=f12e235]:
+                        - generic [ref=f12e236]: $3,216.18
+                        - generic [ref=f12e237]: 726 × $4.43
+                  - generic [ref=f12e238]:
+                    - generic [ref=f12e239]:
+                      - generic [ref=f12e240]: FREIGHT-1
+                      - generic [ref=f12e244]: Shipping & Handling Line 1
+                      - generic [ref=f12e245]:
+                        - generic [ref=f12e246]: $10.00
+                        - generic [ref=f12e247]: 1 × $10.00
+                    - generic [ref=f12e248]:
+                      - generic [ref=f12e249]: FREIGHT-1
+                      - generic [ref=f12e251]: Shipping & Handling Line 1
+                      - generic [ref=f12e252]:
+                        - generic [ref=f12e253]: $10.00
+                        - generic [ref=f12e254]: 1 × $10.00
+                  - generic [ref=f12e255]:
+                    - generic [ref=f12e256]:
+                      - generic [ref=f12e257]: FREIGHT-2
+                      - generic [ref=f12e261]: Shipping & Handling Line 2
+                      - generic [ref=f12e262]:
+                        - generic [ref=f12e263]: $40.00
+                        - generic [ref=f12e264]: 1 × $40.00
+                    - generic [ref=f12e265]:
+                      - generic [ref=f12e266]: FREIGHT-2
+                      - generic [ref=f12e268]: Shipping & Handling Line 2
+                      - generic [ref=f12e269]:
+                        - generic [ref=f12e270]: $40.00
+                        - generic [ref=f12e271]: 1 × $40.00
+                  - generic [ref=f12e272]:
+                    - generic [ref=f12e273]:
+                      - generic [ref=f12e274]: FREIGHT-STD
+                      - generic [ref=f12e278]: Standard Freight
+                      - generic [ref=f12e279]:
+                        - generic [ref=f12e280]: $19.00
+                        - generic [ref=f12e281]: 1 × $19.00
+                    - generic [ref=f12e282]:
+                      - generic [ref=f12e283]: FREIGHT-STD
+                      - generic [ref=f12e285]: Standard Freight
+                      - generic [ref=f12e286]:
+                        - generic [ref=f12e287]: $19.00
+                        - generic [ref=f12e288]: 1 × $19.00
+            - generic [ref=f12e289]:
+              - generic [ref=f12e290]:
+                - generic [ref=f12e291]: ERP write-back
+                - generic [ref=f12e297]:
+                  - text: Posted ·
+                  - generic [ref=f12e299]: BILL-10482
+              - generic [ref=f12e300]:
+                - generic [ref=f12e301]: "N"
+                - generic [ref=f12e303]:
+                  - generic [ref=f12e304]: NetSuite
+                  - generic [ref=f12e305]: Document BILL-10482 · posted
+              - generic [ref=f12e310]: Bill record created in NetSuite

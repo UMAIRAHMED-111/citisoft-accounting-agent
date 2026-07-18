@@ -185,14 +185,40 @@ export function Sidebar() {
         transition: 'width var(--dur) var(--ease-out)',
       }}
     >
-      {/* Logo */}
+      {/* Logo + Claude co-brand */}
       <div style={{
-        padding: compact ? '18px 0 14px' : '18px 20px 14px',
+        padding: compact ? '18px 0 14px' : '18px 20px 12px',
         flexShrink: 0,
         display: 'flex',
-        justifyContent: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: compact ? 8 : 7,
       }}>
         <Logo variant="color" height={compact ? 22 : 26} style={compact ? { maxWidth: 40, objectFit: 'contain' } : {}} />
+        {compact ? (
+          <img
+            src="/logos/claude.svg"
+            alt="Powered by Claude"
+            title="Powered by Claude"
+            style={{ width: 14, height: 14, opacity: 0.85 }}
+          />
+        ) : (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 5,
+            fontFamily: 'var(--font-sans)',
+            fontSize: 10.5,
+            fontWeight: 'var(--fw-medium)' as React.CSSProperties['fontWeight'],
+            letterSpacing: 'var(--ls-wide)',
+            color: 'var(--text-faint)',
+            userSelect: 'none',
+          }}>
+            <span>Powered by</span>
+            <img src="/logos/claude.svg" alt="" style={{ width: 12, height: 12 }} />
+            <span style={{ color: 'var(--text-muted)', fontWeight: 'var(--fw-semibold)' as React.CSSProperties['fontWeight'] }}>Claude</span>
+          </div>
+        )}
       </div>
 
       {/* Nav */}
