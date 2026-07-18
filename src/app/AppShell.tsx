@@ -22,7 +22,7 @@ export function AppShell() {
         <main style={{
           flex: 1,
           overflowY: 'auto',
-          padding: 'var(--space-8)',
+          padding: 'var(--space-6) var(--space-5)',
         }}>
           <Outlet />
         </main>

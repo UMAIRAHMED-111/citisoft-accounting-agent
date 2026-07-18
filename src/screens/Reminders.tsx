@@ -108,6 +108,8 @@ function InvoiceRow({ customer, invoiceNo, amount, days, sent, selected, onClick
         userSelect: 'none',
         outline: 'none',
       }}
+      onFocus={e => { e.currentTarget.style.boxShadow = '0 0 0 2px var(--focus-ring)'; }}
+      onBlur={e => { e.currentTarget.style.boxShadow = 'none'; }}
     >
       {/* Top row: customer + sent badge */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
@@ -492,12 +494,12 @@ export default function Reminders() {
       {/* Two-pane layout */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '300px 1fr',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
         gap: 24,
         alignItems: 'start',
       }}>
         {/* LEFT — overdue list */}
-        <Card padding={12} style={{ position: 'sticky', top: 24 }}>
+        <Card padding={12} style={{ position: 'sticky', top: 24, maxWidth: 380 }}>
           {/* Column header */}
           <div style={{
             fontFamily: 'var(--font-sans)',

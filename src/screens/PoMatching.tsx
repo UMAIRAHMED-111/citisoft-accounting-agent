@@ -585,13 +585,13 @@ export default function PoMatching() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: '220px 1fr',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
             gap: 'var(--space-8)',
             alignItems: 'start',
           }}
         >
           {/* Left: invoice selector */}
-          <div style={{ position: 'sticky', top: 24 }}>
+          <div style={{ position: 'sticky', top: 24, maxWidth: 320 }}>
             <InvoiceSelector
               items={reviewItems}
               selectedId={selectedId}

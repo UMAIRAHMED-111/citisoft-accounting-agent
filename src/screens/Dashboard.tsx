@@ -1,4 +1,9 @@
 import { DollarSign, FileWarning, CheckCircle2, ArrowDownLeft, ArrowUpRight, TrendingUp } from 'lucide-react';
+
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return true;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
 import { buildLedger } from '../data/reconcile';
 import { StatCard, Card } from '../ds';
 import { money, shortMoney, fmtDate } from '../lib/format';
@@ -11,7 +16,7 @@ export default function Dashboard() {
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
 
   return (
-    <div style={{ padding: '28px 32px 48px', maxWidth: 'var(--container-wide)', margin: '0 auto' }}>
+    <div style={{ padding: '24px 0 48px', maxWidth: 'var(--container-wide)', margin: '0 auto' }}>
       {/* Greeting header */}
       <div style={{ marginBottom: 'var(--space-8)' }}>
         <h1 style={{
@@ -49,7 +54,7 @@ export default function Dashboard() {
       {/* 4-up KPI row */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
         gap: 'var(--space-4)',
         marginBottom: 'var(--space-8)',
       }}>
@@ -83,7 +88,7 @@ export default function Dashboard() {
       {/* Two-column region */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 360px',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
         gap: 'var(--space-6)',
         alignItems: 'start',
       }}>
@@ -278,7 +283,7 @@ function CashBar({ label, amount, max, color }: CashBarProps) {
           width: `${pct}%`,
           borderRadius: 'var(--radius-pill)',
           background: color,
-          transition: `width var(--dur-slow) var(--ease-out)`,
+          transition: prefersReducedMotion() ? 'none' : `width var(--dur-slow) var(--ease-out)`,
         }} />
       </div>
     </div>

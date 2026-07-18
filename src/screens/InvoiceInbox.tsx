@@ -355,6 +355,8 @@ function InvoiceListRow({ invoice, apStatus, selected, onClick }: ListRowProps) 
         transition: 'background var(--dur-fast) var(--ease-out)',
         outline: 'none',
       }}
+      onFocus={e => { e.currentTarget.style.boxShadow = 'inset 0 0 0 2px var(--focus-ring)'; }}
+      onBlur={e => { e.currentTarget.style.boxShadow = 'none'; }}
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--space-3)' }}>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -431,7 +433,7 @@ export default function InvoiceInbox() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: '320px 1fr',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: 'var(--space-6)',
           alignItems: 'start',
           minHeight: 0,
@@ -442,6 +444,7 @@ export default function InvoiceInbox() {
           style={{
             position: 'sticky',
             top: 24,
+            maxWidth: 380,
             background: 'var(--surface-card)',
             border: '1px solid var(--border-default)',
             borderRadius: 'var(--radius-lg)',

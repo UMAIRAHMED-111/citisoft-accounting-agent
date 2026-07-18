@@ -6,6 +6,8 @@ export interface ColumnDef<R> {
   render: (row: R) => React.ReactNode;
   align?: 'left' | 'right' | 'center';
   mono?: boolean;
+  /** Allow cell text to wrap (default: true for non-mono columns) */
+  wrap?: boolean;
 }
 
 export interface DataTableProps<R> {
@@ -19,7 +21,7 @@ export function DataTable<R>({ columns, rows, onRowClick, emptyMessage = 'No rec
   const [hoveredIdx, setHoveredIdx] = React.useState<number | null>(null);
 
   return (
-    <div style={{ overflowX: 'auto' }}>
+    <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
       <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)' }}>
         <thead>
           <tr style={{ background: 'var(--surface-sunken)' }}>
@@ -83,7 +85,7 @@ export function DataTable<R>({ columns, rows, onRowClick, emptyMessage = 'No rec
                       fontFamily: col.mono ? 'var(--font-mono)' : 'var(--font-sans)',
                       fontSize: col.mono ? 13 : 14,
                       color: 'var(--text-body)',
-                      whiteSpace: 'nowrap',
+                      whiteSpace: (col.wrap ?? !col.mono) ? 'normal' : 'nowrap',
                     }}
                   >
                     {col.render(row)}

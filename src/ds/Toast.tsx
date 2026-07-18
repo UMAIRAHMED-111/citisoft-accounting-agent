@@ -35,7 +35,7 @@ export function Toast({ tone = 'info', title, children, onDismiss, duration = 50
         animation: 'csToast var(--dur-slow) var(--ease-out)', ...style,
       }}
     >
-      <style>{'@keyframes csToast{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}'}</style>
+      <style>{'@keyframes csToast{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){@keyframes csToast{from{opacity:1;transform:none}to{opacity:1;transform:none}}}'}</style>
       <span style={{ flexShrink: 0, width: 22, height: 22, marginTop: 1, borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: t.color, color: 'var(--text-on-brand)', fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-sans)' }}>{t.icon}</span>
       <div style={{ flex: 1, minWidth: 0 }}>
         {title && <div style={{ fontFamily: 'var(--font-sans)', fontSize: 14.5, fontWeight: 700, color: 'var(--text-strong)', marginBottom: children ? 2 : 0 }}>{title}</div>}

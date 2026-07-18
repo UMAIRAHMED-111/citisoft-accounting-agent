@@ -86,6 +86,7 @@ export function PdfViewer({ url, title, defaultOpen = false }: PdfViewerProps) {
       {/* PDF iframe */}
       {open && (
         <div
+          className="cs-pdf-body"
           style={{
             animation: 'csPdfSlide var(--dur) var(--ease-out)',
           }}
@@ -96,7 +97,7 @@ export function PdfViewer({ url, title, defaultOpen = false }: PdfViewerProps) {
               to   { opacity: 1; transform: translateY(0); }
             }
             @media (prefers-reduced-motion: reduce) {
-              .cs-pdf-body { animation: none !important; }
+              .cs-pdf-body { animation: none !important; opacity: 1 !important; transform: none !important; }
             }
           `}</style>
           <iframe

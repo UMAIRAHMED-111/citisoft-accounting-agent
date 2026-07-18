@@ -420,7 +420,8 @@ export default function ArMatching() {
             No transactions in this category.
           </div>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+          <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed', minWidth: 600 }}>
             <colgroup>
               <col style={{ width: 36 }} />
               <col style={{ width: 110 }} />
@@ -446,6 +447,7 @@ export default function ArMatching() {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
 
