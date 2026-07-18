@@ -51,6 +51,7 @@
   --success-500: #1f9d6b;
   --success-050: #e9f7f1;
   --warning-500: #d68a1e;
+  --warning-600: #a96a12;
   --warning-050: #fbf2e3;
 
   /* ============================================================
@@ -270,6 +271,9 @@
 
   /* Blur for glass / overlays */
   --blur-overlay: 8px; /* @kind other */
+
+  /* Danger button shadow */
+  --shadow-danger: 0 6px 18px rgba(214, 57, 79, 0.28);
 }
 /* ============================================================
    Citisoft — Base resets & element defaults

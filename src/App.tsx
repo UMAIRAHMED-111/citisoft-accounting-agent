@@ -1,15 +1,7 @@
+import Specimen from './screens/_Specimen'
+
 function App() {
-  return (
-    <div
-      style={{
-        fontFamily: 'var(--font-sans)',
-        color: 'var(--text-strong)',
-        background: 'var(--surface-page)',
-      }}
-    >
-      CitiSoft
-    </div>
-  )
+  return <Specimen />
 }
 
 export default App
