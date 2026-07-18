@@ -30,6 +30,7 @@
 package.json  vite.config.ts  tsconfig.json  index.html  vitest.config.ts
 public/
   citisoft-logo.png  citisoft-logo-white.png  citisoft-logo-slate.png
+  invoices/         # 6 REAL vendor invoice PDFs, copied+slugified from assets/Invoices/
 src/
   main.tsx  App.tsx
   ds/
@@ -50,6 +51,10 @@ src/
   screens/
     Dashboard.tsx  InvoiceInbox.tsx  PoMatching.tsx  BankUpload.tsx
     ArMatching.tsx  Reminders.tsx  AgentChat.tsx  ErpConnections.tsx
+  components/
+    PdfViewer.tsx   # collapsible real-PDF viewer (native <iframe>/<embed>)
+    MatchLineItems.tsx  # side-by-side extracted-invoice vs PO line items
+    ErpSyncPanel.tsx    # ERP write-back status + "Post to ERP" action
   lib/
     format.ts  format.test.ts
   components/           # shared app (non-DS) building blocks
@@ -172,12 +177,39 @@ git add -A && git commit -m "feat(ds): port Citisoft design-system primitives to
 **Files:**
 - Create: `src/data/types.ts`, `src/data/seed.ts`, `src/data/seed.test.ts`
 - Create: `src/lib/format.ts`, `src/lib/format.test.ts`
+- Create: `public/invoices/*.pdf` (6 real vendor invoices copied + slugified from `assets/Invoices/`)
 
 **Interfaces:**
 - Produces:
-  - `types.ts`: `Vendor`, `PurchaseOrder {id, vendorId, description, lineItems: LineItem[], total, currency}`, `LineItem {sku, description, qty, unitPrice}`, `Invoice {id, vendorId, invoiceNo, amount, currency, dueDate, receivedAt, poRef?|null, lineItems, source:'email'|'upload', raw:{fromEmail,subject}}`, `ArInvoice {id, customer, invoiceNo, amount, issuedDate, dueDate, ref}`, `BankTxn {id, date, amount, memo, payerRef?|null}`, `BankStatement {id, account, period, txns: BankTxn[]}`, plus enums `ApStatus='auto_approved'|'needs_review'|'duplicate'`, `MatchKind='exact'|'partial'|'lump'|'unmatched'`.
-  - `seed.ts`: `export const vendors`, `purchaseOrders`, `apInvoices` (6; 2 messy: one missing `poRef`, one amount-mismatch vs its PO), `arInvoices` (8; 2 overdue relative to a fixed `TODAY = new Date('2026-07-18')`), `bankStatement` (9 txns: ≥3 exact-ref, 1 partial, 1 lump covering two invoices, ≥1 unmatched cash). Export `TODAY`.
+  - `types.ts`: `Vendor {id, name, erp}` (`erp: 'Xero'|'NetSuite'|'Dynamics'|'QuickBooks'` — which ERP this vendor posts to), `PurchaseOrder {id, vendorId, description, lineItems: LineItem[], total, currency}`, `LineItem {sku, description, qty, unitPrice, amount}`, `Invoice {id, vendorId, invoiceNo, amount, currency, dueDate, receivedAt, poRef?|null, lineItems: LineItem[], source:'email'|'upload', raw:{fromEmail,subject}, pdfUrl:string, erpStatus:'not_posted'|'ready'|'posted', erpDocNo?:string|null}`, `ArInvoice {id, customer, invoiceNo, amount, issuedDate, dueDate, ref}`, `BankTxn {id, date, amount, memo, payerRef?|null}`, `BankStatement {id, account, period, txns: BankTxn[]}`, plus enums `ApStatus='auto_approved'|'needs_review'|'duplicate'`, `MatchKind='exact'|'partial'|'lump'|'unmatched'`.
+  - `seed.ts`: `export const vendors`, `purchaseOrders`, `apInvoices` (**the 6 REAL invoices below**), `arInvoices` (8; 2 overdue relative to a fixed `TODAY = new Date('2026-07-18')`), `bankStatement` (9 txns: ≥3 exact-ref, 1 partial, 1 lump covering two invoices, ≥1 unmatched cash). Export `TODAY`.
   - `format.ts`: `money(n:number, currency?='USD'):string` (e.g. `$48,200.00`), `shortMoney(n):string` (`$48.2K`/`$3.1M`), `fmtDate(d:Date|string):string` (`Jul 18, 2026`), `daysBetween(a,b):number`, `daysOverdue(due:Date, today?):number`.
+
+**The 6 real AP invoices (industrial vendors — fits the Citisoft sourcing brand). Copy each from `assets/Invoices/` to `public/invoices/<slug>.pdf`, read the PDF, and transcribe its REAL vendor / invoice # / date / line items / total into `seed.ts`. `pdfUrl` = `/invoices/<slug>.pdf`. Author the imaginary `PurchaseOrder` for each so the demo scenarios below hold:**
+
+| # | Source file (in `assets/Invoices/`) | slug | scenario | ApStatus |
+|---|---|---|---|---|
+| 1 | `[AP] CEMS…Alro Steel Corporation - GFB3506PV - 06-02-2026.pdf` | `alro-steel-GFB3506PV` | PO + amount match exactly | auto_approved (→ erpStatus `posted`, erpDocNo e.g. `BILL-10482`) |
+| 2 | `[AP] CEMS…Curbell Plastics, Inc - 91918970 - 06-23-2026.pdf` | `curbell-plastics-91918970` | clean match | auto_approved (posted) |
+| 3 | `[AP] CEMS…Mcmaster-carr Supply Co - 66861386 - 06-17-2026.pdf` | `mcmaster-carr-66861386` | clean match | auto_approved (posted) |
+| 4 | `[AP] CEMS…Klein Plating Works, Inc - 142924 - 06-02-2026.pdf` | `klein-plating-142924` | clean match | auto_approved (ready, not yet posted) |
+| 5 | `[AP] QTR…A Plus Powder Coaters - 78875 - 07-09-2026.pdf` | `aplus-powder-78875` | **amount mismatch** — invoice total > PO total (e.g. an extra/over-billed line) | needs_review (erpStatus `not_posted`) |
+| 6 | `[AP] COMCO…Anago Cleaning Service - 13992 - 07-05-2026.pdf` | `anago-cleaning-13992` | **no PO** — services invoice, `poRef: null` | needs_review (not_posted) |
+
+Copy command (run once, quoting the bracketed spaced filenames):
+```bash
+cd "/Users/umairahmed/Documents/Citisoft Solutions/citisoft-accounting-agent"
+mkdir -p public/invoices
+cp "assets/Invoices/[AP] CEMS__Processed Invoices__2026__06. Jun 2026__Alro Steel Corporation - GFB3506PV - 06-02-2026.pdf" "public/invoices/alro-steel-GFB3506PV.pdf"
+cp "assets/Invoices/[AP] CEMS__Processed Invoices__2026__06. Jun 2026__Curbell Plastics, Inc - 91918970 - 06-23-2026.pdf" "public/invoices/curbell-plastics-91918970.pdf"
+cp "assets/Invoices/[AP] CEMS__Processed Invoices__2026__06. Jun 2026__Mcmaster-carr Supply Co - 66861386 - 06-17-2026.pdf" "public/invoices/mcmaster-carr-66861386.pdf"
+cp "assets/Invoices/[AP] CEMS__Processed Invoices__2026__06. Jun 2026__Klein Plating Works, Inc - 142924 - 06-02-2026.pdf" "public/invoices/klein-plating-142924.pdf"
+cp "assets/Invoices/[AP] QTR__Processed Invoices__2026__07. Jul 2026__A Plus Powder Coaters - 78875 - 07-09-2026.pdf" "public/invoices/aplus-powder-78875.pdf"
+cp "assets/Invoices/[AP] COMCO__Processed Invoices__2026__07. Jul 2026__Anago Cleaning Service - 13992 - 07-05-2026.pdf" "public/invoices/anago-cleaning-13992.pdf"
+```
+Use the Read tool on each copied PDF to transcribe its real vendor name, invoice number, invoice date, line items (description/qty/unit price/amount), and total. Where a PDF's line detail is sparse, author plausible industrial line items consistent with the visible total — the total and vendor/invoice#/date MUST match the real PDF. For invoice #5, set the PO total BELOW the invoice total so the mismatch reason is real; for #6 leave `poRef: null`.
+
+- [ ] **Step 0: Copy the 6 PDFs and transcribe them** (commands + Read above) before writing `seed.ts`.
 
 - [ ] **Step 1: Write failing tests for `format.ts`**
 
@@ -208,6 +240,9 @@ describe('seed integrity', () => {
   it('has 6 AP invoices incl. 2 messy', () => {
     expect(apInvoices).toHaveLength(6);
     expect(apInvoices.filter(i => i.poRef == null)).not.toHaveLength(0);
+  });
+  it('every AP invoice points at a real PDF under /invoices/', () => {
+    for (const i of apInvoices) expect(i.pdfUrl).toMatch(/^\/invoices\/.+\.pdf$/);
   });
   it('every AP poRef (when present) resolves to a real PO', () => {
     for (const i of apInvoices) if (i.poRef) expect(purchaseOrders.find(p => p.id === i.poRef)).toBeTruthy();
@@ -386,19 +421,28 @@ git add -A && git commit -m "feat(dashboard): KPIs, exception queue, activity, c
 ### Task 8: Invoice inbox (AP)
 
 **Files:**
-- Create: `src/screens/InvoiceInbox.tsx`, `src/components/Skeleton.tsx`
-- Reuse: `DataTable`, `Card`, `Badge`, `Button`.
+- Create: `src/screens/InvoiceInbox.tsx`, `src/components/Skeleton.tsx`, `src/components/PdfViewer.tsx`, `src/components/MatchLineItems.tsx`, `src/components/ErpSyncPanel.tsx`
+- Reuse: `DataTable`, `Card`, `Badge`, `Button`, `IconButton`, `Toast`, `ConfidenceMeter` (from Task 9 if built first; otherwise define a minimal inline meter here and Task 9 reuses it — keep ONE `ConfidenceMeter` in `src/components/`).
 
 **Interfaces:**
-- Consumes: `apInvoices`, `matchInvoiceToPo`, ledger.
-- Produces: `Skeleton({w?,h?,radius?})` shimmer block (reduced-motion → static tint).
+- Consumes: `apInvoices` (each has real `pdfUrl`, `lineItems`, `erpStatus`, `erpDocNo`, `vendorId`→`vendors[].erp`), `purchaseOrders`, `matchInvoiceToPo`, ledger.
+- Produces:
+  - `Skeleton({w?,h?,radius?})` shimmer block (reduced-motion → static tint).
+  - `PdfViewer({url, title, defaultOpen?})` — a **collapsible** panel with a header row (doc icon, filename, page hint, expand/collapse chevron, "Open in new tab" `IconButton`). When open, renders the real PDF inline via `<iframe src={url} title=... style height 520>` (native Chrome PDF rendering; no pdf.js dependency). Collapsed → just the header bar. Reduced-motion: instant toggle, no height animation.
+  - `MatchLineItems({invoiceItems, poItems})` — two aligned columns ("Invoice — extracted" | "Purchase order") rendered as a single aligned grid so matching rows sit on the same baseline: matched rows get a success tick + subtle success tint; a differing amount row is highlighted warning/rose with the delta shown in mono; a line present on one side only shows an "unmatched line" marker on the empty side. Header shows a `ConfidenceMeter` + overall match `Badge`.
+  - `ErpSyncPanel({invoice})` — shows the target ERP (`vendors[].erp`, small monogram tile + name), a status `Badge` (`posted` = success "Posted · {erpDocNo}", `ready` = brand "Ready to post", `not_posted` = neutral/warning "Held for review"), and a primary `Button` "Post to {ERP}" that (for `ready`) flips status to `posted`, assigns a mock doc no, and fires a success `Toast`. Sells the "writes back to your ERP" narrative.
 
-- [ ] **Step 1: Build** — split layout: left column = invoice list (vendor, invoiceNo mono, amount, status `Badge` — `auto_approved`=success, `needs_review`=warning, `duplicate`=neutral). Selecting an invoice shows the right panel: a rendered "email/PDF preview" (a styled facsimile: from-email, subject, an invoice table of line items) beside an **OCR-extracted fields** card (vendor, invoice #, amount, due date, PO ref) — each field with a small mono confidence tag; missing/low-confidence fields flagged in rose. A "Run extraction" affordance replays a 900ms `Skeleton` shimmer before revealing fields (simulated OCR). Default-select the first invoice so the screen is never blank.
-- [ ] **Step 2: Verify** — screenshot both a clean invoice and a messy one (missing PO ref). Acceptance: messy invoice shows the rose-flagged missing field + a specific note; clean invoice shows all fields resolved; skeleton shimmer plays then reveals; statuses match `matchInvoiceToPo`. Reduced-motion: shimmer becomes a static tint (verify by toggling OS setting or emulation).
+- [ ] **Step 1: Build the screen** — split layout. **Left column** = invoice list (vendor, invoiceNo mono, amount, status `Badge`: `auto_approved`=success, `needs_review`=warning, `duplicate`=neutral). Default-select the first invoice so the screen is never blank. **Right panel** (for the selected invoice), top to bottom:
+  1. Header: vendor, invoice # (mono), amount, due date, an ApStatus `Badge`, and the `ErpSyncPanel` status inline.
+  2. **OCR-extracted fields** card: vendor, invoice #, amount, invoice date, PO ref — each with a small mono confidence tag; for invoice #6 (`poRef: null`) the PO-ref field is rose-flagged "No PO reference found on the document"; a "Re-run extraction" affordance replays a ~900ms `Skeleton` shimmer then reveals fields (simulated OCR).
+  3. **`PdfViewer`** (`url={invoice.pdfUrl}`, `defaultOpen` false so the list stays scannable; expanding shows the REAL scanned invoice). This is the "see the real document" moment.
+  4. **`MatchLineItems`** — the invoice's extracted `lineItems` vs its matched PO's `lineItems` side by side (agent matching capability). For #5 the mismatched line is highlighted; for #6 (no PO) show an empty-PO state: "No purchase order raised — this is a services invoice" with a "Find/attach PO" affordance.
+  5. **`ErpSyncPanel`** action row.
+- [ ] **Step 2: Verify** — dev server; screenshot: (a) a clean invoice (#1 Alro Steel) with the PDF viewer expanded showing the real PDF, side-by-side items all matched, ERP = "Posted · BILL-…"; (b) the mismatch invoice (#5 A Plus Powder) with the differing line highlighted + confidence meter in the warning band; (c) the no-PO invoice (#6 Anago) with the rose-flagged PO-ref field + empty-PO state. Acceptance: real PDFs actually render in the iframe (not a broken/blank frame); collapse/expand works; extracted fields + statuses match `matchInvoiceToPo`; "Post to ERP" flips status + toasts; no left-stripe borders; reduced-motion disables shimmer + height animation.
 - [ ] **Step 3: Commit**
 
 ```bash
-git add -A && git commit -m "feat(ap): invoice inbox with simulated OCR extraction"
+git add -A && git commit -m "feat(ap): invoice inbox — real PDF viewer, side-by-side matching, ERP sync"
 ```
 
 ---
@@ -406,18 +450,20 @@ git add -A && git commit -m "feat(ap): invoice inbox with simulated OCR extracti
 ### Task 9: PO matching (AP)
 
 **Files:**
-- Create: `src/screens/PoMatching.tsx`, `src/components/ConfidenceMeter.tsx`
+- Create: `src/screens/PoMatching.tsx`
+- Reuse: `MatchLineItems`, `PdfViewer`, `ConfidenceMeter`, `ErpSyncPanel` (all from Task 8, in `src/components/`), `Card`, `Badge`, `Button`, `Toast`, `ExceptionCallout`.
+
+**Note:** `ConfidenceMeter` and `MatchLineItems` are created in Task 8 and live in `src/components/`. This task reuses them — do NOT create duplicates. `ConfidenceMeter({value:number})` = a 0–1 meter; ≥0.9 brand-blue/success, 0.6–0.9 warning, <0.6 rose; mono percentage label.
 
 **Interfaces:**
 - Consumes: `apInvoices`, `purchaseOrders`, `matchInvoiceToPo`.
-- Produces: `ConfidenceMeter({value:number})` — a 0–1 meter; ≥0.9 brand-blue/success, 0.6–0.9 warning, <0.6 rose; mono percentage label.
 
-- [ ] **Step 1: Build** — pick the invoice with an amount-mismatch exception. Side-by-side `Card`s: PO (left) vs Invoice (right), line-item rows aligned; matching line items get a subtle success tick, the differing amount row highlighted warning/rose. Above: a `ConfidenceMeter` + a match summary `Badge`. Below: an `ExceptionCallout` with the specific reason from `matchInvoiceToPo` ("Amount $X is $Δ over PO #Y"). Actions: `Button` "Approve anyway" (secondary) + "Flag for vendor" (primary). Clicking either fires a success `Toast`.
-- [ ] **Step 2: Verify** — screenshot. Acceptance: the differing line is visually distinguished; confidence meter color matches the band; reasoning text is specific and blame-free; actions toast. No left-stripe borders (use full-border callout).
+- [ ] **Step 1: Build** — a focused matching **workspace** for the invoices that need a human decision (default to invoice #5, the amount-mismatch; a small selector lists the AP invoices needing review). Layout: a header with `ConfidenceMeter` + match summary `Badge`; the `MatchLineItems` grid (PO vs invoice, differing line highlighted warning/rose, delta in mono); a collapsible `PdfViewer` of the real invoice PDF beside/below it for evidence; an `ExceptionCallout` with the specific reason from `matchInvoiceToPo` ("Amount $X is $Δ over PO #Y" / "No purchase-order reference on the invoice"); an `ErpSyncPanel` showing the invoice is held from the ERP until resolved. Actions: `Button` "Approve anyway" (secondary) + "Flag for vendor" (primary) — either fires a success `Toast` and updates the row's state.
+- [ ] **Step 2: Verify** — screenshot the mismatch invoice. Acceptance: the differing line is visually distinguished with a real delta; confidence meter color matches the band; the real PDF renders in the viewer; reasoning is specific + blame-free; ERP panel shows "held for review"; actions toast; no left-stripe borders (full-border callout).
 - [ ] **Step 3: Commit**
 
 ```bash
-git add -A && git commit -m "feat(ap): PO vs invoice matching with confidence and reasoning"
+git add -A && git commit -m "feat(ap): PO vs invoice matching workspace with confidence, evidence, ERP hold"
 ```
 
 ---
