@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { AlertTriangle, CheckCircle2, FileQuestion, ThumbsUp, Flag } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { ConfidenceMeter } from '../components/ConfidenceMeter';
@@ -9,20 +9,24 @@ import { Badge, Button } from '../ds';
 import { useToast } from '../components/ToastHost';
 import { apInvoices, purchaseOrders, vendors } from '../data/seed';
 import { matchInvoiceToPo } from '../data/reconcile';
+import { useLedgerVersion } from '../data/store';
 import { money, fmtDate } from '../lib/format';
 import type { Invoice } from '../data/types';
 
 // ---------------------------------------------------------------------------
-// Derive review items once at module level
+// Review items are derived inside the component (version-dependent) so agent
+// edits to the seed propagate without a reload.
 // ---------------------------------------------------------------------------
 interface ReviewItem {
   inv: Invoice;
   match: ReturnType<typeof matchInvoiceToPo>;
 }
 
-const reviewItems: ReviewItem[] = apInvoices
-  .map(inv => ({ inv, match: matchInvoiceToPo(inv, purchaseOrders) }))
-  .filter(r => r.match.status === 'needs_review');
+function deriveReviewItems(): ReviewItem[] {
+  return apInvoices
+    .map(inv => ({ inv, match: matchInvoiceToPo(inv, purchaseOrders) }))
+    .filter(r => r.match.status === 'needs_review');
+}
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -506,8 +510,10 @@ function InvoiceWorkspace({
 // Main screen
 // ---------------------------------------------------------------------------
 export default function PoMatching() {
+  const version = useLedgerVersion();
+  const reviewItems = useMemo(() => deriveReviewItems(), [version]);
   const [selectedId, setSelectedId] = useState<string>(
-    reviewItems[0]?.inv.id ?? ''
+    () => deriveReviewItems()[0]?.inv.id ?? ''
   );
   const [resolvedIds, setResolvedIds] = useState<Set<string>>(new Set());
   const toast = useToast();
@@ -570,13 +576,13 @@ export default function PoMatching() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gridTemplateColumns: 'minmax(260px, 320px) minmax(0, 1fr)',
             gap: 'var(--space-8)',
             alignItems: 'start',
           }}
         >
           {/* Left: invoice selector */}
-          <div style={{ position: 'sticky', top: 24, maxWidth: 320 }}>
+          <div style={{ position: 'sticky', top: 24 }}>
             <InvoiceSelector
               items={reviewItems}
               selectedId={selectedId}

@@ -434,7 +434,7 @@ export default function Reminders() {
     return (
       <div>
         <PageHeader title="Reminders" subtitle="Payment reminders for overdue AR invoices" />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(280px, 380px) minmax(0, 1fr)', gap: 24, alignItems: 'start' }}>
           <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} h={64} />)}
           </div>
@@ -471,12 +471,12 @@ export default function Reminders() {
       {/* Two-pane layout */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gridTemplateColumns: 'minmax(280px, 380px) minmax(0, 1fr)',
         gap: 24,
         alignItems: 'start',
       }}>
         {/* LEFT — overdue list */}
-        <Card padding={12} style={{ position: 'sticky', top: 24, maxWidth: 380 }}>
+        <Card padding={12} style={{ position: 'sticky', top: 24 }}>
           {/* Column header */}
           <div style={{
             fontFamily: 'var(--font-sans)',
