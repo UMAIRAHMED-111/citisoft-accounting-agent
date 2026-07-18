@@ -424,7 +424,8 @@ export default function ArMatching() {
             <colgroup>
               <col style={{ width: 36 }} />
               <col style={{ width: 110 }} />
-              <col /> {/* memo — flexible */}
+              <col />
+              {/* memo column is flexible */}
               <col style={{ width: 130 }} />
               <col style={{ width: 200 }} />
               <col style={{ width: 110 }} />
