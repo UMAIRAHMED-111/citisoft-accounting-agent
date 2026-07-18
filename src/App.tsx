@@ -1,7 +1,12 @@
-import Specimen from './screens/_Specimen'
+import { AgentProviderComponent } from './agent/AgentProvider';
+import { AppRoutes } from './app/routes';
 
 function App() {
-  return <Specimen />
+  return (
+    <AgentProviderComponent>
+      <AppRoutes />
+    </AgentProviderComponent>
+  );
 }
 
-export default App
+export default App;
