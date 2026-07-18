@@ -324,10 +324,11 @@ function handleScreenSummary(ctx: AgentContext, ledger: Ledger): AgentResponse |
 
 function handleAttachPo(q: string, _ledger: Ledger): AgentResponse {
   // Parse "attach PO po-11166 to invoice 13992" or "set PO po-11166 on 78875"
-  const poMatch = q.match(/po[-\s]?(\w+[-\w]*)/i);
+  // ID must start with a digit so "PO po-11166" can't double-prefix.
+  const poMatch = q.match(/po[-\s#]*(\d[\w-]*)/i);
   const invMatch = q.match(/invoice\s+(\w+)|inv(?:oice)?\s*#?\s*(\w+)/i);
 
-  const poId = poMatch ? (poMatch[0].toLowerCase().startsWith('po-') ? poMatch[0].toLowerCase() : `po-${poMatch[1].toLowerCase()}`) : null;
+  const poId = poMatch ? `po-${poMatch[1].toLowerCase()}` : null;
   const invoiceNo = invMatch ? (invMatch[1] || invMatch[2]) : null;
 
   if (!poId || !invoiceNo) {
