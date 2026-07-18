@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
+import { AgentDock } from '../components/AgentDock';
 
 export function AppShell() {
   return (
@@ -27,6 +28,7 @@ export function AppShell() {
           <Outlet />
         </main>
       </div>
+      <AgentDock />
     </div>
   );
 }

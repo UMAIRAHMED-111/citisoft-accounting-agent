@@ -8,6 +8,10 @@ export interface AgentResponse {
   blocks: AgentBlock[];
 }
 
+export interface AgentContext {
+  route: string;
+}
+
 export interface AgentProvider {
-  ask(q: string): Promise<AgentResponse>;
+  ask(q: string, ctx?: AgentContext): Promise<AgentResponse>;
 }

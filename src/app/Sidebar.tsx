@@ -7,11 +7,11 @@ import {
   Upload,
   ListChecks,
   BellRing,
-  Bot,
   Plug,
 } from 'lucide-react';
 import { Logo } from '../ds';
 import { buildLedger } from '../data/reconcile';
+import { useLedgerVersion } from '../data/store';
 
 interface NavItemDef {
   to: string;
@@ -27,7 +27,6 @@ const NAV_ITEMS: NavItemDef[] = [
   { to: '/bank-upload', label: 'Bank upload', icon: <Upload size={18} /> },
   { to: '/ar-matching', label: 'AR matching', icon: <ListChecks size={18} />, showCount: true },
   { to: '/reminders', label: 'Reminders', icon: <BellRing size={18} /> },
-  { to: '/agent', label: 'Agent', icon: <Bot size={18} /> },
   { to: '/connections', label: 'Connections', icon: <Plug size={18} /> },
 ];
 
@@ -154,7 +153,8 @@ function NavItemRow({ item, count, compact }: NavItemProps) {
 }
 
 export function Sidebar() {
-  const ledger = useMemo(() => buildLedger(), []);
+  const version = useLedgerVersion();
+  const ledger = useMemo(() => buildLedger(), [version]);
   const inboxCount = ledger.ap.filter(r => r.status !== 'auto_approved').length;
   const arMatchingCount = ledger.ar.filter(r => r.kind === 'partial' || r.kind === 'unmatched').length;
 

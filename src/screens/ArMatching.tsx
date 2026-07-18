@@ -2,11 +2,14 @@ import React from 'react';
 import { ChevronDown, ChevronRight, Link2Off, AlertCircle } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { ConfidenceMeter } from '../components/ConfidenceMeter';
+import { Skeleton } from '../components/Skeleton';
 import { Tabs } from '../ds/Tabs';
 import { Badge } from '../ds/Badge';
 import { Button } from '../ds/Button';
 import { bankStatement, arInvoices } from '../data/seed';
 import { matchPaymentToInvoices } from '../data/reconcile';
+import { useLedgerVersion } from '../data/store';
+import { useSimulatedLoad } from '../lib/useSimulatedLoad';
 import { money, fmtDate } from '../lib/format';
 
 // ---------------------------------------------------------------------------
@@ -362,6 +365,8 @@ function TxnRow({ row }: { row: MatchRow }) {
 // Main screen
 // ---------------------------------------------------------------------------
 export default function ArMatching() {
+  useLedgerVersion();
+  const loading = useSimulatedLoad(500);
   const [tab, setTab] = React.useState<TabKey>('all');
 
   const tabItems = [
@@ -386,6 +391,28 @@ export default function ArMatching() {
     whiteSpace: 'nowrap',
     background: 'var(--surface-sunken)',
   };
+
+  if (loading) {
+    return (
+      <div>
+        <PageHeader title="AR matching" subtitle="Bank deposits matched against open AR invoices — partial and unmatched receipts flagged for review." />
+        <div style={{ display: 'flex', gap: 'var(--space-5)', padding: 'var(--space-5)', background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-6)' }}>
+          <Skeleton w="33%" h={48} />
+          <Skeleton w="33%" h={48} />
+          <Skeleton w="33%" h={48} />
+        </div>
+        <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} style={{ padding: 'var(--space-4) var(--space-5)', borderBottom: '1px solid var(--border-subtle)', display: 'flex', gap: 'var(--space-4)' }}>
+              <Skeleton w={80} h={14} />
+              <Skeleton w="40%" h={14} />
+              <Skeleton w={80} h={14} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>

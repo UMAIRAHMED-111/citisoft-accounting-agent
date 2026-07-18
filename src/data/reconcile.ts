@@ -86,6 +86,17 @@ export function matchInvoiceToPo(
   inv: Invoice,
   pos: PurchaseOrder[],
 ): { po?: PurchaseOrder; status: ApStatus; confidence: number; reasons: string[] } {
+  // Manually approved override
+  if (inv.manualApproved) {
+    const po = inv.poRef ? pos.find(p => p.id === inv.poRef) : undefined;
+    return {
+      po,
+      status: 'auto_approved',
+      confidence: 1.0,
+      reasons: ['Manually approved by Amara Okafor'],
+    };
+  }
+
   // 1. No poRef on the invoice
   if (inv.poRef == null || inv.poRef === '') {
     return {

@@ -9,6 +9,8 @@ import { Skeleton } from '../components/Skeleton';
 import { EmptyState } from '../components/EmptyState';
 import { apInvoices, vendors, purchaseOrders } from '../data/seed';
 import { matchInvoiceToPo } from '../data/reconcile';
+import { useLedgerVersion } from '../data/store';
+import { useSimulatedLoad } from '../lib/useSimulatedLoad';
 import type { Invoice } from '../data/types';
 import { money, fmtDate } from '../lib/format';
 
@@ -408,9 +410,11 @@ function InvoiceListRow({ invoice, apStatus, selected, onClick }: ListRowProps) 
 // Main screen
 // ---------------------------------------------------------------------------
 export default function InvoiceInbox() {
+  useLedgerVersion();
+  const loading = useSimulatedLoad(450);
   const [selectedId, setSelectedId] = useState<string>(apInvoices[0].id);
 
-  // Pre-compute statuses once
+  // Pre-compute statuses (re-runs when version changes due to agent mutations)
   const rowData = apInvoices.map(inv => {
     const m = matchInvoiceToPo(inv, purchaseOrders);
     const apStatus: ApDisplayStatus =
@@ -421,6 +425,32 @@ export default function InvoiceInbox() {
   });
 
   const selected = apInvoices.find(i => i.id === selectedId) ?? apInvoices[0];
+
+  if (loading) {
+    return (
+      <div>
+        <PageHeader title="Invoice inbox" subtitle="Review incoming AP invoices, verify PO matching, and post to your ERP" />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-6)', alignItems: 'start' }}>
+          <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
+            <div style={{ padding: 'var(--space-4) var(--space-5)', borderBottom: '1px solid var(--border-subtle)' }}>
+              <Skeleton w={100} h={16} />
+            </div>
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div key={i} style={{ padding: 'var(--space-4) var(--space-5)', borderBottom: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+                <Skeleton w="70%" h={14} />
+                <Skeleton w="40%" h={12} />
+                <Skeleton w={80} h={20} />
+              </div>
+            ))}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+            <Skeleton h={120} />
+            <Skeleton h={200} />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>

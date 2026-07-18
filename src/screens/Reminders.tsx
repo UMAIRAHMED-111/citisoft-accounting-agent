@@ -3,8 +3,11 @@ import { BellRing, CheckCircle2, ExternalLink } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { EmptyState } from '../components/EmptyState';
 import { Card, Badge, Button, Switch, Toast } from '../ds';
+import { Skeleton } from '../components/Skeleton';
 import { TODAY } from '../data/seed';
 import { buildLedger } from '../data/reconcile';
+import { useLedgerVersion } from '../data/store';
+import { useSimulatedLoad } from '../lib/useSimulatedLoad';
 import { money, fmtDate, daysOverdue } from '../lib/format';
 
 // ---------------------------------------------------------------------------
@@ -444,6 +447,8 @@ function ToastContainer({ toasts, onDismiss }: ToastContainerProps) {
 // ---------------------------------------------------------------------------
 
 export default function Reminders() {
+  useLedgerVersion();
+  const loading = useSimulatedLoad(350);
   // Derive overdue list from the ledger — only invoices with unpaid balance
   const ledger = buildLedger();
   const overdueRows = ledger.ar.filter(
@@ -467,6 +472,21 @@ export default function Reminders() {
 
   function dismissToast(toastId: string) {
     setToasts((prev) => prev.filter((t) => t.id !== toastId));
+  }
+
+  // Loading state
+  if (loading) {
+    return (
+      <div>
+        <PageHeader title="Reminders" subtitle="Payment reminders for overdue AR invoices" />
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, alignItems: 'start' }}>
+          <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+            {Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} h={64} />)}
+          </div>
+          <Skeleton h={400} />
+        </div>
+      </div>
+    );
   }
 
   // Empty state

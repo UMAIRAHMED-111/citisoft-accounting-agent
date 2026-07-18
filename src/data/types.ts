@@ -40,6 +40,7 @@ export interface Invoice {
   pdfUrl: string;
   erpStatus: ErpStatus;
   erpDocNo?: string | null;
+  manualApproved?: boolean;
 }
 
 export interface ArInvoice {
@@ -50,6 +51,7 @@ export interface ArInvoice {
   issuedDate: Date;
   dueDate: Date;
   ref: string;
+  reminderSent?: boolean;
 }
 
 export interface BankTxn {

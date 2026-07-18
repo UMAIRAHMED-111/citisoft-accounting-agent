@@ -5,11 +5,16 @@ function prefersReducedMotion(): boolean {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 import { buildLedger } from '../data/reconcile';
+import { useLedgerVersion } from '../data/store';
 import { StatCard, Card } from '../ds';
 import { money, shortMoney, fmtDate } from '../lib/format';
 import { ExceptionCallout } from '../components/ExceptionCallout';
+import { Skeleton } from '../components/Skeleton';
+import { useSimulatedLoad } from '../lib/useSimulatedLoad';
 
 export default function Dashboard() {
+  useLedgerVersion();
+  const loading = useSimulatedLoad(400);
   const { exceptions, kpis, activity } = buildLedger();
 
   const hour = new Date().getHours();
@@ -58,31 +63,21 @@ export default function Dashboard() {
         gap: 'var(--space-4)',
         marginBottom: 'var(--space-8)',
       }}>
-        <StatCard
-          label="Open AP"
-          value={shortMoney(kpis.openApTotal)}
-          icon={<DollarSign size={16} />}
-        />
-        <StatCard
-          label="Open AR"
-          value={shortMoney(kpis.openArTotal)}
-          icon={<ArrowUpRight size={16} />}
-        />
-        <StatCard
-          label="Exceptions"
-          value={String(kpis.exceptionsCount)}
-          icon={<FileWarning size={16} />}
-          style={kpis.exceptionsCount > 0 ? {
-            borderColor: 'var(--rose-500)',
-            boxShadow: '0 0 0 1px var(--rose-500)',
-          } : {}}
-        />
-        <StatCard
-          label="Reconciled MTD"
-          value={shortMoney(kpis.reconciledMtd)}
-          icon={<TrendingUp size={16} />}
-          accent
-        />
+        {loading ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} style={{ background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-5)', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+              <Skeleton w={80} h={12} />
+              <Skeleton w={120} h={28} />
+            </div>
+          ))
+        ) : (
+          <>
+            <StatCard label="Open AP" value={shortMoney(kpis.openApTotal)} icon={<DollarSign size={16} />} />
+            <StatCard label="Open AR" value={shortMoney(kpis.openArTotal)} icon={<ArrowUpRight size={16} />} />
+            <StatCard label="Exceptions" value={String(kpis.exceptionsCount)} icon={<FileWarning size={16} />} style={kpis.exceptionsCount > 0 ? { borderColor: 'var(--rose-500)', boxShadow: '0 0 0 1px var(--rose-500)' } : {}} />
+            <StatCard label="Reconciled MTD" value={shortMoney(kpis.reconciledMtd)} icon={<TrendingUp size={16} />} accent />
+          </>
+        )}
       </div>
 
       {/* Two-column region */}
@@ -119,7 +114,9 @@ export default function Dashboard() {
             </span>
           </div>
           <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-            {exceptions.length === 0 ? (
+            {loading ? (
+              Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} h={52} />)
+            ) : exceptions.length === 0 ? (
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -139,6 +136,7 @@ export default function Dashboard() {
                 <ExceptionCallout key={`${ex.type}-${ex.ref}`} exception={ex} />
               ))
             )}
+
           </div>
         </Card>
 
