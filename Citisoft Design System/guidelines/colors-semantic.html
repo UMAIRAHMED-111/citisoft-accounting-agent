@@ -1,0 +1,25 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Semantic & product accents" subtitle="Error rose, success, warning, RFQ magenta" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:20px; background:var(--surface-card); font-family:var(--font-sans); }
+  .row { display:flex; gap:14px; }
+  .sw { flex:1; border-radius:var(--radius-md); overflow:hidden; border:1px solid var(--border-default); }
+  .chip { height:60px; }
+  .meta { padding:8px 10px; }
+  .name { font-size:13px; font-weight:600; color:var(--text-strong); }
+  .hex { font-family:var(--font-mono); font-size:11px; color:var(--text-muted); margin-top:2px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw"><div class="chip" style="background:var(--rose-500)"></div><div class="meta"><div class="name">Error / problem</div><div class="hex">#d6394f</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--success-500)"></div><div class="meta"><div class="name">Success</div><div class="hex">#1f9d6b</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--warning-500)"></div><div class="meta"><div class="name">Warning</div><div class="hex">#d68a1e</div></div></div>
+    <div class="sw"><div class="chip" style="background:var(--grad-rfq)"></div><div class="meta"><div class="name">RFQ accent</div><div class="hex">#4a1e3d→#8a3e5d</div></div></div>
+  </div>
+</body>
+</html>

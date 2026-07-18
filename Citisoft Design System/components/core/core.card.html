@@ -1,0 +1,73 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Core — Button, Badge, Tag, Avatar" subtitle="Buttons, icon buttons, badges, tags, avatars" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  body { margin:0; padding:22px; background:var(--surface-card); font-family:var(--font-sans); }
+  .row { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px; }
+  .lbl { font-family:var(--font-mono); font-size:11px; color:var(--text-muted); width:74px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { Button, IconButton, Badge, Tag, Avatar } = window.CitisoftDesignSystem_1a14bd;
+    const Ic = ({ n, s = 16 }) => <svg width={s} height={s} fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML={{ __html: window.__icons[n] }} />;
+    function Demo() {
+      return (
+        <div>
+          <div className="row"><span className="lbl">buttons</span>
+            <Button>Start an RFQ</Button>
+            <Button variant="secondary">Talk to sales</Button>
+            <Button variant="ghost" trailingIcon={<Ic n="arrow" />}>Workflow</Button>
+            <Button variant="danger">Cancel RFQ</Button>
+            <Button accent="rfq">Submit quote</Button>
+          </div>
+          <div className="row"><span className="lbl">sizes</span>
+            <Button size="sm">Small</Button>
+            <Button size="md">Medium</Button>
+            <Button size="lg">Large</Button>
+            <Button disabled>Disabled</Button>
+          </div>
+          <div className="row"><span className="lbl">icon btns</span>
+            <IconButton variant="brand" icon={<Ic n="plus" s={18} />} label="New" />
+            <IconButton icon={<Ic n="bell" s={18} />} label="Alerts" />
+            <IconButton variant="ghost" icon={<Ic n="more" s={18} />} label="More" />
+          </div>
+          <div className="row"><span className="lbl">badges</span>
+            <Badge tone="success" dot>Awarded</Badge>
+            <Badge tone="warning">Awaiting quotes</Badge>
+            <Badge tone="error" solid>Overdue</Badge>
+            <Badge tone="brand">New</Badge>
+            <Badge tone="rfq">RFQ</Badge>
+          </div>
+          <div className="row"><span className="lbl">tags</span>
+            <Tag active>Steel</Tag>
+            <Tag>Aluminium</Tag>
+            <Tag onRemove={() => {}}>Supplier: Acme</Tag>
+          </div>
+          <div className="row"><span className="lbl">avatars</span>
+            <Avatar name="Dana Ruiz" />
+            <Avatar name="Marcus Lee" size="sm" />
+            <Avatar name="Acme Steel" square size="lg" />
+          </div>
+        </div>
+      );
+    }
+    window.__icons = {
+      arrow: '<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+      plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+      bell: '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+      more: '<circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/>',
+    };
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  </script>
+</body>
+</html>

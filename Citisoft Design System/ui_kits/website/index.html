@@ -1,0 +1,68 @@
+<!-- @dsCard group="Website" viewport="1320x760" name="Marketing website" subtitle="Hero, products, features, insights — full Citisoft brand site" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Citisoft Solutions — Industrial sourcing platform</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; background: var(--surface-card); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="icons.jsx"></script>
+<script type="text/babel" src="SiteNav.jsx"></script>
+<script type="text/babel" src="Hero.jsx"></script>
+<script type="text/babel" src="Features.jsx"></script>
+<script type="text/babel" src="Products.jsx"></script>
+<script type="text/babel" src="Insights.jsx"></script>
+<script type="text/babel" src="SiteFooter.jsx"></script>
+<script type="text/babel" data-presets="env,react">
+  const { Dialog, Input, Select, Button } = window.CitisoftDesignSystem_1a14bd;
+
+  function StartRfqDialog({ open, onClose }) {
+    return (
+      <Dialog open={open} onClose={onClose} title="Start an RFQ" width={500}
+        footer={<>
+          <Button variant="secondary" onClick={onClose}>Cancel</Button>
+          <Button onClick={onClose} trailingIcon={<Icon name="arrowRight" size={17} color="#fff" />}>Publish to suppliers</Button>
+        </>}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <Input label="What are you sourcing?" placeholder="e.g. Flanged ball valve, 3&quot;" defaultValue="" />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <Select label="Category" options={['Valves & fittings', 'Steel & metals', 'Fasteners', 'Polymers']} />
+            <Input label="Quantity" placeholder="500" />
+          </div>
+          <Input label="Need-by date" type="date" />
+        </div>
+      </Dialog>
+    );
+  }
+
+  function Page() {
+    const [rfqOpen, setRfqOpen] = React.useState(false);
+    const start = () => setRfqOpen(true);
+    return (
+      <React.Fragment>
+        <SiteNav onStart={start} />
+        <Hero onStart={start} />
+        <Features />
+        <Products onStart={start} />
+        <Insights />
+        <CTASection onStart={start} />
+        <SiteFooter />
+        <StartRfqDialog open={rfqOpen} onClose={() => setRfqOpen(false)} />
+      </React.Fragment>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<Page />);
+</script>
+</body>
+</html>

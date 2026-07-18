@@ -1,0 +1,26 @@
+<!-- @dsCard group="Brand" viewport="700x160" name="Gradient devices" subtitle="Gradient text, icon chip, accent stroke" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+  body { margin:0; padding:24px 22px; background:var(--surface-card); font-family:var(--font-sans); }
+  .row { display:flex; gap:28px; align-items:center; }
+  .gt { font-size:30px; font-weight:800; letter-spacing:-0.02em; }
+  .chip { width:52px; height:52px; border-radius:var(--radius-md); background:var(--grad-brand); display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-brand); }
+  .chip svg { color:#fff; width:26px; height:26px; }
+  .stroke { width:6px; height:52px; border-radius:3px; background:var(--grad-brand); }
+  .lbl { font-family:var(--font-mono); font-size:11px; color:var(--text-muted); margin-top:10px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div><span class="gt cs-grad-text">Citisoft</span><div class="lbl">.cs-grad-text</div></div>
+    <div><div class="chip"><i data-lucide="git-branch"></i></div><div class="lbl">icon chip</div></div>
+    <div><div class="stroke"></div><div class="lbl">accent stroke</div></div>
+  </div>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

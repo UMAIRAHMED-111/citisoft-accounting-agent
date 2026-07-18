@@ -1,0 +1,29 @@
+<!-- @dsCard group="Components" viewport="700x140" name="Navigation — Tabs" subtitle="Underline tabs with gradient indicator + counts" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style> body { margin:0; padding:22px; background:var(--surface-card); } </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { Tabs } = window.CitisoftDesignSystem_1a14bd;
+    function Demo() {
+      const [t, setT] = React.useState('open');
+      return <Tabs value={t} onChange={setT} tabs={[
+        {value:'open',label:'Open',count:27},
+        {value:'awarded',label:'Awarded',count:8},
+        {value:'draft',label:'Drafts',count:3},
+        {value:'all',label:'All RFQs'},
+      ]} />;
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  </script>
+</body>
+</html>

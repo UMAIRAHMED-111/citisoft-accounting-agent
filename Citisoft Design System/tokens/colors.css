@@ -1,0 +1,101 @@
+/* ============================================================
+   Citisoft — Color tokens
+   Light theme is the default surface; the dark theme is a
+   high-impact mode applied with [data-theme="dark"].
+   ============================================================ */
+
+:root {
+  /* ---- Brand blues (raw scale) ---- */
+  --blue-azure: #2b9fd4;   /* light azure  */
+  --blue-mid:   #2c79ba;   /* mid blue     */
+  --blue-deep:  #255b9c;   /* deep navy-blue */
+  --blue-700:   #1f4d85;   /* pressed / darkest brand */
+  --blue-100:   #e3f1f9;   /* tint surface  */
+  --blue-050:   #f1f8fc;   /* faintest tint */
+
+  /* ---- Signature brand gradient (135°) ---- */
+  --grad-brand: linear-gradient(135deg, var(--blue-azure) 0%, var(--blue-mid) 52%, var(--blue-deep) 100%); /* @kind color */
+  --grad-brand-hover: linear-gradient(135deg, #38a8da 0%, #3083c4 52%, #2a64a8 100%); /* @kind color */
+  --grad-brand-soft: linear-gradient(135deg, #eaf4fb 0%, #e0eef9 100%); /* @kind color */
+
+  /* ---- Neutrals (slate scale) ---- */
+  --slate-900: #14181f;   /* charcoal-blue — dark surface base */
+  --slate-800: #1f2733;   /* near-black text */
+  --slate-700: #323c4a;
+  --slate-600: #4a5563;
+  --slate-500: #6b7686;
+  --slate-400: #939dac;
+  --slate-300: #c2c9d4;
+  --slate-200: #dde2e9;   /* borders */
+  --slate-150: #e7ebf0;
+  --slate-100: #f1f3f6;   /* subtle fill */
+  --slate-050: #f8fafb;   /* page tint */
+  --white:     #ffffff;
+
+  /* ---- Product accent: RFQ / Sales platform (magenta) ---- */
+  --rfq-from: #4a1e3d;
+  --rfq-to:   #8a3e5d;
+  --grad-rfq: linear-gradient(135deg, #4a1e3d 0%, #8a3e5d 100%); /* @kind color */
+  --rfq-accent: #a8466f;
+
+  /* ---- Semantic states ---- */
+  --rose-500: #d6394f;   /* problem / error */
+  --rose-600: #b82c40;
+  --rose-050: #fdeef0;
+  --success-500: #1f9d6b;
+  --success-050: #e9f7f1;
+  --warning-500: #d68a1e;
+  --warning-050: #fbf2e3;
+
+  /* ============================================================
+     Semantic aliases — LIGHT THEME (default)
+     ============================================================ */
+  --surface-page:    var(--slate-050);
+  --surface-card:    var(--white);
+  --surface-sunken:  var(--slate-100);
+  --surface-inverse: var(--slate-900);
+  --surface-brand-tint: var(--blue-050);
+
+  --text-strong:  var(--slate-800);
+  --text-body:    var(--slate-700);
+  --text-muted:   var(--slate-500);
+  --text-faint:   var(--slate-400);
+  --text-on-brand: var(--white);
+  --text-link:    var(--blue-mid);
+
+  --border-subtle: var(--slate-150);
+  --border-default: var(--slate-200);
+  --border-strong: var(--slate-300);
+  --border-brand:  var(--blue-azure);
+
+  --accent: var(--blue-mid);
+  --accent-strong: var(--blue-deep);
+  --focus-ring: rgba(43, 159, 212, 0.45);
+}
+
+/* ============================================================
+   DARK THEME — hero / Products / Insights
+   ============================================================ */
+[data-theme="dark"] {
+  --surface-page:    var(--slate-900);
+  --surface-card:    #1b212b;
+  --surface-sunken:  #11151b;
+  --surface-inverse: var(--white);
+  --surface-brand-tint: rgba(43, 159, 212, 0.10);
+
+  --text-strong:  #f4f7fa;
+  --text-body:    #c8d0db;
+  --text-muted:   #8b97a6;
+  --text-faint:   #66707e;
+  --text-on-brand: var(--white);
+  --text-link:    var(--blue-azure);
+
+  --border-subtle: rgba(255,255,255,0.06);
+  --border-default: rgba(255,255,255,0.12);
+  --border-strong: rgba(255,255,255,0.20);
+  --border-brand:  var(--blue-azure);
+
+  --accent: var(--blue-azure);
+  --accent-strong: var(--blue-azure);
+  --focus-ring: rgba(43, 159, 212, 0.55);
+}

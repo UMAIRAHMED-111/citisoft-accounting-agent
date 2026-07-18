@@ -1,0 +1,27 @@
+<!-- @dsCard group="Brand" viewport="700x200" name="Voice & tone" subtitle="How Citisoft writes" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:20px 22px; background:var(--surface-card); font-family:var(--font-sans); }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:10px 22px; }
+  .item { display:flex; gap:10px; align-items:flex-start; }
+  .do { color:var(--success-500); font-weight:800; }
+  .dont { color:var(--rose-500); font-weight:800; }
+  .txt { font-size:13.5px; line-height:1.4; color:var(--text-body); }
+  .txt b { color:var(--text-strong); }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="item"><span class="do">✓</span><div class="txt"><b>Sentence case</b>, plainspoken. "Start an RFQ"</div></div>
+    <div class="item"><span class="dont">✕</span><div class="txt">Title Case Marketing Hype. "Oops!"</div></div>
+    <div class="item"><span class="do">✓</span><div class="txt">Concrete: "6 days → 4 hours"</div></div>
+    <div class="item"><span class="dont">✕</span><div class="txt">Vague: "dramatically faster"</div></div>
+    <div class="item"><span class="do">✓</span><div class="txt"><b>You</b> (customer) / <b>we</b> (Citisoft)</div></div>
+    <div class="item"><span class="dont">✕</span><div class="txt">Emoji in product copy 🎉</div></div>
+  </div>
+</body>
+</html>
