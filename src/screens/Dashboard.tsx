@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { DollarSign, FileWarning, CheckCircle2, ArrowDownLeft, ArrowUpRight, TrendingUp } from 'lucide-react';
 
 function prefersReducedMotion(): boolean {
@@ -13,9 +14,10 @@ import { Skeleton } from '../components/Skeleton';
 import { useSimulatedLoad } from '../lib/useSimulatedLoad';
 
 export default function Dashboard() {
-  useLedgerVersion();
+  const version = useLedgerVersion();
   const loading = useSimulatedLoad(400);
-  const { exceptions, kpis, activity } = buildLedger();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const { exceptions, kpis, activity } = useMemo(() => buildLedger(), [version]);
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
@@ -59,7 +61,7 @@ export default function Dashboard() {
       {/* 4-up KPI row */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
         gap: 'var(--space-4)',
         marginBottom: 'var(--space-8)',
       }}>
@@ -106,7 +108,7 @@ export default function Dashboard() {
             </span>
             <span style={{
               fontFamily: 'var(--font-mono)',
-              fontSize: 12,
+              fontSize: 'var(--fs-overline)',
               color: exceptions.length > 0 ? 'var(--rose-500)' : 'var(--text-muted)',
               fontWeight: 600,
             }}>
@@ -126,7 +128,7 @@ export default function Dashboard() {
                 borderRadius: 'var(--radius-md)',
                 color: 'var(--text-muted)',
                 fontFamily: 'var(--font-sans)',
-                fontSize: 14,
+                fontSize: 'var(--fs-body-sm)',
               }}>
                 <CheckCircle2 size={18} style={{ color: 'var(--success-500)', flexShrink: 0 }} />
                 All invoices and payments are reconciled.
@@ -146,10 +148,8 @@ export default function Dashboard() {
           <Card padding={20}>
             <p style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
+              fontSize: 'var(--fs-caption)',
+              fontWeight: 'var(--fw-medium)',
               color: 'var(--text-muted)',
               margin: '0 0 14px',
             }}>
@@ -160,8 +160,8 @@ export default function Dashboard() {
             <CashBar label="Open AR" amount={kpis.openArTotal} max={Math.max(kpis.openApTotal, kpis.openArTotal)} color="var(--blue-azure)" />
             <div style={{ marginTop: 14, borderTop: '1px solid var(--border-subtle)', paddingTop: 12 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <span style={{ fontFamily: 'var(--font-sans)', fontSize: 12, color: 'var(--text-muted)' }}>Net exposure</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 13, fontWeight: 700, color: 'var(--text-strong)' }}>
+                <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-overline)', color: 'var(--text-muted)' }}>Net exposure</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-caption)', fontWeight: 700, color: 'var(--text-strong)' }}>
                   {money(Math.abs(kpis.openArTotal - kpis.openApTotal))}
                 </span>
               </div>
@@ -214,7 +214,7 @@ export default function Dashboard() {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <p style={{
                       fontFamily: 'var(--font-sans)',
-                      fontSize: 13,
+                      fontSize: 'var(--fs-caption)',
                       color: 'var(--text-body)',
                       lineHeight: 'var(--lh-snug)',
                       margin: 0,
@@ -236,7 +236,7 @@ export default function Dashboard() {
                   <span style={{
                     flexShrink: 0,
                     fontFamily: 'var(--font-mono)',
-                    fontSize: 12,
+                    fontSize: 'var(--fs-overline)',
                     fontWeight: 700,
                     color: item.type === 'ar_payment' ? 'var(--success-500)' : 'var(--text-strong)',
                   }}>
@@ -265,8 +265,8 @@ function CashBar({ label, amount, max, color }: CashBarProps) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-        <span style={{ fontFamily: 'var(--font-sans)', fontSize: 12, color: 'var(--text-muted)' }}>{label}</span>
-        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 700, color: 'var(--text-strong)' }}>
+        <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-overline)', color: 'var(--text-muted)' }}>{label}</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-overline)', fontWeight: 700, color: 'var(--text-strong)' }}>
           {money(amount)}
         </span>
       </div>

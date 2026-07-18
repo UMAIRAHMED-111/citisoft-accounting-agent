@@ -1,4 +1,4 @@
-import { buildLedger, type Ledger } from '../data/reconcile';
+import { buildLedger, EXCEPTION_TYPE_LABELS, type Ledger } from '../data/reconcile';
 import { money, fmtDate, daysOverdue } from '../lib/format';
 import type { AgentResponse, AgentContext } from './types';
 import { TODAY, vendors, apInvoices, arInvoices, purchaseOrders, bankStatement } from '../data/seed';
@@ -12,16 +12,21 @@ function normalizeRef(s: string): string {
   return s.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
+// Pluralize a noun for a count — keeps "item(s)"-style output out of the UI
+function plural(n: number, word: string): string {
+  return `${n} ${word}${n === 1 ? '' : 's'}`;
+}
+
 // ---- Handlers ----
 
 function handleAttention(ledger: Ledger): AgentResponse {
   const topExceptions = ledger.exceptions.slice(0, 5);
-  const rows = topExceptions.map(e => [e.type.replace(/_/g, ' '), e.ref, e.description]);
+  const rows = topExceptions.map(e => [EXCEPTION_TYPE_LABELS[e.type], e.ref, e.description]);
   return {
     blocks: [
       {
         type: 'text',
-        text: `You have ${ledger.kpis.exceptionsCount} item(s) needing attention. Open AP: ${money(ledger.kpis.openApTotal)}, Open AR: ${money(ledger.kpis.openArTotal)}.`,
+        text: `You have ${plural(ledger.kpis.exceptionsCount, 'item')} needing attention. Open AP: ${money(ledger.kpis.openApTotal)}, Open AR: ${money(ledger.kpis.openArTotal)}.`,
       },
       {
         type: 'table',
@@ -49,7 +54,7 @@ function handleOverdue(ledger: Ledger): AgentResponse {
     blocks: [
       {
         type: 'text',
-        text: `${overdue.length} overdue AR invoice(s) with total open balance of ${money(overdue.reduce((s, r) => s + r.balance, 0))}.`,
+        text: `${plural(overdue.length, 'overdue AR invoice')} with total open balance of ${money(overdue.reduce((s, r) => s + r.balance, 0))}.`,
       },
       {
         type: 'table',
@@ -74,7 +79,7 @@ function handleUnmatched(ledger: Ledger): AgentResponse {
     blocks: [
       {
         type: 'text',
-        text: `${unmatched.length} unmatched deposit(s) and ${partial.length} partial payment(s) require review.`,
+        text: `${plural(unmatched.length, 'unmatched deposit')} and ${plural(partial.length, 'partial payment')} require review.`,
       },
       { type: 'table', columns: ['Category', 'Ref', 'Detail'], rows },
     ],
@@ -129,17 +134,17 @@ function handleWhyNotApproved(q: string, ledger: Ledger): AgentResponse {
   if (inv.poRef == null || inv.poRef === '') {
     steps.push('Looked up purchase order reference — none found on the invoice.');
     steps.push('Rule: invoices with no PO reference require manual review.');
-    steps.push(`Result: flagged as needs_review — ${apRow.reasons[0]}.`);
+    steps.push(`Result: flagged for review — ${apRow.reasons[0]}.`);
   } else if (apRow.po) {
     const po = apRow.po;
     steps.push(`Looked up PO ${po.id} — total: ${money(po.total)}.`);
     steps.push(`Compared invoice amount ${money(inv.amount)} to PO total ${money(po.total)}.`);
     const delta = Math.abs(inv.amount - po.total);
     steps.push(`Delta of ${money(delta)} detected — exceeds zero tolerance.`);
-    steps.push(`Result: flagged as needs_review — ${apRow.reasons[0]}.`);
+    steps.push(`Result: flagged for review — ${apRow.reasons[0]}.`);
   } else {
     steps.push(`PO reference ${inv.poRef} could not be found in the system.`);
-    steps.push(`Result: flagged as needs_review — ${apRow.reasons[0]}.`);
+    steps.push(`Result: flagged for review — ${apRow.reasons[0]}.`);
   }
 
   return {
@@ -148,8 +153,9 @@ function handleWhyNotApproved(q: string, ledger: Ledger): AgentResponse {
       {
         type: 'action',
         title: `Review invoice ${inv.invoiceNo}`,
-        detail: `${apRow.reasons[0]}. Amount: ${money(inv.amount)}.`,
+        detail: `${apRow.reasons[0]}.`,
         cta: 'Open invoice',
+        to: '/inbox',
       },
     ],
   };
@@ -182,9 +188,10 @@ function handleFallback(ledger: Ledger): AgentResponse {
       },
       ...top2.map(e => ({
         type: 'action' as const,
-        title: e.ref,
+        title: `${EXCEPTION_TYPE_LABELS[e.type]} — ${e.ref}`,
         detail: e.description,
         cta: 'Review',
+        to: e.type.startsWith('ap_') ? '/po-matching' : '/ar-matching',
       })),
     ],
   };
@@ -201,7 +208,7 @@ function handleScreenSummary(ctx: AgentContext, ledger: Ledger): AgentResponse |
       blocks: [
         {
           type: 'text',
-          text: `Dashboard overview: Open AP ${money(ledger.kpis.openApTotal)}, Open AR ${money(ledger.kpis.openArTotal)}, ${ledger.kpis.exceptionsCount} exception(s) flagged. Reconciled MTD: ${money(ledger.kpis.reconciledMtd)}.`,
+          text: `Dashboard overview: Open AP ${money(ledger.kpis.openApTotal)}, Open AR ${money(ledger.kpis.openArTotal)}, ${plural(ledger.kpis.exceptionsCount, 'exception')} flagged. Reconciled MTD: ${money(ledger.kpis.reconciledMtd)}.`,
         },
         {
           type: 'table',
@@ -272,7 +279,7 @@ function handleScreenSummary(ctx: AgentContext, ledger: Ledger): AgentResponse |
       blocks: [
         {
           type: 'text',
-          text: `Reminders: ${overdue.length} overdue AR invoice(s). ${overdue.map(r => `${r.invoice.invoiceNo} (${r.invoice.customer}) — ${daysOverdue(r.invoice.dueDate, TODAY)} days overdue, ${money(r.balance)} outstanding`).join('; ')}.`,
+          text: `Reminders: ${plural(overdue.length, 'overdue AR invoice')}. ${overdue.map(r => `${r.invoice.invoiceNo} (${r.invoice.customer}) — ${daysOverdue(r.invoice.dueDate, TODAY)} days overdue, ${money(r.balance)} outstanding`).join('; ')}.`,
         },
         { type: 'table', columns: ['Invoice', 'Customer', 'Balance', 'Overdue'], rows },
       ],
@@ -361,7 +368,7 @@ function handleAttachPo(q: string, _ledger: Ledger): AgentResponse {
   return {
     blocks: [
       { type: 'reasoning', steps: [`Found invoice ${inv.invoiceNo} (${money(inv.amount)}).`, `Found PO ${poId} (total: ${money(po.total)}).`, `Set poRef = ${poId} on the invoice.`, `Re-ran matching engine.`] },
-      { type: 'action', title: `PO attached — ${inv.invoiceNo}`, detail: message, cta: 'View invoice' },
+      { type: 'action', title: `PO attached — ${inv.invoiceNo}`, detail: message, cta: 'View invoice', to: '/inbox' },
     ],
   };
 }
@@ -420,7 +427,7 @@ function handleUpdateDueDate(q: string, _ledger: Ledger): AgentResponse {
   return {
     blocks: [
       { type: 'reasoning', steps: [`Found invoice ${inv.invoiceNo}.`, `Parsed new due date: ${fmtDate(date)}.`, `Updated dueDate on the invoice record.`] },
-      { type: 'action', title: `Due date updated — ${inv.invoiceNo}`, detail: message, cta: 'View invoice' },
+      { type: 'action', title: `Due date updated — ${inv.invoiceNo}`, detail: message, cta: 'View invoice', to: '/inbox' },
     ],
   };
 }
@@ -453,7 +460,7 @@ function handleApproveInvoice(q: string, _ledger: Ledger): AgentResponse {
   return {
     blocks: [
       { type: 'reasoning', steps: [`Found invoice ${inv.invoiceNo} (${money(inv.amount)}).`, 'Set manualApproved = true.', 'Set erpStatus = ready.', 'Matching engine will now return auto_approved with reason "Manually approved by Amara Okafor".'] },
-      { type: 'action', title: `Invoice approved — ${inv.invoiceNo}`, detail: message, cta: 'View invoice' },
+      { type: 'action', title: `Invoice approved — ${inv.invoiceNo}`, detail: message, cta: 'View invoice', to: '/inbox' },
     ],
   };
 }
@@ -487,7 +494,7 @@ function handleSendReminder(q: string, _ledger: Ledger): AgentResponse {
   return {
     blocks: [
       { type: 'reasoning', steps: [`Found AR invoice ${arInv.invoiceNo} for ${arInv.customer}.`, `Flagged reminderSent = true.`, `Reminder email dispatched.`] },
-      { type: 'action', title: `Reminder sent — ${arInv.invoiceNo}`, detail: message, cta: 'View reminders' },
+      { type: 'action', title: `Reminder sent — ${arInv.invoiceNo}`, detail: message, cta: 'View reminders', to: '/reminders' },
     ],
   };
 }

@@ -15,14 +15,19 @@ export interface DataTableProps<R> {
   rows: R[];
   onRowClick?: (row: R) => void;
   emptyMessage?: string;
+  /** Dense mode for narrow containers (e.g. the assistant dock panel) */
+  compact?: boolean;
 }
 
-export function DataTable<R>({ columns, rows, onRowClick, emptyMessage = 'No records' }: DataTableProps<R>) {
+export function DataTable<R>({ columns, rows, onRowClick, emptyMessage = 'No records', compact = false }: DataTableProps<R>) {
   const [hoveredIdx, setHoveredIdx] = React.useState<number | null>(null);
+
+  const cellPadding = compact ? '8px 10px' : '12px 16px';
+  const headerPadding = compact ? '7px 10px' : '10px 16px';
 
   return (
     <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)' }}>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--font-sans)', minWidth: compact ? 300 : undefined }}>
         <thead>
           <tr style={{ background: 'var(--surface-sunken)' }}>
             {columns.map((col) => (
@@ -30,7 +35,7 @@ export function DataTable<R>({ columns, rows, onRowClick, emptyMessage = 'No rec
                 key={col.key}
                 style={{
                   textAlign: col.align ?? 'left',
-                  padding: '10px 16px',
+                  padding: headerPadding,
                   fontFamily: 'var(--font-sans)',
                   fontSize: 11,
                   fontWeight: 700,
@@ -55,7 +60,7 @@ export function DataTable<R>({ columns, rows, onRowClick, emptyMessage = 'No rec
                   padding: '24px 16px',
                   textAlign: 'center',
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 14,
+                  fontSize: 'var(--fs-body-sm)',
                   color: 'var(--text-muted)',
                 }}
               >
@@ -67,6 +72,18 @@ export function DataTable<R>({ columns, rows, onRowClick, emptyMessage = 'No rec
               <tr
                 key={idx}
                 onClick={() => onRowClick?.(row)}
+                {...(onRowClick
+                  ? {
+                      role: 'button',
+                      tabIndex: 0,
+                      onKeyDown: (e: React.KeyboardEvent<HTMLTableRowElement>) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          onRowClick(row);
+                        }
+                      },
+                    }
+                  : {})}
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
                 style={{
@@ -80,10 +97,12 @@ export function DataTable<R>({ columns, rows, onRowClick, emptyMessage = 'No rec
                   <td
                     key={col.key}
                     style={{
-                      padding: '12px 16px',
+                      padding: cellPadding,
                       textAlign: col.align ?? 'left',
                       fontFamily: col.mono ? 'var(--font-mono)' : 'var(--font-sans)',
-                      fontSize: col.mono ? 13 : 14,
+                      fontSize: compact
+                        ? 'var(--fs-overline)'
+                        : col.mono ? 'var(--fs-caption)' : 'var(--fs-body-sm)',
                       color: 'var(--text-body)',
                       whiteSpace: (col.wrap ?? !col.mono) ? 'normal' : 'nowrap',
                     }}

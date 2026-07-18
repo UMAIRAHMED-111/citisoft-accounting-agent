@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { RefreshCw, Search, Link2 } from 'lucide-react';
-import { Badge, Button, Card } from '../ds';
+import { Badge, Button, Card, Dialog } from '../ds';
+import { useToast } from '../components/ToastHost';
 import { PageHeader } from '../components/PageHeader';
 import { PdfViewer } from '../components/PdfViewer';
 import { MatchLineItems } from '../components/MatchLineItems';
@@ -195,6 +196,23 @@ function OcrFieldsCard({ invoice }: OcrCardProps) {
 function InvoiceDetail({ invoice }: { invoice: Invoice }) {
   const vendor = vendors.find(v => v.id === invoice.vendorId);
   const match = matchInvoiceToPo(invoice, purchaseOrders);
+  const toast = useToast();
+  const [poDialogOpen, setPoDialogOpen] = useState(false);
+
+  function handleAttachPo(poId: string) {
+    setPoDialogOpen(false);
+    toast.push({
+      tone: 'success',
+      title: 'PO attached',
+      message: (
+        <>
+          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{poId}</span>
+          {' '}attached to invoice{' '}
+          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{invoice.invoiceNo}</span>.
+        </>
+      ),
+    });
+  }
   const poItems = match.po?.lineItems ?? [];
   const hasPo = match.po != null;
   const apStatus: ApDisplayStatus =
@@ -308,7 +326,7 @@ function InvoiceDetail({ invoice }: { invoice: Invoice }) {
                 variant="secondary"
                 size="sm"
                 leadingIcon={<Link2 size={14} />}
-                onClick={() => {/* affordance only */}}
+                onClick={() => setPoDialogOpen(true)}
               >
                 Find / attach PO
               </Button>
@@ -319,6 +337,53 @@ function InvoiceDetail({ invoice }: { invoice: Invoice }) {
 
       {/* ── 5. ERP sync ── */}
       <ErpSyncPanel invoice={invoice} />
+
+      {/* Attach-PO dialog */}
+      <Dialog
+        open={poDialogOpen}
+        onClose={() => setPoDialogOpen(false)}
+        title="Attach a purchase order"
+        width={560}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+          <p style={{ margin: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body-sm)', color: 'var(--text-muted)', lineHeight: 'var(--lh-relaxed)' }}>
+            Select an open purchase order to attach to invoice{' '}
+            <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-strong)' }}>{invoice.invoiceNo}</span>:
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+            {purchaseOrders.map(po => {
+              const poVendor = vendors.find(v => v.id === po.vendorId);
+              return (
+                <div
+                  key={po.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-4)',
+                    padding: 'var(--space-3) var(--space-4)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-md)',
+                    background: 'var(--surface-card)',
+                  }}
+                >
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-caption)', fontWeight: 600, color: 'var(--accent)', flexShrink: 0 }}>
+                    {po.id}
+                  </span>
+                  <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body-sm)', color: 'var(--text-body)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {poVendor?.name ?? po.vendorId} — {po.description}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-caption)', color: 'var(--text-strong)', flexShrink: 0 }}>
+                    {money(po.total)}
+                  </span>
+                  <Button size="sm" variant="secondary" onClick={() => handleAttachPo(po.id)}>
+                    Select
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </Dialog>
     </div>
   );
 }
@@ -355,10 +420,7 @@ function InvoiceListRow({ invoice, apStatus, selected, onClick }: ListRowProps) 
           : 'var(--surface-card)',
         borderBottom: '1px solid var(--border-subtle)',
         transition: 'background var(--dur-fast) var(--ease-out)',
-        outline: 'none',
       }}
-      onFocus={e => { e.currentTarget.style.boxShadow = 'inset 0 0 0 2px var(--focus-ring)'; }}
-      onBlur={e => { e.currentTarget.style.boxShadow = 'none'; }}
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--space-3)' }}>
         <div style={{ flex: 1, minWidth: 0 }}>
@@ -410,19 +472,24 @@ function InvoiceListRow({ invoice, apStatus, selected, onClick }: ListRowProps) 
 // Main screen
 // ---------------------------------------------------------------------------
 export default function InvoiceInbox() {
-  useLedgerVersion();
+  const version = useLedgerVersion();
   const loading = useSimulatedLoad(450);
   const [selectedId, setSelectedId] = useState<string>(apInvoices[0].id);
 
   // Pre-compute statuses (re-runs when version changes due to agent mutations)
-  const rowData = apInvoices.map(inv => {
-    const m = matchInvoiceToPo(inv, purchaseOrders);
-    const apStatus: ApDisplayStatus =
-      m.status === 'auto_approved' ? 'auto_approved' :
-      m.status === 'needs_review'  ? 'needs_review' :
-      'duplicate';
-    return { invoice: inv, apStatus };
-  });
+  const rowData = useMemo(
+    () =>
+      apInvoices.map(inv => {
+        const m = matchInvoiceToPo(inv, purchaseOrders);
+        const apStatus: ApDisplayStatus =
+          m.status === 'auto_approved' ? 'auto_approved' :
+          m.status === 'needs_review'  ? 'needs_review' :
+          'duplicate';
+        return { invoice: inv, apStatus };
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [version],
+  );
 
   const selected = apInvoices.find(i => i.id === selectedId) ?? apInvoices[0];
 
@@ -430,7 +497,7 @@ export default function InvoiceInbox() {
     return (
       <div>
         <PageHeader title="Invoice inbox" subtitle="Review incoming AP invoices, verify PO matching, and post to your ERP" />
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 'var(--space-6)', alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(280px, 380px) minmax(0, 1fr)', gap: 'var(--space-6)', alignItems: 'start' }}>
           <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
             <div style={{ padding: 'var(--space-4) var(--space-5)', borderBottom: '1px solid var(--border-subtle)' }}>
               <Skeleton w={100} h={16} />
@@ -463,7 +530,7 @@ export default function InvoiceInbox() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gridTemplateColumns: 'minmax(280px, 380px) minmax(0, 1fr)',
           gap: 'var(--space-6)',
           alignItems: 'start',
           minHeight: 0,
@@ -474,7 +541,6 @@ export default function InvoiceInbox() {
           style={{
             position: 'sticky',
             top: 24,
-            maxWidth: 380,
             background: 'var(--surface-card)',
             border: '1px solid var(--border-default)',
             borderRadius: 'var(--radius-lg)',

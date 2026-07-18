@@ -1,7 +1,7 @@
 export type AgentBlock =
   | { type: 'text'; text: string }
   | { type: 'table'; columns: string[]; rows: string[][] }
-  | { type: 'action'; title: string; detail: string; cta: string }
+  | { type: 'action'; title: string; detail: string; cta: string; to?: string }
   | { type: 'reasoning'; steps: string[] };
 
 export interface AgentResponse {

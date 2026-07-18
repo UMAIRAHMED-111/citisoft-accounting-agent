@@ -1,10 +1,11 @@
 import React from 'react';
+import { Info, Check, AlertTriangle, X } from 'lucide-react';
 
-const TONES: Record<string, { icon: string; color: string }> = {
-  info: { icon: 'ℹ', color: 'var(--accent)' },
-  success: { icon: '✓', color: 'var(--success-500)' },
-  warning: { icon: '!', color: 'var(--warning-500)' },
-  error: { icon: '×', color: 'var(--rose-500)' },
+const TONES: Record<string, { icon: React.ReactNode; color: string }> = {
+  info: { icon: <Info size={13} />, color: 'var(--accent)' },
+  success: { icon: <Check size={13} />, color: 'var(--success-500)' },
+  warning: { icon: <AlertTriangle size={13} />, color: 'var(--warning-500)' },
+  error: { icon: <X size={13} />, color: 'var(--rose-500)' },
 };
 
 export interface ToastProps {
@@ -36,12 +37,20 @@ export function Toast({ tone = 'info', title, children, onDismiss, duration = 50
       }}
     >
       <style>{'@keyframes csToast{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}@media(prefers-reduced-motion:reduce){@keyframes csToast{from{opacity:1;transform:none}to{opacity:1;transform:none}}}'}</style>
-      <span style={{ flexShrink: 0, width: 22, height: 22, marginTop: 1, borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: t.color, color: 'var(--text-on-brand)', fontSize: 13, fontWeight: 700, fontFamily: 'var(--font-sans)' }}>{t.icon}</span>
+      <span style={{ flexShrink: 0, width: 22, height: 22, marginTop: 1, borderRadius: '50%', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: t.color, color: 'var(--text-on-brand)' }}>{t.icon}</span>
       <div style={{ flex: 1, minWidth: 0 }}>
-        {title && <div style={{ fontFamily: 'var(--font-sans)', fontSize: 14.5, fontWeight: 700, color: 'var(--text-strong)', marginBottom: children ? 2 : 0 }}>{title}</div>}
-        {children && <div style={{ fontFamily: 'var(--font-sans)', fontSize: 13.5, lineHeight: 1.5, color: 'var(--text-muted)' }}>{children}</div>}
+        {title && <div style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body-sm)', fontWeight: 700, color: 'var(--text-strong)', marginBottom: children ? 2 : 0 }}>{title}</div>}
+        {children && <div style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-caption)', lineHeight: 1.5, color: 'var(--text-muted)' }}>{children}</div>}
       </div>
-      {onDismiss && <button onClick={onDismiss} aria-label="Dismiss" style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--text-faint)', fontSize: 18, lineHeight: 1, padding: 2 }}>×</button>}
+      {onDismiss && (
+        <button
+          onClick={onDismiss}
+          aria-label="Dismiss"
+          style={{ border: 'none', background: 'transparent', cursor: 'pointer', color: 'var(--text-faint)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: 2 }}
+        >
+          <X size={15} />
+        </button>
+      )}
     </div>
   );
 }

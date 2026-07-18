@@ -23,6 +23,8 @@
   --grad-brand: linear-gradient(135deg, var(--blue-azure) 0%, var(--blue-mid) 52%, var(--blue-deep) 100%); /* @kind color */
   --grad-brand-hover: linear-gradient(135deg, #38a8da 0%, #3083c4 52%, #2a64a8 100%); /* @kind color */
   --grad-brand-soft: linear-gradient(135deg, #eaf4fb 0%, #e0eef9 100%); /* @kind color */
+  /* Light-end gradient for brand text on dark surfaces (≥4.5:1 on --slate-900) */
+  --grad-brand-on-dark: linear-gradient(135deg, #7cc7e8 0%, #2b9fd4 100%); /* @kind color */
 
   /* ---- Neutrals (slate scale) ---- */
   --slate-900: #14181f;   /* charcoal-blue — dark surface base */
@@ -272,6 +274,9 @@
   /* Blur for glass / overlays */
   --blur-overlay: 8px; /* @kind other */
 
+  /* Overlay scrim — matches --slate-900 at 55% */
+  --overlay-scrim: rgba(20, 24, 31, 0.55);
+
   /* Danger button shadow */
   --shadow-danger: 0 6px 18px rgba(214, 57, 79, 0.28);
 }
@@ -311,6 +316,12 @@ code, kbd, samp, pre {
 }
 
 ::selection { background: rgba(43, 159, 212, 0.22); }
+
+/* Brand focus ring — 3px azure, keyboard-only, on every interactive element */
+:where(a, button, [role="button"], [tabindex="0"], input, select, textarea):focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
 
 /* Utility: the signature gradient as text fill */
 .cs-grad-text {

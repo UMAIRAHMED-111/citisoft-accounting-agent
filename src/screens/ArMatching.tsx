@@ -6,6 +6,8 @@ import { Skeleton } from '../components/Skeleton';
 import { Tabs } from '../ds/Tabs';
 import { Badge } from '../ds/Badge';
 import { Button } from '../ds/Button';
+import { Dialog } from '../ds/Dialog';
+import { useToast } from '../components/ToastHost';
 import { bankStatement, arInvoices } from '../data/seed';
 import { matchPaymentToInvoices } from '../data/reconcile';
 import { useLedgerVersion } from '../data/store';
@@ -25,14 +27,6 @@ interface MatchRow {
   reasons: string[];
 }
 
-// ---------------------------------------------------------------------------
-// Compute rows once (outside component to avoid re-computation)
-// ---------------------------------------------------------------------------
-const rows: MatchRow[] = bankStatement.txns.map(t => ({
-  txn: t,
-  ...matchPaymentToInvoices(t, arInvoices),
-}));
-
 // Negative-amount rows — "not a customer receipt" signal in their reasons
 function isNotAReceipt(row: MatchRow): boolean {
   return row.txn.amount <= 0 || row.reasons.some(r => r.toLowerCase().includes('not a customer receipt'));
@@ -43,7 +37,7 @@ function isNotAReceipt(row: MatchRow): boolean {
 // ---------------------------------------------------------------------------
 type TabKey = 'all' | 'matched' | 'partial' | 'unmatched';
 
-function filterRows(tab: TabKey): MatchRow[] {
+function filterRows(rows: MatchRow[], tab: TabKey): MatchRow[] {
   if (tab === 'all') return rows;
   if (tab === 'matched') return rows.filter(r => (r.kind === 'exact' || r.kind === 'lump') && !isNotAReceipt(r));
   if (tab === 'partial') return rows.filter(r => r.kind === 'partial');
@@ -51,14 +45,10 @@ function filterRows(tab: TabKey): MatchRow[] {
   return rows;
 }
 
-const matchedCount = rows.filter(r => (r.kind === 'exact' || r.kind === 'lump') && !isNotAReceipt(r)).length;
-const partialCount = rows.filter(r => r.kind === 'partial').length;
-const unmatchedCount = rows.filter(r => r.kind === 'unmatched' && !isNotAReceipt(r)).length;
-
 // ---------------------------------------------------------------------------
 // Summary totals
 // ---------------------------------------------------------------------------
-function computeTotals() {
+function computeTotals(rows: MatchRow[]) {
   let applied = 0;
   let unapplied = 0;
   let excluded = 0;
@@ -82,8 +72,6 @@ function computeTotals() {
 
   return { applied, unapplied, excluded };
 }
-
-const totals = computeTotals();
 
 // ---------------------------------------------------------------------------
 // Match kind badge
@@ -111,7 +99,7 @@ function KindBadge({ row }: { row: MatchRow }) {
 // ---------------------------------------------------------------------------
 // Expanded row detail
 // ---------------------------------------------------------------------------
-function ExpandedDetail({ row }: { row: MatchRow }) {
+function ExpandedDetail({ row, onMatchManually }: { row: MatchRow; onMatchManually: (row: MatchRow) => void }) {
   const notReceipt = isNotAReceipt(row);
 
   const containerStyle: React.CSSProperties = {
@@ -151,7 +139,12 @@ function ExpandedDetail({ row }: { row: MatchRow }) {
           </div>
         </div>
         <div>
-          <Button variant="secondary" size="sm" leadingIcon={<Link2Off size={13} />}>
+          <Button
+            variant="secondary"
+            size="sm"
+            leadingIcon={<Link2Off size={13} />}
+            onClick={() => onMatchManually(row)}
+          >
             Match manually
           </Button>
         </div>
@@ -175,7 +168,7 @@ function ExpandedDetail({ row }: { row: MatchRow }) {
       {/* Invoice list */}
       {row.matches.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
-          <p style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-caption)', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 'var(--ls-overline)', margin: 0 }}>
+          <p style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-caption)', fontWeight: 'var(--fw-medium)', color: 'var(--text-muted)', margin: 0 }}>
             Applied to
           </p>
           {row.matches.map(({ invoice, applied }) => {
@@ -222,7 +215,7 @@ function ConfidenceMeterRow({ confidence }: { confidence: number }) {
 // ---------------------------------------------------------------------------
 // Summary strip
 // ---------------------------------------------------------------------------
-function SummaryStrip() {
+function SummaryStrip({ totals }: { totals: { applied: number; unapplied: number; excluded: number } }) {
   const items = [
     { label: 'Applied', value: totals.applied, tone: 'var(--success-500)' },
     { label: 'Unapplied cash', value: totals.unapplied, tone: 'var(--warning-600)' },
@@ -252,10 +245,8 @@ function SummaryStrip() {
               style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: 'var(--fs-caption)',
-                fontWeight: 600,
+                fontWeight: 'var(--fw-medium)',
                 color: 'var(--text-muted)',
-                textTransform: 'uppercase',
-                letterSpacing: 'var(--ls-overline)',
               }}
             >
               {item.label}
@@ -281,7 +272,7 @@ function SummaryStrip() {
 // ---------------------------------------------------------------------------
 // Table row
 // ---------------------------------------------------------------------------
-function TxnRow({ row }: { row: MatchRow }) {
+function TxnRow({ row, onMatchManually }: { row: MatchRow; onMatchManually: (row: MatchRow) => void }) {
   const [expanded, setExpanded] = React.useState(false);
   const notReceipt = isNotAReceipt(row);
 
@@ -306,7 +297,15 @@ function TxnRow({ row }: { row: MatchRow }) {
     <>
       <tr
         style={{ cursor: 'pointer' }}
+        role="button"
+        tabIndex={0}
         onClick={() => setExpanded(e => !e)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setExpanded(x => !x);
+          }
+        }}
         aria-expanded={expanded}
       >
         {/* Chevron */}
@@ -353,7 +352,7 @@ function TxnRow({ row }: { row: MatchRow }) {
       {expanded && (
         <tr>
           <td colSpan={6} style={{ padding: 0, borderBottom: '1px solid var(--border-subtle)' }}>
-            <ExpandedDetail row={row} />
+            <ExpandedDetail row={row} onMatchManually={onMatchManually} />
           </td>
         </tr>
       )}
@@ -365,9 +364,50 @@ function TxnRow({ row }: { row: MatchRow }) {
 // Main screen
 // ---------------------------------------------------------------------------
 export default function ArMatching() {
-  useLedgerVersion();
+  const version = useLedgerVersion();
   const loading = useSimulatedLoad(500);
   const [tab, setTab] = React.useState<TabKey>('all');
+  const [matchDialogRow, setMatchDialogRow] = React.useState<MatchRow | null>(null);
+  const toast = useToast();
+
+  // Derived rows — recomputed when agent mutations bump the ledger version.
+  // Bank txns render in date order.
+  const rows: MatchRow[] = React.useMemo(
+    () =>
+      [...bankStatement.txns]
+        .sort((a, b) => a.date.getTime() - b.date.getTime())
+        .map(t => ({
+          txn: t,
+          ...matchPaymentToInvoices(t, arInvoices),
+        })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [version],
+  );
+
+  const totals = React.useMemo(() => computeTotals(rows), [rows]);
+  const matchedCount = rows.filter(r => (r.kind === 'exact' || r.kind === 'lump') && !isNotAReceipt(r)).length;
+  const partialCount = rows.filter(r => r.kind === 'partial').length;
+  const unmatchedCount = rows.filter(r => r.kind === 'unmatched' && !isNotAReceipt(r)).length;
+
+  // Candidate invoices for manual matching — anything not yet fully applied
+  const openInvoices = React.useMemo(() => {
+    const fullyApplied = new Set<string>();
+    for (const row of rows) {
+      for (const m of row.matches) {
+        if (m.applied >= m.invoice.amount) fullyApplied.add(m.invoice.id);
+      }
+    }
+    return arInvoices.filter(inv => !fullyApplied.has(inv.id));
+  }, [rows]);
+
+  function handleManualMatch(invoiceNo: string) {
+    setMatchDialogRow(null);
+    toast.push({
+      tone: 'success',
+      title: 'Matched manually',
+      message: <>Deposit applied to <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{invoiceNo}</span>.</>,
+    });
+  }
 
   const tabItems = [
     { value: 'all', label: 'All', count: rows.length },
@@ -376,7 +416,7 @@ export default function ArMatching() {
     { value: 'unmatched', label: 'Unmatched', count: unmatchedCount },
   ];
 
-  const visibleRows = filterRows(tab);
+  const visibleRows = filterRows(rows, tab);
 
   const thStyle: React.CSSProperties = {
     padding: 'var(--space-3) var(--space-5)',
@@ -395,7 +435,7 @@ export default function ArMatching() {
   if (loading) {
     return (
       <div>
-        <PageHeader title="AR matching" subtitle="Bank deposits matched against open AR invoices — partial and unmatched receipts flagged for review." />
+        <PageHeader title="AR matching" subtitle="Bank deposits matched against open AR invoices — partial and unmatched receipts flagged for review" />
         <div style={{ display: 'flex', gap: 'var(--space-5)', padding: 'var(--space-5)', background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-6)' }}>
           <Skeleton w="33%" h={48} />
           <Skeleton w="33%" h={48} />
@@ -418,11 +458,11 @@ export default function ArMatching() {
     <div>
       <PageHeader
         title="AR matching"
-        subtitle="Bank deposits matched against open AR invoices — partial and unmatched receipts flagged for review."
+        subtitle="Bank deposits matched against open AR invoices — partial and unmatched receipts flagged for review"
       />
 
       {/* Summary strip */}
-      <SummaryStrip />
+      <SummaryStrip totals={totals} />
 
       {/* Tabs */}
       <Tabs
@@ -448,15 +488,15 @@ export default function ArMatching() {
           </div>
         ) : (
           <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed', minWidth: 600 }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed', minWidth: 760 }}>
             <colgroup>
               <col style={{ width: 36 }} />
               <col style={{ width: 110 }} />
               <col />
               {/* memo column is flexible */}
               <col style={{ width: 130 }} />
-              <col style={{ width: 200 }} />
-              <col style={{ width: 110 }} />
+              <col style={{ width: 170 }} />
+              <col style={{ width: 130 }} />
             </colgroup>
             <thead>
               <tr>
@@ -470,7 +510,7 @@ export default function ArMatching() {
             </thead>
             <tbody>
               {visibleRows.map(row => (
-                <TxnRow key={row.txn.id} row={row} />
+                <TxnRow key={row.txn.id} row={row} onMatchManually={setMatchDialogRow} />
               ))}
             </tbody>
           </table>
@@ -490,6 +530,55 @@ export default function ArMatching() {
       >
         Outbound payments and bank fees are excluded from AR matching — they are not customer receipts and are never force-matched to open invoices.
       </p>
+
+      {/* Manual match dialog */}
+      <Dialog
+        open={matchDialogRow != null}
+        onClose={() => setMatchDialogRow(null)}
+        title="Match deposit manually"
+        width={520}
+      >
+        {matchDialogRow && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+            <p style={{ margin: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body-sm)', color: 'var(--text-muted)', lineHeight: 'var(--lh-relaxed)' }}>
+              Apply the{' '}
+              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-strong)' }}>
+                {money(matchDialogRow.txn.amount)}
+              </span>{' '}
+              deposit from {fmtDate(matchDialogRow.txn.date)} to an open invoice:
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+              {openInvoices.map(inv => (
+                <div
+                  key={inv.id}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-4)',
+                    padding: 'var(--space-3) var(--space-4)',
+                    border: '1px solid var(--border-subtle)',
+                    borderRadius: 'var(--radius-md)',
+                    background: 'var(--surface-card)',
+                  }}
+                >
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-caption)', fontWeight: 600, color: 'var(--accent)', flexShrink: 0 }}>
+                    {inv.invoiceNo}
+                  </span>
+                  <span style={{ flex: 1, minWidth: 0, fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body-sm)', color: 'var(--text-body)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {inv.customer}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-caption)', color: 'var(--text-strong)', flexShrink: 0 }}>
+                    {money(inv.amount)}
+                  </span>
+                  <Button size="sm" variant="secondary" onClick={() => handleManualMatch(inv.invoiceNo)}>
+                    Select
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </Dialog>
     </div>
   );
 }

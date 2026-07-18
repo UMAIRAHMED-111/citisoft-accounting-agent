@@ -56,7 +56,8 @@ export default function BankUpload() {
     requestAnimationFrame(tick);
   }
 
-  const txns = bankStatement.txns;
+  // Statement renders in date order — parsed output should read chronologically
+  const txns = [...bankStatement.txns].sort((a, b) => a.date.getTime() - b.date.getTime());
   const net = txns.reduce((sum, t) => sum + t.amount, 0);
 
   // Build columns for DataTable

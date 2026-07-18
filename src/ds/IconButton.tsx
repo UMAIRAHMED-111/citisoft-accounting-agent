@@ -24,7 +24,12 @@ export function IconButton({
   const [hover, setHover] = React.useState(false);
   const [active, setActive] = React.useState(false);
 
+  // Touch-target padding — visual box stays `dim`, but the clickable area is
+  // extended to at least 44px via an invisible overlay.
+  const hitPad = Math.max(0, (44 - dim) / 2);
+
   const base: React.CSSProperties = {
+    position: 'relative',
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -58,6 +63,7 @@ export function IconButton({
       onMouseUp={() => setActive(false)}
       {...rest}
     >
+      {hitPad > 0 && <span aria-hidden style={{ position: 'absolute', inset: -hitPad }} />}
       {icon}
     </button>
   );

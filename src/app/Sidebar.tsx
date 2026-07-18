@@ -53,7 +53,8 @@ function NavItemRow({ item, count, compact }: NavItemProps) {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'relative',
-          padding: '9px 0',
+          minHeight: 44,
+          padding: 0,
           borderRadius: 'var(--radius-md)',
           textDecoration: 'none',
           transition: 'background var(--dur) var(--ease-out)',
@@ -162,11 +163,20 @@ export function Sidebar() {
   const [compact, setCompact] = useState(() => window.innerWidth < 880);
 
   useEffect(() => {
+    // rAF-guarded resize handler — coalesces bursts into one update per frame
+    let rafId = 0;
     function onResize() {
-      setCompact(window.innerWidth < 880);
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        setCompact(window.innerWidth < 880);
+      });
     }
     window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   const sidebarWidth = compact ? 64 : 232;
@@ -195,14 +205,8 @@ export function Sidebar() {
         gap: compact ? 8 : 7,
       }}>
         <Logo variant="color" height={compact ? 22 : 26} style={compact ? { maxWidth: 40, objectFit: 'contain' } : {}} />
-        {compact ? (
-          <img
-            src="/logos/claude.svg"
-            alt="Powered by Claude"
-            title="Powered by Claude"
-            style={{ width: 14, height: 14, opacity: 0.85 }}
-          />
-        ) : (
+        {/* Compact rail: no Claude mark — the assistant FAB carries identity */}
+        {!compact && (
           <div style={{
             display: 'flex',
             alignItems: 'center',

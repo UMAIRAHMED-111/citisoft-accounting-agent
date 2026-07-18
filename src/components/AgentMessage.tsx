@@ -82,6 +82,8 @@ interface TableBlockProps {
   rows: string[][];
 }
 
+// Rendered inside the 400px dock panel, so the table always runs in compact
+// mode: smaller type, tighter cells, and horizontal scroll as a safety net.
 function TableBlock({ columns, rows }: TableBlockProps) {
   // Heuristic: columns that look like amounts/numbers should be mono+right-aligned
   const monoCols = new Set<number>();
@@ -110,7 +112,7 @@ function TableBlock({ columns, rows }: TableBlockProps) {
         marginTop: 'var(--space-4)',
       }}
     >
-      <DataTable columns={colDefs} rows={rows} />
+      <DataTable columns={colDefs} rows={rows} compact />
     </div>
   );
 }
@@ -120,9 +122,11 @@ interface ActionBlockProps {
   title: string;
   detail: string;
   cta: string;
+  to?: string;
+  onAction?: (to: string) => void;
 }
 
-function ActionBlock({ title, detail, cta }: ActionBlockProps) {
+function ActionBlock({ title, detail, cta, to, onAction }: ActionBlockProps) {
   return (
     <Card
       padding={16}
@@ -159,7 +163,12 @@ function ActionBlock({ title, detail, cta }: ActionBlockProps) {
           {detail}
         </p>
       </div>
-      <Button size="sm" variant="secondary" style={{ flexShrink: 0 }}>
+      <Button
+        size="sm"
+        variant="secondary"
+        style={{ flexShrink: 0 }}
+        onClick={to && onAction ? () => onAction(to) : undefined}
+      >
         {cta}
       </Button>
     </Card>
@@ -186,11 +195,9 @@ function ReasoningBlock({ steps }: ReasoningBlockProps) {
         style={{
           margin: '0 0 var(--space-3)',
           fontFamily: 'var(--font-sans)',
-          fontSize: 'var(--fs-overline)',
-          fontWeight: 'var(--fw-bold)',
-          letterSpacing: 'var(--ls-overline)',
-          textTransform: 'uppercase',
-          color: 'var(--text-faint)',
+          fontSize: 'var(--fs-caption)',
+          fontWeight: 'var(--fw-medium)',
+          color: 'var(--text-muted)',
         }}
       >
         How I worked this out
@@ -218,9 +225,11 @@ function ReasoningBlock({ steps }: ReasoningBlockProps) {
 export interface AgentMessageProps {
   response: AgentResponse;
   animateFirst?: boolean;
+  /** Called with a route when an action block CTA is clicked */
+  onAction?: (to: string) => void;
 }
 
-export function AgentMessage({ response, animateFirst = false }: AgentMessageProps) {
+export function AgentMessage({ response, animateFirst = false, onAction }: AgentMessageProps) {
   const blocks = response.blocks;
 
   return (
@@ -272,6 +281,8 @@ export function AgentMessage({ response, animateFirst = false }: AgentMessagePro
                   title={block.title}
                   detail={block.detail}
                   cta={block.cta}
+                  to={block.to}
+                  onAction={onAction}
                 />
               );
             case 'reasoning':

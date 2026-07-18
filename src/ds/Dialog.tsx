@@ -26,7 +26,7 @@ export function Dialog({ open, onClose, title, children, footer, width = 460, st
       style={{
         position: 'fixed', inset: 0, zIndex: 1000,
         display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24,
-        background: 'rgba(15, 19, 25, 0.55)', backdropFilter: 'blur(var(--blur-overlay))',
+        background: 'var(--overlay-scrim)', backdropFilter: 'blur(var(--blur-overlay))',
         WebkitBackdropFilter: 'blur(var(--blur-overlay))',
         animation: 'csFade var(--dur) var(--ease-out)',
       }}

@@ -17,7 +17,7 @@ export function StatCard({ label, value, unit, delta, deltaDir = 'up', icon, acc
   return (
     <Card padding={18} style={{ display: 'flex', flexDirection: 'column', gap: 10, ...style }} {...rest}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontFamily: 'var(--font-sans)', fontSize: 12, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>{label}</span>
+        <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-caption)', fontWeight: 'var(--fw-medium)', color: 'var(--text-muted)' }}>{label}</span>
         {icon && (
           <span style={{ width: 30, height: 30, borderRadius: 'var(--radius-sm)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: accent ? 'var(--grad-brand)' : 'var(--surface-brand-tint)', color: accent ? 'var(--text-on-brand)' : 'var(--accent)' }}>{icon}</span>
         )}

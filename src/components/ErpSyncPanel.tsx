@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import type { Invoice } from '../data/types';
 import { vendors } from '../data/seed';
-import { Badge, Button, Toast } from '../ds';
+import { Badge, Button } from '../ds';
+import { useToast } from './ToastHost';
 import { Building2, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
 
 export interface ErpSyncPanelProps {
@@ -19,7 +20,7 @@ export function ErpSyncPanel({ invoice }: ErpSyncPanelProps) {
   const [localStatus, setLocalStatus] = useState(invoice.erpStatus);
   const [localDocNo, setLocalDocNo] = useState(invoice.erpDocNo ?? null);
   const [posting, setPosting] = useState(false);
-  const [toast, setToast] = useState<string | null>(null);
+  const toast = useToast();
 
   async function handlePost() {
     if (posting || localStatus !== 'ready') return;
@@ -29,7 +30,15 @@ export function ErpSyncPanel({ invoice }: ErpSyncPanelProps) {
     setLocalStatus('posted');
     setLocalDocNo(docNo);
     setPosting(false);
-    setToast(docNo);
+    toast.push({
+      tone: 'success',
+      title: `Posted to ${erpName}`,
+      message: (
+        <>
+          Bill record <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{docNo}</span> created in {erpName}.
+        </>
+      ),
+    });
   }
 
   const ERP_LOGOS: Record<string, string> = {
@@ -77,27 +86,6 @@ export function ErpSyncPanel({ invoice }: ErpSyncPanelProps) {
         boxShadow: 'var(--shadow-sm)',
       }}
     >
-      {/* Toast overlay */}
-      {toast && (
-        <div
-          style={{
-            position: 'fixed',
-            bottom: 32,
-            right: 32,
-            zIndex: 9999,
-          }}
-        >
-          <Toast
-            tone="success"
-            title="Posted to ERP"
-            onDismiss={() => setToast(null)}
-            duration={5000}
-          >
-            Bill record <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600 }}>{toast}</span> created in {erpName}.
-          </Toast>
-        </div>
-      )}
-
       {/* Panel header */}
       <div
         style={{

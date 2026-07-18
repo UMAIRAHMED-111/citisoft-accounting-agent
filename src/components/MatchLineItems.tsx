@@ -206,7 +206,7 @@ export function MatchLineItems({ invoiceItems, poItems }: MatchLineItemsProps) {
               <div style={{ ...col, display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
                 {row.invoice ? (
                   <>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
                       <span style={{ ...monoStyle, color: 'var(--text-muted)' }}>{row.invoice.sku}</span>
                       {row.status === 'match' && (
                         <Check size={13} style={{ color: 'var(--success-500)', flexShrink: 0 }} />
@@ -258,7 +258,7 @@ export function MatchLineItems({ invoiceItems, poItems }: MatchLineItemsProps) {
               <div style={{ ...col, display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
                 {row.po ? (
                   <>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
                       <span style={{ ...monoStyle, color: 'var(--text-muted)' }}>{row.po.sku}</span>
                       {row.status === 'po_only' && (
                         <Badge tone="error" style={{ fontSize: 11, height: 18 }}>PO only</Badge>
@@ -311,7 +311,6 @@ function UnmatchedPlaceholder({ label }: { label: string }) {
           fontFamily: 'var(--font-sans)',
           fontSize: 'var(--fs-caption)',
           color: 'var(--rose-600)',
-          fontStyle: 'italic',
         }}
       >
         {label}

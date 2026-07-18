@@ -56,6 +56,15 @@ export interface Exception {
   description: string;
 }
 
+/** Human-readable labels for exception types — keeps enum keys out of the UI. */
+export const EXCEPTION_TYPE_LABELS: Record<Exception['type'], string> = {
+  ap_mismatch: 'Amount mismatch',
+  ap_no_po: 'Missing PO',
+  ap_duplicate: 'Duplicate invoice',
+  ar_partial: 'Partial payment',
+  ar_unmatched_deposit: 'Unmatched deposit',
+};
+
 export interface ActivityItem {
   date: Date;
   type: 'ap_received' | 'ar_payment';

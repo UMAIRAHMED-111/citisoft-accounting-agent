@@ -5,7 +5,8 @@ import { ConfidenceMeter } from '../components/ConfidenceMeter';
 import { MatchLineItems } from '../components/MatchLineItems';
 import { PdfViewer } from '../components/PdfViewer';
 import { ErpSyncPanel } from '../components/ErpSyncPanel';
-import { Badge, Button, Toast } from '../ds';
+import { Badge, Button } from '../ds';
+import { useToast } from '../components/ToastHost';
 import { apInvoices, purchaseOrders, vendors } from '../data/seed';
 import { matchInvoiceToPo } from '../data/reconcile';
 import { money, fmtDate } from '../lib/format';
@@ -190,10 +191,8 @@ function InvoiceSelector({
       <p
         style={{
           fontFamily: 'var(--font-sans)',
-          fontSize: 'var(--fs-overline)',
-          fontWeight: 'var(--fw-bold)',
-          letterSpacing: 'var(--ls-overline)',
-          textTransform: 'uppercase',
+          fontSize: 'var(--fs-caption)',
+          fontWeight: 'var(--fw-medium)',
           color: 'var(--text-muted)',
           margin: '0 0 var(--space-3) 0',
         }}
@@ -371,10 +370,8 @@ function InvoiceWorkspace({
               <div
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 'var(--fs-overline)',
-                  fontWeight: 'var(--fw-bold)',
-                  letterSpacing: 'var(--ls-overline)',
-                  textTransform: 'uppercase',
+                  fontSize: 'var(--fs-caption)',
+                  fontWeight: 'var(--fw-medium)',
                   color: 'var(--text-muted)',
                   marginBottom: 'var(--space-1)',
                 }}
@@ -400,10 +397,8 @@ function InvoiceWorkspace({
           <div
             style={{
               fontFamily: 'var(--font-sans)',
-              fontSize: 'var(--fs-overline)',
-              fontWeight: 'var(--fw-bold)',
-              letterSpacing: 'var(--ls-overline)',
-              textTransform: 'uppercase',
+              fontSize: 'var(--fs-caption)',
+              fontWeight: 'var(--fw-medium)',
               color: 'var(--text-muted)',
               marginBottom: 'var(--space-2)',
             }}
@@ -436,7 +431,7 @@ function InvoiceWorkspace({
             margin: '0 0 var(--space-5) 0',
           }}
         >
-          Line-item comparison
+          Line-item matching
         </p>
         {hasNo ? (
           <NoPOState vendorName={vendor} invoiceNo={inv.invoiceNo} />
@@ -515,7 +510,7 @@ export default function PoMatching() {
     reviewItems[0]?.inv.id ?? ''
   );
   const [resolvedIds, setResolvedIds] = useState<Set<string>>(new Set());
-  const [toast, setToast] = useState<{ message: string; action: 'approve' | 'flag' } | null>(null);
+  const toast = useToast();
 
   const selectedItem = reviewItems.find(r => r.inv.id === selectedId) ?? reviewItems[0];
 
@@ -528,30 +523,20 @@ export default function PoMatching() {
         ? `Invoice ${inv.invoiceNo} from ${vendor} approved for payment.`
         : `Invoice ${inv.invoiceNo} from ${vendor} flagged — vendor will be notified.`;
     setResolvedIds(prev => new Set([...prev, inv.id]));
-    setToast({ message, action });
+    toast.push({
+      tone: 'success',
+      title: action === 'approve' ? 'Invoice approved' : 'Flagged for vendor',
+      message,
+    });
   }
 
   const unresolvedCount = reviewItems.filter(r => !resolvedIds.has(r.inv.id)).length;
 
   return (
     <div style={{ position: 'relative' }}>
-      {/* Toast overlay */}
-      {toast && (
-        <div style={{ position: 'fixed', bottom: 32, right: 32, zIndex: 9999 }}>
-          <Toast
-            tone="success"
-            title={toast.action === 'approve' ? 'Invoice approved' : 'Flagged for vendor'}
-            onDismiss={() => setToast(null)}
-            duration={5000}
-          >
-            {toast.message}
-          </Toast>
-        </div>
-      )}
-
       <PageHeader
         title="PO matching"
-        subtitle="Review AP invoices that require a decision before posting to the ERP."
+        subtitle="Review AP invoices that require a decision before posting to the ERP"
         actions={
           unresolvedCount > 0 ? (
             <Badge tone="warning" dot>

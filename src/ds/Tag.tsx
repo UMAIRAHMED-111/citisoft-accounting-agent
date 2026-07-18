@@ -1,6 +1,6 @@
 import React from 'react';
 
-export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
+export interface TagProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode;
   active?: boolean;
   icon?: React.ReactNode;
@@ -10,30 +10,27 @@ export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
 
 export function Tag({ children, onRemove, active = false, icon = null, style = {}, ...rest }: TagProps) {
   const [hover, setHover] = React.useState(false);
+  const interactive = Boolean(rest.onClick);
   const base: React.CSSProperties = {
     display: 'inline-flex',
     alignItems: 'center',
     gap: 6,
-    height: 28,
+    height: interactive ? 32 : 28,
     padding: onRemove ? '0 7px 0 11px' : '0 12px',
     fontFamily: 'var(--font-sans)',
     fontSize: 13,
     fontWeight: 500,
     lineHeight: 1,
     borderRadius: 'var(--radius-pill)',
-    cursor: rest.onClick ? 'pointer' : 'default',
+    cursor: interactive ? 'pointer' : 'default',
     transition: 'all var(--dur) var(--ease-out)',
-    background: active ? 'var(--surface-brand-tint)' : (hover && rest.onClick ? 'var(--surface-sunken)' : 'var(--surface-card)'),
+    background: active ? 'var(--surface-brand-tint)' : (hover && interactive ? 'var(--surface-sunken)' : 'var(--surface-card)'),
     color: active ? 'var(--accent-strong)' : 'var(--text-body)',
     border: `1px solid ${active ? 'var(--border-brand)' : 'var(--border-default)'}`,
   };
-  return (
-    <span
-      style={{ ...base, ...style }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      {...rest}
-    >
+
+  const content = (
+    <>
       {icon && <span style={{ display: 'inline-flex' }}>{icon}</span>}
       {children}
       {onRemove && (
@@ -44,6 +41,32 @@ export function Tag({ children, onRemove, active = false, icon = null, style = {
           style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 16, height: 16, marginLeft: 1, border: 'none', borderRadius: '50%', background: 'transparent', color: 'var(--text-faint)', cursor: 'pointer', fontSize: 14, lineHeight: 1, padding: 0 }}
         >×</button>
       )}
+    </>
+  );
+
+  // Interactive chips render as real buttons so they are keyboard-operable
+  if (interactive) {
+    return (
+      <button
+        type="button"
+        style={{ ...base, ...style }}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
+      >
+        {content}
+      </button>
+    );
+  }
+
+  return (
+    <span
+      style={{ ...base, ...style }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      {...(rest as React.HTMLAttributes<HTMLSpanElement>)}
+    >
+      {content}
     </span>
   );
 }

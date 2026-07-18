@@ -6,13 +6,18 @@ export const TODAY = new Date('2026-07-18');
 // Vendors
 // ---------------------------------------------------------------------------
 export const vendors: Vendor[] = [
-  { id: 'v-alro',     name: 'Alro Steel Corporation',    erp: 'NetSuite'   },
-  { id: 'v-curbell',  name: 'Curbell Plastics, Inc.',    erp: 'Dynamics'   },
-  { id: 'v-mcmaster', name: 'McMaster-Carr Supply Co.',  erp: 'NetSuite'   },
-  { id: 'v-klein',    name: 'Klein Plating Works, Inc.', erp: 'QuickBooks' },
-  { id: 'v-aplus',    name: 'A Plus Powder Coaters',     erp: 'QuickBooks' },
-  { id: 'v-anago',    name: 'Anago Cleaning Service',    erp: 'Xero'       },
+  { id: 'v-alro',     name: 'Alro Steel Corporation',    erp: 'NetSuite' },
+  { id: 'v-curbell',  name: 'Curbell Plastics, Inc.',    erp: 'Dynamics' },
+  { id: 'v-mcmaster', name: 'McMaster-Carr Supply Co.',  erp: 'NetSuite' },
+  { id: 'v-klein',    name: 'Klein Plating Works, Inc.', erp: 'Xero'     },
+  { id: 'v-aplus',    name: 'A Plus Powder Coaters',     erp: 'Xero'     },
+  { id: 'v-anago',    name: 'Anago Cleaning Service',    erp: 'Xero'     },
 ];
+
+/** ERPs with live connections — the single source of truth shared by the
+ *  Topbar status chip and the Connections screen. QuickBooks is intentionally
+ *  not connected. */
+export const CONNECTED_ERPS = ['Xero', 'NetSuite', 'Dynamics'] as const;
 
 // ---------------------------------------------------------------------------
 // Purchase Orders

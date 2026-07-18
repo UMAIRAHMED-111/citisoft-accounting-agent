@@ -4,7 +4,7 @@ import { Card } from '../ds/Card';
 import { Badge } from '../ds/Badge';
 import { Button } from '../ds/Button';
 import { Switch } from '../ds/Switch';
-import { Toast } from '../ds/Toast';
+import { useToast } from '../components/ToastHost';
 
 // ---------------------------------------------------------------------------
 // ERP catalogue
@@ -48,17 +48,6 @@ const ERPS: ErpEntry[] = [
     connected: false,
   },
 ];
-
-// ---------------------------------------------------------------------------
-// Toast queue — local, portal-less (fixed overlay)
-// ---------------------------------------------------------------------------
-
-interface ToastItem {
-  id: number;
-  title: string;
-}
-
-let _toastId = 0;
 
 // ---------------------------------------------------------------------------
 // Logo tile — real brand mark on a neutral tile
@@ -205,11 +194,9 @@ function SyncSettings() {
       {/* Section label */}
       <p style={{
         fontFamily: 'var(--font-sans)',
-        fontSize: 'var(--fs-overline)',
-        fontWeight: 'var(--fw-bold)' as React.CSSProperties['fontWeight'],
-        letterSpacing: 'var(--ls-overline)',
-        textTransform: 'uppercase',
-        color: 'var(--text-faint)',
+        fontSize: 'var(--fs-caption)',
+        fontWeight: 'var(--fw-medium)' as React.CSSProperties['fontWeight'],
+        color: 'var(--text-muted)',
         margin: 0,
       }}>
         Xero sync settings
@@ -291,7 +278,7 @@ function SyncSettings() {
 
 export default function ErpConnections() {
   const [erps, setErps] = React.useState<ErpEntry[]>(ERPS);
-  const [toasts, setToasts] = React.useState<ToastItem[]>([]);
+  const toast = useToast();
 
   const handleConnect = (id: string) => {
     setErps((prev) =>
@@ -299,13 +286,8 @@ export default function ErpConnections() {
     );
     const entry = erps.find((e) => e.id === id);
     if (entry) {
-      const tid = ++_toastId;
-      setToasts((prev) => [...prev, { id: tid, title: `${entry.name} connected` }]);
+      toast.push({ tone: 'success', title: `${entry.name} connected` });
     }
-  };
-
-  const dismissToast = (id: number) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id));
   };
 
   return (
@@ -342,30 +324,6 @@ export default function ErpConnections() {
 
       {/* Sync settings — Xero scoped */}
       <SyncSettings />
-
-      {/* Toast overlay */}
-      {toasts.length > 0 && (
-        <div style={{
-          position: 'fixed',
-          bottom: 'var(--space-7)',
-          right: 'var(--space-7)',
-          zIndex: 9999,
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--space-3)',
-          alignItems: 'flex-end',
-        }}>
-          {toasts.map((t) => (
-            <Toast
-              key={t.id}
-              tone="success"
-              title={t.title}
-              duration={4000}
-              onDismiss={() => dismissToast(t.id)}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 }

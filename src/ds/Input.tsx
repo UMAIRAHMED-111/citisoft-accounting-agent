@@ -31,6 +31,9 @@ export function Input({
   };
   const inputStyle: React.CSSProperties = {
     flex: 1, border: 'none', outline: 'none', background: 'transparent',
+    // The wrapper carries the focus ring — suppress the global :focus-visible
+    // ring on the inner input so it doesn't double up.
+    boxShadow: 'none',
     fontFamily: 'var(--font-sans)', fontSize: size === 'sm' ? 13.5 : 15,
     color: 'var(--text-strong)', minWidth: 0, padding: 0,
   };

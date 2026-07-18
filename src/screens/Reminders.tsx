@@ -2,7 +2,8 @@ import React from 'react';
 import { BellRing, CheckCircle2, ExternalLink } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { EmptyState } from '../components/EmptyState';
-import { Card, Badge, Button, Switch, Toast } from '../ds';
+import { Card, Badge, Button, Switch } from '../ds';
+import { useToast } from '../components/ToastHost';
 import { Skeleton } from '../components/Skeleton';
 import { TODAY } from '../data/seed';
 import { buildLedger } from '../data/reconcile';
@@ -61,11 +62,6 @@ interface AutoRemindState {
   [invoiceId: string]: boolean;
 }
 
-interface ToastItem {
-  id: string;
-  customer: string;
-}
-
 // ---------------------------------------------------------------------------
 // Sub-components
 // ---------------------------------------------------------------------------
@@ -110,10 +106,7 @@ function InvoiceRow({ customer, invoiceNo, amount, days, sent, selected, onClick
         cursor: 'pointer',
         transition: 'background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out)',
         userSelect: 'none',
-        outline: 'none',
       }}
-      onFocus={e => { e.currentTarget.style.boxShadow = '0 0 0 2px var(--focus-ring)'; }}
-      onBlur={e => { e.currentTarget.style.boxShadow = 'none'; }}
     >
       {/* Top row: customer + sent badge */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
@@ -202,10 +195,8 @@ function EmailDraft({
   const fieldLabel: React.CSSProperties = {
     fontFamily: 'var(--font-sans)',
     fontSize: 'var(--fs-caption)',
-    fontWeight: 700,
-    color: 'var(--text-faint)',
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase',
+    fontWeight: 'var(--fw-medium)' as React.CSSProperties['fontWeight'],
+    color: 'var(--text-muted)',
     width: 68,
     flexShrink: 0,
     paddingTop: 2,
@@ -264,7 +255,18 @@ function EmailDraft({
           {/* To */}
           <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
             <span style={fieldLabel}>To</span>
-            <span style={monoValue}>{to}</span>
+            <span
+              style={{
+                ...monoValue,
+                minWidth: 0,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+              }}
+              title={to}
+            >
+              {to}
+            </span>
           </div>
 
           {/* Divider */}
@@ -340,11 +342,9 @@ function EmailDraft({
               <div key={label}>
                 <div style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: 'var(--text-faint)',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
+                  fontSize: 'var(--fs-caption)',
+                  fontWeight: 'var(--fw-medium)',
+                  color: 'var(--text-muted)',
                   marginBottom: 4,
                 }}>
                   {label}
@@ -403,46 +403,6 @@ function EmailDraft({
 }
 
 // ---------------------------------------------------------------------------
-// Toast container
-// ---------------------------------------------------------------------------
-
-interface ToastContainerProps {
-  toasts: ToastItem[];
-  onDismiss: (id: string) => void;
-}
-
-function ToastContainer({ toasts, onDismiss }: ToastContainerProps) {
-  if (toasts.length === 0) return null;
-
-  return (
-    <div
-      aria-live="polite"
-      style={{
-        position: 'fixed',
-        bottom: 28,
-        right: 28,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 10,
-        zIndex: 9999,
-      }}
-    >
-      {toasts.map((t) => (
-        <Toast
-          key={t.id}
-          tone="success"
-          title="Reminder sent"
-          onDismiss={() => onDismiss(t.id)}
-          duration={5000}
-        >
-          Sent to {t.customer}.
-        </Toast>
-      ))}
-    </div>
-  );
-}
-
-// ---------------------------------------------------------------------------
 // Main screen
 // ---------------------------------------------------------------------------
 
@@ -460,18 +420,13 @@ export default function Reminders() {
   );
   const [sentState, setSentState] = React.useState<SentState>({});
   const [autoRemind, setAutoRemind] = React.useState<AutoRemindState>({});
-  const [toasts, setToasts] = React.useState<ToastItem[]>([]);
+  const toast = useToast();
 
   const selectedRow = overdueRows.find((row) => row.invoice.id === selectedId) ?? null;
 
   function handleSend(invoiceId: string, customer: string) {
     setSentState((prev) => ({ ...prev, [invoiceId]: true }));
-    const toastId = `${invoiceId}-${Date.now()}`;
-    setToasts((prev) => [...prev, { id: toastId, customer }]);
-  }
-
-  function dismissToast(toastId: string) {
-    setToasts((prev) => prev.filter((t) => t.id !== toastId));
+    toast.push({ tone: 'success', title: 'Reminder sent', message: `Sent to ${customer}.` });
   }
 
   // Loading state
@@ -525,11 +480,9 @@ export default function Reminders() {
           {/* Column header */}
           <div style={{
             fontFamily: 'var(--font-sans)',
-            fontSize: 11,
-            fontWeight: 700,
-            color: 'var(--text-faint)',
-            letterSpacing: '0.10em',
-            textTransform: 'uppercase',
+            fontSize: 'var(--fs-caption)',
+            fontWeight: 'var(--fw-medium)',
+            color: 'var(--text-muted)',
             padding: '4px 4px 10px',
             borderBottom: '1px solid var(--border-subtle)',
             marginBottom: 8,
@@ -574,8 +527,6 @@ export default function Reminders() {
           />
         ) : null}
       </div>
-
-      <ToastContainer toasts={toasts} onDismiss={dismissToast} />
     </div>
   );
 }

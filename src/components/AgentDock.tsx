@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, Send } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAgent } from '../agent/AgentProvider';
 import type { AgentResponse } from '../agent/types';
 import { AgentMessage } from './AgentMessage';
@@ -161,6 +161,7 @@ function nextId() { return ++idCounter; }
 export function AgentDock() {
   const agent = useAgent();
   const location = useLocation();
+  const navigate = useNavigate();
   const route = location.pathname;
 
   const [open, setOpen] = React.useState(false);
@@ -231,6 +232,12 @@ export function AgentDock() {
       e.preventDefault();
       submit(input);
     }
+  }
+
+  // Action-block CTAs navigate to the relevant screen and close the panel
+  function handleAction(to: string) {
+    navigate(to);
+    setOpen(false);
   }
 
   const chips = getSuggestedChips(route);
@@ -318,6 +325,9 @@ export function AgentDock() {
                     fontWeight: 'var(--fw-semibold)',
                     display: 'block',
                     lineHeight: 1.2,
+                    // Light-end gradient — the standard brand gradient fails
+                    // contrast (≈2.6:1) against the dark header band.
+                    background: 'var(--grad-brand-on-dark)',
                   }}
                 >
                   CitiSoft assistant
@@ -366,6 +376,8 @@ export function AgentDock() {
             {/* Thread */}
             <div
               ref={threadRef}
+              aria-live="polite"
+              aria-busy={busy}
               style={{
                 flex: 1,
                 overflowY: 'auto',
@@ -407,6 +419,7 @@ export function AgentDock() {
                     key={msg.id}
                     response={msg.response}
                     animateFirst={msg.animateFirst}
+                    onAction={handleAction}
                   />
                 );
               })}
