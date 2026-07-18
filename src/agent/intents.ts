@@ -1,7 +1,7 @@
 import { buildLedger, type Ledger } from '../data/reconcile';
 import { money, fmtDate, daysOverdue } from '../lib/format';
 import type { AgentResponse } from './types';
-import { TODAY } from '../data/seed';
+import { TODAY, vendors } from '../data/seed';
 
 type Handler = (ledger: Ledger) => AgentResponse;
 
@@ -102,7 +102,7 @@ function handleWhyNotApproved(q: string, ledger: Ledger): AgentResponse {
           columns: ['Invoice #', 'Vendor', 'Amount', 'Status', 'Reason'],
           rows: ledger.ap
             .filter(r => r.status === 'needs_review')
-            .map(r => [r.invoice.invoiceNo, r.invoice.vendorId, money(r.invoice.amount), r.status, r.reasons[0]]),
+            .map(r => [r.invoice.invoiceNo, vendors.find(v => v.id === r.invoice.vendorId)?.name ?? r.invoice.vendorId, money(r.invoice.amount), r.status, r.reasons[0]]),
         },
       ],
     };

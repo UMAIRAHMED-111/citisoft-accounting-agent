@@ -38,7 +38,7 @@ const ERPS: ErpEntry[] = [
     descriptor: 'ERP suite for finance, inventory, and supply chain.',
     monogramBg: 'var(--slate-100)',
     monogramFg: 'var(--slate-700)',
-    connected: false,
+    connected: true,
   },
   {
     id: 'dynamics',
@@ -47,7 +47,7 @@ const ERPS: ErpEntry[] = [
     descriptor: 'Unified business apps across finance and operations.',
     monogramBg: 'var(--slate-100)',
     monogramFg: 'var(--slate-700)',
-    connected: false,
+    connected: true,
   },
   {
     id: 'qbo',
@@ -122,6 +122,12 @@ function MonogramTile({
 // Single ERP tile
 // ---------------------------------------------------------------------------
 
+const LAST_SYNC_LABELS: Record<string, string> = {
+  xero: 'Last sync 2 min ago',
+  netsuite: 'Last sync 5 min ago',
+  dynamics: 'Last sync 8 min ago',
+};
+
 function ErpTile({
   erp,
   onConnect,
@@ -129,8 +135,6 @@ function ErpTile({
   erp: ErpEntry & { connected: boolean };
   onConnect: (id: string) => void;
 }) {
-  const isXero = erp.id === 'xero';
-
   return (
     <Card
       style={{
@@ -183,7 +187,7 @@ function ErpTile({
         {erp.connected ? (
           <div>
             <Badge tone="success" dot>Connected</Badge>
-            {isXero && (
+            {LAST_SYNC_LABELS[erp.id] && (
               <p style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: 'var(--fs-caption)',
@@ -191,7 +195,7 @@ function ErpTile({
                 margin: '6px 0 0',
                 lineHeight: 1,
               }}>
-                Last sync 2 min ago
+                {LAST_SYNC_LABELS[erp.id]}
               </p>
             )}
           </div>

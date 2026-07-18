@@ -3,7 +3,8 @@ import { BellRing, CheckCircle2, ExternalLink } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { EmptyState } from '../components/EmptyState';
 import { Card, Badge, Button, Switch, Toast } from '../ds';
-import { arInvoices, TODAY } from '../data/seed';
+import { TODAY } from '../data/seed';
+import { buildLedger } from '../data/reconcile';
 import { money, fmtDate, daysOverdue } from '../lib/format';
 
 // ---------------------------------------------------------------------------
@@ -443,19 +444,20 @@ function ToastContainer({ toasts, onDismiss }: ToastContainerProps) {
 // ---------------------------------------------------------------------------
 
 export default function Reminders() {
-  // Derive overdue list live
-  const overdueInvoices = arInvoices.filter(
-    (inv) => daysOverdue(inv.dueDate, TODAY) > 0,
+  // Derive overdue list from the ledger — only invoices with unpaid balance
+  const ledger = buildLedger();
+  const overdueRows = ledger.ar.filter(
+    (row) => row.invoice.dueDate < TODAY && row.balance > 0,
   );
 
   const [selectedId, setSelectedId] = React.useState<string>(
-    overdueInvoices[0]?.id ?? '',
+    overdueRows[0]?.invoice.id ?? '',
   );
   const [sentState, setSentState] = React.useState<SentState>({});
   const [autoRemind, setAutoRemind] = React.useState<AutoRemindState>({});
   const [toasts, setToasts] = React.useState<ToastItem[]>([]);
 
-  const selectedInvoice = overdueInvoices.find((inv) => inv.id === selectedId) ?? null;
+  const selectedRow = overdueRows.find((row) => row.invoice.id === selectedId) ?? null;
 
   function handleSend(invoiceId: string, customer: string) {
     setSentState((prev) => ({ ...prev, [invoiceId]: true }));
@@ -468,7 +470,7 @@ export default function Reminders() {
   }
 
   // Empty state
-  if (overdueInvoices.length === 0) {
+  if (overdueRows.length === 0) {
     return (
       <div>
         <PageHeader
@@ -488,7 +490,7 @@ export default function Reminders() {
     <div>
       <PageHeader
         title="Reminders"
-        subtitle={`${overdueInvoices.length} overdue invoice${overdueInvoices.length === 1 ? '' : 's'} need${overdueInvoices.length === 1 ? 's' : ''} attention`}
+        subtitle={`${overdueRows.length} overdue invoice${overdueRows.length === 1 ? '' : 's'} need${overdueRows.length === 1 ? 's' : ''} attention`}
       />
 
       {/* Two-pane layout */}
@@ -516,14 +518,15 @@ export default function Reminders() {
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            {overdueInvoices.map((inv) => {
+            {overdueRows.map((row) => {
+              const inv = row.invoice;
               const days = daysOverdue(inv.dueDate, TODAY);
               return (
                 <InvoiceRow
                   key={inv.id}
                   customer={inv.customer}
                   invoiceNo={inv.invoiceNo}
-                  amount={inv.amount}
+                  amount={row.balance}
                   days={days}
                   sent={!!sentState[inv.id]}
                   selected={inv.id === selectedId}
@@ -535,19 +538,19 @@ export default function Reminders() {
         </Card>
 
         {/* RIGHT — email draft */}
-        {selectedInvoice ? (
+        {selectedRow ? (
           <EmailDraft
-            customer={selectedInvoice.customer}
-            invoiceNo={selectedInvoice.invoiceNo}
-            amount={selectedInvoice.amount}
-            dueDate={selectedInvoice.dueDate}
-            days={daysOverdue(selectedInvoice.dueDate, TODAY)}
-            sent={!!sentState[selectedInvoice.id]}
-            autoRemind={!!autoRemind[selectedInvoice.id]}
+            customer={selectedRow.invoice.customer}
+            invoiceNo={selectedRow.invoice.invoiceNo}
+            amount={selectedRow.balance}
+            dueDate={selectedRow.invoice.dueDate}
+            days={daysOverdue(selectedRow.invoice.dueDate, TODAY)}
+            sent={!!sentState[selectedRow.invoice.id]}
+            autoRemind={!!autoRemind[selectedRow.invoice.id]}
             onAutoRemindChange={(v) =>
-              setAutoRemind((prev) => ({ ...prev, [selectedInvoice.id]: v }))
+              setAutoRemind((prev) => ({ ...prev, [selectedRow.invoice.id]: v }))
             }
-            onSend={() => handleSend(selectedInvoice.id, selectedInvoice.customer)}
+            onSend={() => handleSend(selectedRow.invoice.id, selectedRow.invoice.customer)}
           />
         ) : null}
       </div>

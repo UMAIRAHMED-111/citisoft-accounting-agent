@@ -63,7 +63,12 @@ export function ExceptionCallout({ exception }: ExceptionCalloutProps) {
         >
           {exception.ref}
         </span>
-        {exception.description.replace(exception.ref + ':', '').replace(exception.ref, '').trim().replace(/^:\s*/, '')}
+        {exception.description
+          .replace(new RegExp(`AP invoice ${exception.ref}:\\s*`, ''), '')
+          .replace(exception.ref + ':', '')
+          .replace(exception.ref, '')
+          .trim()
+          .replace(/^:\s*/, '')}
       </span>
 
       {/* Review link */}

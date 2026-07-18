@@ -334,21 +334,21 @@ export const bankStatement: BankStatement = {
   account: 'Checking — JPMorgan Chase ****4783',
   period: 'Jul 1–18, 2026',
   txns: [
-    // Exact match → AR-2026-0041 (Precision Parts LLC, $12,450.00)
+    // Exact match → AR-2026-0083 (Pittsburgh Automation Partners, $18,750.00)
     {
       id: 'txn-1',
       date: new Date('2026-07-02'),
-      amount: 12450.00,
-      memo: 'ACH CREDIT PRECISION PARTS LLC REF AR-2026-0041',
-      payerRef: 'AR-2026-0041',
+      amount: 18750.00,
+      memo: 'ACH CREDIT PITTSBURGH AUTOMATION PARTNERS REF AR-2026-0083',
+      payerRef: 'AR-2026-0083',
     },
-    // Exact match → AR-2026-0048 (Apex Manufacturing, $8,300.00)
+    // Exact match → AR-2026-0078 (Ridgeway Fabrication Inc., $3,300.00)
     {
       id: 'txn-2',
       date: new Date('2026-07-07'),
-      amount: 8300.00,
-      memo: 'WIRE APEX MANUFACTURING CO REF AR-2026-0048',
-      payerRef: 'AR-2026-0048',
+      amount: 3300.00,
+      memo: 'WIRE RIDGEWAY FABRICATION INC REF AR-2026-0078',
+      payerRef: 'AR-2026-0078',
     },
     // Exact match → AR-2026-0055 (Global Aerospace, $22,100.00)
     {

@@ -33,11 +33,12 @@ const NAV_ITEMS: NavItemDef[] = [
 
 interface NavItemProps {
   item: NavItemDef;
-  exceptionsCount: number;
+  count: number;
   compact: boolean;
 }
 
-function NavItemRow({ item, exceptionsCount, compact }: NavItemProps) {
+function NavItemRow({ item, count, compact }: NavItemProps) {
+  const exceptionsCount = count;
   const [hovered, setHovered] = useState(false);
 
   if (compact) {
@@ -154,7 +155,8 @@ function NavItemRow({ item, exceptionsCount, compact }: NavItemProps) {
 
 export function Sidebar() {
   const ledger = useMemo(() => buildLedger(), []);
-  const exceptionsCount = ledger.kpis.exceptionsCount;
+  const inboxCount = ledger.ap.filter(r => r.status !== 'auto_approved').length;
+  const arMatchingCount = ledger.ar.filter(r => r.kind === 'partial' || r.kind === 'unmatched').length;
 
   // Compact (icon-rail) mode at narrow viewport widths
   const [compact, setCompact] = useState(() => window.innerWidth < 880);
@@ -205,9 +207,15 @@ export function Sidebar() {
           overflowY: 'auto',
         }}
       >
-        {NAV_ITEMS.map((item) => (
-          <NavItemRow key={item.to} item={item} exceptionsCount={exceptionsCount} compact={compact} />
-        ))}
+        {NAV_ITEMS.map((item) => {
+          const count =
+            item.to === '/inbox'
+              ? inboxCount
+              : item.to === '/ar-matching'
+              ? arMatchingCount
+              : 0;
+          return <NavItemRow key={item.to} item={item} count={count} compact={compact} />;
+        })}
       </nav>
 
       {/* Bottom strip */}

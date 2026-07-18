@@ -174,7 +174,7 @@ function OcrFieldsCard({ invoice }: OcrCardProps) {
         {fieldRow('Vendor', vendor?.name ?? invoice.vendorId, 98)}
         {fieldRow('Invoice no.', invoice.invoiceNo, 99)}
         {fieldRow('Amount', money(invoice.amount, invoice.currency), 97)}
-        {fieldRow('Invoice date', fmtDate(invoice.receivedAt), 95)}
+        {fieldRow('Received', fmtDate(invoice.receivedAt), 95)}
         {fieldRow(
           'PO reference',
           noPo ? 'Not found' : (invoice.poRef ?? '—'),

@@ -96,7 +96,7 @@ export default function BankUpload() {
             fontFamily: 'var(--font-mono)',
             fontSize: 13,
             fontWeight: 600,
-            color: row.amount < 0 ? 'var(--rose-500)' : 'var(--text-body)',
+            color: row.amount < 0 ? 'var(--text-muted)' : 'var(--text-body)',
           }}
         >
           {money(row.amount)}
@@ -330,7 +330,7 @@ export default function BankUpload() {
             >
               <span style={{ color: 'var(--text-strong)', fontWeight: 600 }}>{txns.length} transactions</span>
               {' · net '}
-              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: net >= 0 ? 'var(--text-strong)' : 'var(--rose-500)' }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: net >= 0 ? 'var(--text-strong)' : 'var(--text-muted)' }}>
                 {money(net)}
               </span>
               {' · covering '}

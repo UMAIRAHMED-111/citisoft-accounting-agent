@@ -176,7 +176,7 @@ export default function AgentChat() {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100vh',
+        height: '100%',
         background: 'var(--surface-page)',
         overflow: 'hidden',
       }}

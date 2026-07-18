@@ -34,8 +34,8 @@ describe('AR matching', () => {
     const r = matchPaymentToInvoices(txn, arInvoices);
     expect(r.kind).toBe('exact');
     expect(r.matches).toHaveLength(1);
-    expect(r.matches[0].invoice.id).toBe('ar-1');
-    expect(r.matches[0].applied).toBe(12450.00);
+    expect(r.matches[0].invoice.id).toBe('ar-8');
+    expect(r.matches[0].applied).toBe(18750.00);
   });
   it('identifies a partial payment with remaining balance in the reason', () => {
     const txn = bankStatement.txns.find(t => t.id === 'txn-4')!;

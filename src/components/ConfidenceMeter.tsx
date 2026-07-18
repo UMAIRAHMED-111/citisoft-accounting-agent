@@ -5,6 +5,11 @@ export interface ConfidenceMeterProps {
   style?: React.CSSProperties;
 }
 
+function prefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 export function ConfidenceMeter({ value, style = {} }: ConfidenceMeterProps) {
   const pct = Math.round(Math.max(0, Math.min(1, value)) * 100);
 
@@ -58,7 +63,7 @@ export function ConfidenceMeter({ value, style = {} }: ConfidenceMeterProps) {
             width: `${pct}%`,
             borderRadius: 'var(--radius-pill)',
             background: fillColor,
-            transition: 'width var(--dur) var(--ease-out)',
+            transition: prefersReducedMotion() ? 'none' : 'width var(--dur) var(--ease-out)',
           }}
         />
       </div>
