@@ -36,7 +36,7 @@ export default function Specimen() {
     <div style={{ maxWidth: 1200, margin: '0 auto', padding: '48px 24px', background: 'var(--surface-page)', minHeight: '100vh' }}>
       <div style={{ marginBottom: 48 }}>
         <Logo variant="color" height={36} />
-        <h1 style={{ fontFamily: 'var(--font-sans)', fontSize: 28, fontWeight: 800, color: 'var(--text-strong)', marginTop: 24 }}>
+        <h1 style={{ fontFamily: 'var(--font-sans)', fontSize: 28, fontWeight: 700, color: 'var(--text-strong)', marginTop: 24 }}>
           <GradientText>Citisoft</GradientText> Design System
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: 15 }}>Component specimen — all primitives in all variants</p>
@@ -226,8 +226,8 @@ export default function Specimen() {
       </Section>
 
       <Section title="GradientText">
-        <GradientText style={{ fontSize: 32, fontWeight: 800 }}>Brand gradient</GradientText>
-        <GradientText accent="rfq" style={{ fontSize: 32, fontWeight: 800 }}>RFQ gradient</GradientText>
+        <GradientText style={{ fontSize: 32, fontWeight: 700 }}>Brand gradient</GradientText>
+        <GradientText accent="rfq" style={{ fontSize: 32, fontWeight: 700 }}>RFQ gradient</GradientText>
         <GradientText as="h2" style={{ fontSize: 24, fontWeight: 700 }}>As H2 element</GradientText>
       </Section>
     </div>

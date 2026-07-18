@@ -1,9 +1,9 @@
 /* Citisoft webfonts — Google Fonts.
-   These are the brand's actual typefaces (Hanken Grotesk, Source Serif 4,
-   JetBrains Mono), so they are loaded directly from Google Fonts rather than
-   substituted. Consumers with internet access pick them up automatically. */
+   IBM Plex superfamily (Sans / Serif / Mono) — chosen for the AP/AR product's
+   enterprise register; replaces the marketing-site faces (Hanken Grotesk /
+   Source Serif 4 / JetBrains Mono) across the app via the tokens below. */
 
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,300..800;1,300..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400..600&family=JetBrains+Mono:ital,wght@0,400..700;1,400..600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
 /* ============================================================
    Citisoft — Color tokens
    Light theme is the default surface; the dark theme is a
@@ -108,23 +108,23 @@
 }
 /* ============================================================
    Citisoft — Typography tokens
-   Display/UI : Hanken Grotesk
-   Editorial  : Source Serif 4
-   Code/Data  : JetBrains Mono
+   Display/UI : IBM Plex Sans
+   Editorial  : IBM Plex Serif
+   Code/Data  : IBM Plex Mono
    ============================================================ */
 
 :root {
-  --font-sans:  'Hanken Grotesk', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
-  --font-mono:  'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-sans:  'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+  --font-mono:  'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-  /* Weights */
+  /* Weights — IBM Plex tops out at 700; extrabold maps there. */
   --fw-light: 300; /* @kind font */
   --fw-regular: 400; /* @kind font */
   --fw-medium: 500; /* @kind font */
   --fw-semibold: 600; /* @kind font */
   --fw-bold: 700; /* @kind font */
-  --fw-extrabold: 800; /* @kind font */
+  --fw-extrabold: 700; /* @kind font */
 
   /* Type scale (px-based, 1.250 major-third-ish, tuned) */
   --fs-display-xl: 76px;
