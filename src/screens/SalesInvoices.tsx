@@ -14,6 +14,8 @@ import type { ArRow } from '../data/reconcile';
 import { useLedgerVersion, mutateSeed } from '../data/store';
 import { useSimulatedLoad } from '../lib/useSimulatedLoad';
 import { money, fmtDate, daysOverdue } from '../lib/format';
+import { Tag } from '../ds/Tag';
+import { SearchField, Pager } from '../components/TableControls';
 
 const TODAY_DATE = new Date('2026-07-18');
 const TODAY_STR = '2026-07-18';
@@ -474,16 +476,53 @@ function NewInvoiceDialog({ open, onClose, currentMaxRef, currentCount }: NewInv
 }
 
 // ---------------------------------------------------------------------------
+// Row status helper
+// ---------------------------------------------------------------------------
+function getRowStatus(row: ArRow): 'paid' | 'partial' | 'overdue' | 'unpaid' {
+  const { invoice, balance, applied } = row;
+  if (balance === 0) return 'paid';
+  if (balance > 0 && invoice.dueDate < TODAY_DATE) return 'overdue';
+  if (applied > 0) return 'partial';
+  return 'unpaid';
+}
+
+// ---------------------------------------------------------------------------
 // Main screen
 // ---------------------------------------------------------------------------
 export default function SalesInvoices() {
   const version = useLedgerVersion();
   const loading = useSimulatedLoad(400);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'paid' | 'partial' | 'unpaid' | 'overdue'>('all');
+  const [page, setPage] = useState(0);
+  const PAGE_SIZE = 10;
 
   const ledger = useMemo(() => buildLedger(), [version]);
 
   const arRows = ledger.ar;
+
+  const filteredRows = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return arRows.filter(row => {
+      const matchesSearch = !q ||
+        row.invoice.customer.toLowerCase().includes(q) ||
+        row.invoice.ref.toLowerCase().includes(q);
+      const status = getRowStatus(row);
+      const matchesStatus = statusFilter === 'all' || status === statusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }, [arRows, search, statusFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredRows.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages - 1);
+  const pageRows = filteredRows.slice(safePage * PAGE_SIZE, (safePage + 1) * PAGE_SIZE);
+
+  // Status counts (full arRows, not filtered)
+  const paidCount = arRows.filter(r => getRowStatus(r) === 'paid').length;
+  const partialCount = arRows.filter(r => getRowStatus(r) === 'partial').length;
+  const unpaidCount = arRows.filter(r => getRowStatus(r) === 'unpaid').length;
+  const overdueCount = arRows.filter(r => getRowStatus(r) === 'overdue').length;
 
   // KPI derivations
   const invoicedTotal = arRows.reduce((s, r) => s + r.invoice.amount, 0);
@@ -622,6 +661,18 @@ export default function SalesInvoices() {
         ))}
       </div>
 
+      {/* Search + filter */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', marginBottom: 'var(--space-4)', flexWrap: 'wrap' }}>
+        <SearchField value={search} onChange={v => { setSearch(v); setPage(0); }} placeholder="Search customer or invoice…" />
+        <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+          <Tag active={statusFilter === 'all'} onClick={() => { setStatusFilter('all'); setPage(0); }}>All · {arRows.length}</Tag>
+          <Tag active={statusFilter === 'paid'} onClick={() => { setStatusFilter('paid'); setPage(0); }}>Paid · {paidCount}</Tag>
+          <Tag active={statusFilter === 'partial'} onClick={() => { setStatusFilter('partial'); setPage(0); }}>Partially paid · {partialCount}</Tag>
+          <Tag active={statusFilter === 'unpaid'} onClick={() => { setStatusFilter('unpaid'); setPage(0); }}>Unpaid · {unpaidCount}</Tag>
+          <Tag active={statusFilter === 'overdue'} onClick={() => { setStatusFilter('overdue'); setPage(0); }}>Overdue · {overdueCount}</Tag>
+        </div>
+      </div>
+
       {/* Invoice table */}
       <div
         style={{
@@ -648,12 +699,22 @@ export default function SalesInvoices() {
               </tr>
             </thead>
             <tbody>
-              {arRows.map(row => (
+              {pageRows.map(row => (
                 <InvoiceRow key={row.invoice.id} row={row} />
               ))}
             </tbody>
           </table>
         </div>
+        {filteredRows.length === 0 && (
+          <div style={{ padding: 'var(--space-10)', textAlign: 'center', color: 'var(--text-muted)', fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body-sm)' }}>
+            {search ? `No matches for "${search}"` : 'No invoices in this category.'}
+          </div>
+        )}
+        {filteredRows.length > PAGE_SIZE && (
+          <div style={{ padding: 'var(--space-4) var(--space-6)', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'flex-end' }}>
+            <Pager page={safePage} pageSize={PAGE_SIZE} total={filteredRows.length} onPage={setPage} />
+          </div>
+        )}
       </div>
 
       <NewInvoiceDialog

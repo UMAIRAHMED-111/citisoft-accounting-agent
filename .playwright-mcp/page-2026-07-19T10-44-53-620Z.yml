@@ -1,0 +1,50 @@
+- generic [ref=f3e3]:
+  - complementary [ref=f3e4]:
+    - generic [ref=f3e5]:
+      - img "Citisoft Solutions" [ref=f3e6]
+      - generic [ref=f3e7]:
+        - generic [ref=f3e8]: Powered by
+        - generic [ref=f3e9]: Claude
+    - navigation "Main navigation" [ref=f3e10]:
+      - link "Dashboard" [ref=f3e12] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f3e20]:
+        - generic [ref=f3e21]: Payables
+        - link "Vendor bills 2" [ref=f3e22] [cursor=pointer]:
+          - /url: /inbox
+          - generic [ref=f3e27]: Vendor bills
+          - generic [ref=f3e28]: "2"
+        - link "PO matching" [ref=f3e29] [cursor=pointer]:
+          - /url: /po-matching
+      - generic [ref=f3e39]:
+        - generic [ref=f3e40]: Receivables
+        - link "Sales invoices" [ref=f3e41] [cursor=pointer]:
+          - /url: /sales
+        - link "Bank feed" [ref=f3e50] [cursor=pointer]:
+          - /url: /bank-upload
+        - link "AR matching 3" [ref=f3e56] [cursor=pointer]:
+          - /url: /ar-matching
+          - generic [ref=f3e61]: AR matching
+          - generic [ref=f3e62]: "3"
+        - link "Reminders" [ref=f3e63] [cursor=pointer]:
+          - /url: /reminders
+      - link "Connections" [ref=f3e72] [cursor=pointer]:
+        - /url: /connections
+    - paragraph [ref=f3e79]: Citisoft AP/AR
+  - generic [ref=f3e80]:
+    - banner [ref=f3e81]:
+      - searchbox "Search" [ref=f3e83]
+      - button "3 ERPs connected — view connections" [ref=f3e84] [cursor=pointer]:
+        - generic [ref=f3e86]: 3 ERPs · Connected
+      - button "Notifications" [ref=f3e88] [cursor=pointer]
+      - generic [ref=f3e93]:
+        - generic "Amara Okafor" [ref=f3e94]:
+          - img "Amara Okafor" [ref=f3e95]
+        - generic [ref=f3e96]:
+          - generic [ref=f3e97]: Amara Okafor
+          - generic [ref=f3e98]: Financial controller
+    - main [ref=f3e99]:
+      - generic [ref=f3e102]:
+        - heading "Vendor bills" [level=1] [ref=f3e103]
+        - paragraph [ref=f3e104]: Incoming vendor invoices — review, match, and post to your ERP
+  - button "Open CitiSoft assistant" [ref=f3e133] [cursor=pointer]

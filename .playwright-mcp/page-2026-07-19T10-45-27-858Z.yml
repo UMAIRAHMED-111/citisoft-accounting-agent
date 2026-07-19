@@ -1,0 +1,156 @@
+- generic [ref=f3e3]:
+  - complementary [ref=f3e4]:
+    - generic [ref=f3e5]:
+      - img "Citisoft Solutions" [ref=f3e6]
+      - generic [ref=f3e7]:
+        - generic [ref=f3e8]: Powered by
+        - generic [ref=f3e9]: Claude
+    - navigation "Main navigation" [ref=f3e10]:
+      - link "Dashboard" [ref=f3e12] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f3e20]:
+        - generic [ref=f3e21]: Payables
+        - link "Vendor bills 2" [ref=f3e22] [cursor=pointer]:
+          - /url: /inbox
+          - generic [ref=f3e27]: Vendor bills
+          - generic [ref=f3e28]: "2"
+        - link "PO matching" [ref=f3e29] [cursor=pointer]:
+          - /url: /po-matching
+      - generic [ref=f3e39]:
+        - generic [ref=f3e40]: Receivables
+        - link "Sales invoices" [ref=f3e41] [cursor=pointer]:
+          - /url: /sales
+        - link "Bank feed" [ref=f3e50] [cursor=pointer]:
+          - /url: /bank-upload
+        - link "AR matching 3" [ref=f3e56] [cursor=pointer]:
+          - /url: /ar-matching
+          - generic [ref=f3e61]: AR matching
+          - generic [ref=f3e62]: "3"
+        - link "Reminders" [ref=f3e63] [cursor=pointer]:
+          - /url: /reminders
+      - link "Connections" [ref=f3e72] [cursor=pointer]:
+        - /url: /connections
+    - paragraph [ref=f3e79]: Citisoft AP/AR
+  - generic [ref=f3e80]:
+    - banner [ref=f3e81]:
+      - searchbox "Search" [ref=f3e83]
+      - button "3 ERPs connected — view connections" [ref=f3e84] [cursor=pointer]:
+        - generic [ref=f3e86]: 3 ERPs · Connected
+      - button "Notifications" [ref=f3e88] [cursor=pointer]
+      - generic [ref=f3e93]:
+        - generic "Amara Okafor" [ref=f3e94]:
+          - img "Amara Okafor" [ref=f3e95]
+        - generic [ref=f3e96]:
+          - generic [ref=f3e97]: Amara Okafor
+          - generic [ref=f3e98]: Financial controller
+    - main [ref=f3e99]:
+      - generic [ref=f3e100]:
+        - generic [ref=f3e102]:
+          - heading "Vendor bills" [level=1] [ref=f3e103]
+          - paragraph [ref=f3e104]: Incoming vendor invoices — review, match, and post to your ERP
+        - generic [ref=f3e105]:
+          - generic [ref=f3e106]:
+            - generic [ref=f3e107]:
+              - generic [ref=f3e135]: 18 invoices
+              - generic [ref=f3e136]: 2 pending
+            - generic [ref=f3e137]:
+              - generic [ref=f3e138]:
+                - textbox "Search vendor or invoice…" [ref=f3e142]: kowalski
+                - button "Clear search" [ref=f3e143] [cursor=pointer]
+              - generic [ref=f3e147]:
+                - button "All · 18" [ref=f3e148] [cursor=pointer]
+                - button "Auto-approved · 16" [ref=f3e149] [cursor=pointer]
+                - button "Needs review · 2" [ref=f3e150] [cursor=pointer]
+            - button "KOWALSKI 519269 Auto-approved $1,560.00" [ref=f3e151] [cursor=pointer]:
+              - generic [ref=f3e152]:
+                - generic [ref=f3e153]:
+                  - generic [ref=f3e154]: KOWALSKI
+                  - generic [ref=f3e155]: "519269"
+                  - generic [ref=f3e156]: Auto-approved
+                - generic [ref=f3e157]: $1,560.00
+          - generic [ref=f3e158]:
+            - generic [ref=f3e160]:
+              - generic [ref=f3e161]:
+                - generic [ref=f3e162]: KOWALSKI
+                - generic [ref=f3e163]: "519269"
+                - generic [ref=f3e164]:
+                  - generic [ref=f3e165]: Auto-approved
+                  - generic [ref=f3e166]:
+                    - text: Posted ·
+                    - generic [ref=f3e167]: BILL-10538
+              - generic [ref=f3e168]:
+                - generic [ref=f3e169]: $1,560.00
+                - generic [ref=f3e170]: Due Jun 18, 2026
+            - generic [ref=f3e171]:
+              - generic [ref=f3e172]:
+                - generic [ref=f3e173]: OCR-extracted fields
+                - button [ref=f3e174] [cursor=pointer]
+              - generic [ref=f3e181]:
+                - generic [ref=f3e182]:
+                  - generic [ref=f3e183]: Vendor
+                  - generic [ref=f3e185]:
+                    - text: KOWALSKI
+                    - generic [ref=f3e186]: 98%
+                - generic [ref=f3e187]:
+                  - generic [ref=f3e188]: Invoice no.
+                  - generic [ref=f3e190]:
+                    - text: "519269"
+                    - generic [ref=f3e191]: 99%
+                - generic [ref=f3e192]:
+                  - generic [ref=f3e193]: Amount
+                  - generic [ref=f3e195]:
+                    - text: $1,560.00
+                    - generic [ref=f3e196]: 97%
+                - generic [ref=f3e197]:
+                  - generic [ref=f3e198]: Received
+                  - generic [ref=f3e200]:
+                    - text: May 20, 2026
+                    - generic [ref=f3e201]: 95%
+                - generic [ref=f3e202]:
+                  - generic [ref=f3e203]: PO reference
+                  - generic [ref=f3e205]:
+                    - text: po-29110
+                    - generic [ref=f3e206]: 94%
+            - generic [ref=f3e207]:
+              - button "KOWALSKI — Invoice 519269 Open in new tab" [expanded] [active] [ref=f3e208] [cursor=pointer]:
+                - generic [ref=f3e212]: KOWALSKI — Invoice 519269
+                - button "Open in new tab" [ref=f3e213]
+              - iframe [ref=f3e282]:
+                
+            - generic [ref=f3e222]:
+              - generic [ref=f3e223]: Line-item matching
+              - generic [ref=f3e224]:
+                - generic [ref=f3e225]:
+                  - generic [ref=f3e227]:
+                    - meter "Confidence 100%" [ref=f3e228]
+                    - generic [ref=f3e230]: 100%
+                  - generic [ref=f3e231]: 1/1 lines matched
+                - generic [ref=f3e232]:
+                  - generic [ref=f3e233]: Invoice — extracted
+                  - generic [ref=f3e234]: Purchase order
+                - generic [ref=f3e236]:
+                  - generic [ref=f3e237]:
+                    - generic [ref=f3e238]: KW-O1-1X2
+                    - generic [ref=f3e242]: O1 Tool Steel flat stock 1"×2"×36", ground
+                    - generic [ref=f3e243]:
+                      - generic [ref=f3e244]: $1,560.00
+                      - generic [ref=f3e245]: 12 × $130.00
+                  - generic [ref=f3e246]:
+                    - generic [ref=f3e247]: KW-O1-1X2
+                    - generic [ref=f3e249]: O1 Tool Steel flat stock 1"×2"×36", ground
+                    - generic [ref=f3e250]:
+                      - generic [ref=f3e251]: $1,560.00
+                      - generic [ref=f3e252]: 12 × $130.00
+            - generic [ref=f3e253]:
+              - generic [ref=f3e254]:
+                - generic [ref=f3e255]: ERP write-back
+                - generic [ref=f3e261]:
+                  - text: Posted ·
+                  - generic [ref=f3e263]: BILL-10538
+              - generic [ref=f3e264]:
+                - img "NetSuite logo" [ref=f3e266]
+                - generic [ref=f3e267]:
+                  - generic [ref=f3e268]: NetSuite
+                  - generic [ref=f3e269]: Document BILL-10538 · posted
+              - generic [ref=f3e274]: Bill record created in NetSuite
+  - button "Open CitiSoft assistant" [ref=f3e133] [cursor=pointer]
