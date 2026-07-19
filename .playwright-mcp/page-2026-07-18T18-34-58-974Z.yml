@@ -1,0 +1,111 @@
+- generic [ref=f29e3]:
+  - complementary [ref=f29e4]:
+    - generic [ref=f29e5]:
+      - img "Citisoft Solutions" [ref=f29e6]
+      - generic [ref=f29e7]:
+        - generic [ref=f29e8]: Powered by
+        - generic [ref=f29e9]: Claude
+    - navigation "Main navigation" [ref=f29e10]:
+      - link "Dashboard" [ref=f29e11] [cursor=pointer]:
+        - /url: /
+      - link "Invoice inbox 2" [ref=f29e19] [cursor=pointer]:
+        - /url: /inbox
+        - generic [ref=f29e24]: Invoice inbox
+        - generic [ref=f29e25]: "2"
+      - link "PO matching" [ref=f29e26] [cursor=pointer]:
+        - /url: /po-matching
+      - link "Bank upload" [ref=f29e36] [cursor=pointer]:
+        - /url: /bank-upload
+      - link "AR matching 3" [ref=f29e42] [cursor=pointer]:
+        - /url: /ar-matching
+        - generic [ref=f29e47]: AR matching
+        - generic [ref=f29e48]: "3"
+      - link "Reminders" [ref=f29e49] [cursor=pointer]:
+        - /url: /reminders
+      - link "Connections" [ref=f29e57] [cursor=pointer]:
+        - /url: /connections
+    - paragraph [ref=f29e64]: Citisoft AP/AR
+  - generic [ref=f29e65]:
+    - banner [ref=f29e66]:
+      - searchbox "Search" [ref=f29e68]
+      - button "3 ERPs connected — view connections" [ref=f29e69] [cursor=pointer]:
+        - generic [ref=f29e71]: 3 ERPs · Connected
+      - generic [ref=f29e72]:
+        - button "Notifications" [expanded] [active] [ref=f29e73] [cursor=pointer]
+        - menu "Notifications" [ref=f29e78]:
+          - generic [ref=f29e79]: Needs attention
+          - 'menuitem "Amount mismatch AP invoice 78875: Amount $951.96 is $51.96 over PO po-11166" [ref=f29e80] [cursor=pointer]':
+            - generic [ref=f29e81]: Amount mismatch
+            - generic [ref=f29e82]: "AP invoice 78875: Amount $951.96 is $51.96 over PO po-11166"
+          - menuitem "Missing PO AP invoice 13992 has no purchase-order reference" [ref=f29e83] [cursor=pointer]:
+            - generic [ref=f29e84]: Missing PO
+            - generic [ref=f29e85]: AP invoice 13992 has no purchase-order reference
+          - 'menuitem "Partial payment AR-2026-0061: $3,000.00 of $5,875.50 applied — $2,875.50 still open" [ref=f29e86] [cursor=pointer]':
+            - generic [ref=f29e87]: Partial payment
+            - generic [ref=f29e88]: "AR-2026-0061: $3,000.00 of $5,875.50 applied — $2,875.50 still open"
+          - 'menuitem "Unmatched deposit Bank txn txn-6 ($500.00): No invoice matches this deposit" [ref=f29e89] [cursor=pointer]':
+            - generic [ref=f29e90]: Unmatched deposit
+            - generic [ref=f29e91]: "Bank txn txn-6 ($500.00): No invoice matches this deposit"
+          - 'menuitem "Unmatched deposit Bank txn txn-7 ($2,750.00): No invoice matches this deposit" [ref=f29e92] [cursor=pointer]':
+            - generic [ref=f29e93]: Unmatched deposit
+            - generic [ref=f29e94]: "Bank txn txn-7 ($2,750.00): No invoice matches this deposit"
+      - generic [ref=f29e95]:
+        - generic "Amara Okafor" [ref=f29e96]: AO
+        - generic [ref=f29e97]:
+          - generic [ref=f29e98]: Amara Okafor
+          - generic [ref=f29e99]: Financial controller
+    - main [ref=f29e100]:
+      - generic [ref=f29e101]:
+        - generic [ref=f29e103]:
+          - heading "Reminders" [level=1] [ref=f29e104]
+          - paragraph [ref=f29e105]: 2 overdue invoices need attention
+        - generic [ref=f29e106]:
+          - generic [ref=f29e107]:
+            - generic [ref=f29e108]: Overdue invoices
+            - generic [ref=f29e109]:
+              - button "Precision Parts LLC AR-2026-0041 $12,450.00 34d overdue" [ref=f29e110] [cursor=pointer]:
+                - generic [ref=f29e111]: Precision Parts LLC
+                - generic [ref=f29e113]:
+                  - generic [ref=f29e114]: AR-2026-0041
+                  - generic [ref=f29e115]:
+                    - generic [ref=f29e116]: $12,450.00
+                    - generic [ref=f29e117]: 34d overdue
+              - button "Apex Manufacturing Co. AR-2026-0048 $8,300.00 17d overdue" [ref=f29e118] [cursor=pointer]:
+                - generic [ref=f29e119]: Apex Manufacturing Co.
+                - generic [ref=f29e121]:
+                  - generic [ref=f29e122]: AR-2026-0048
+                  - generic [ref=f29e123]:
+                    - generic [ref=f29e124]: $8,300.00
+                    - generic [ref=f29e125]: 17d overdue
+          - generic [ref=f29e126]:
+            - generic [ref=f29e127]:
+              - heading "Draft reminder" [level=2] [ref=f29e128]
+              - paragraph [ref=f29e129]: Review the draft below before sending. No email is sent until you confirm.
+            - generic [ref=f29e130]:
+              - generic [ref=f29e131]:
+                - generic [ref=f29e132]:
+                  - generic [ref=f29e133]: To
+                  - generic "accounts@precisionpartsllc.com" [ref=f29e134]
+                - generic [ref=f29e136]:
+                  - generic [ref=f29e137]: Subject
+                  - generic [ref=f29e138]: "Payment reminder: AR-2026-0041"
+              - generic [ref=f29e139]:
+                - generic [ref=f29e140]: "Hi Precision Parts LLC, We wanted to follow up on invoice AR-2026-0041 for $12,450.00, which was due on Jun 14, 2026 — 34 days ago. If payment has already been sent, please disregard this note and let us know so we can update our records. If you have any questions about the invoice or need to make arrangements, we are happy to help. To pay online, you can use the link below:"
+                - generic [ref=f29e141]: pay.citisoft.io/invoice/ar-2026-0041
+                - paragraph [ref=f29e147]: Thank you for your business.
+                - generic [ref=f29e149]:
+                  - generic [ref=f29e150]:
+                    - generic [ref=f29e151]: Invoice
+                    - generic [ref=f29e152]: AR-2026-0041
+                  - generic [ref=f29e153]:
+                    - generic [ref=f29e154]: Amount due
+                    - generic [ref=f29e155]: $12,450.00
+                  - generic [ref=f29e156]:
+                    - generic [ref=f29e157]: Due date
+                    - generic [ref=f29e158]: Jun 14, 2026
+            - generic [ref=f29e159]:
+              - generic [ref=f29e160] [cursor=pointer]:
+                - switch [ref=f29e161]
+                - text: Auto-remind every 7 days
+              - button [ref=f29e163] [cursor=pointer]
+  - button "Open CitiSoft assistant" [ref=f29e171] [cursor=pointer]

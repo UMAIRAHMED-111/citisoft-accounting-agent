@@ -178,13 +178,127 @@ function handleTotals(ledger: Ledger): AgentResponse {
   };
 }
 
+// ---- Analytics intents ----
+
+function handleRevenue(ledger: Ledger): AgentResponse {
+  const receipts = bankStatement.txns.filter(t => t.amount > 0);
+  const outgoings = bankStatement.txns.filter(t => t.amount < 0);
+  const receiptsTotal = receipts.reduce((s, t) => s + t.amount, 0);
+  const outgoingsTotal = outgoings.reduce((s, t) => s + Math.abs(t.amount), 0);
+  const netCash = receiptsTotal - outgoingsTotal;
+  const invoicedThisMonth = arInvoices
+    .filter(inv => inv.issuedDate.getMonth() === TODAY.getMonth() && inv.issuedDate.getFullYear() === TODAY.getFullYear())
+    .reduce((s, inv) => s + inv.amount, 0);
+  return {
+    blocks: [
+      {
+        type: 'text',
+        text: `For ${bankStatement.period}: ${money(receiptsTotal)} came in across ${receipts.length} deposits, ${money(outgoingsTotal)} went out — net cash movement of ${money(netCash)}. Of the cash in, ${money(ledger.kpis.reconciledMtd)} is reconciled against invoices.`,
+      },
+      {
+        type: 'table',
+        columns: ['Measure', 'Amount'],
+        rows: [
+          ['Cash in (deposits)', money(receiptsTotal)],
+          ['Cash out (fees + AP payments)', money(outgoingsTotal)],
+          ['Net cash movement', money(netCash)],
+          ['Reconciled against invoices', money(ledger.kpis.reconciledMtd)],
+          ['New AR invoiced this month', money(invoicedThisMonth)],
+          ['Still open (AR)', money(ledger.kpis.openArTotal)],
+        ],
+      },
+    ],
+  };
+}
+
+function handleTopCustomers(ledger: Ledger): AgentResponse {
+  const byCustomer = new Map<string, { invoiced: number; open: number }>();
+  for (const row of ledger.ar) {
+    const cur = byCustomer.get(row.invoice.customer) ?? { invoiced: 0, open: 0 };
+    cur.invoiced += row.invoice.amount;
+    cur.open += row.balance;
+    byCustomer.set(row.invoice.customer, cur);
+  }
+  const ranked = [...byCustomer.entries()].sort((a, b) => b[1].invoiced - a[1].invoiced);
+  const [topName, topFigs] = ranked[0];
+  return {
+    blocks: [
+      {
+        type: 'text',
+        text: `Your largest customer this period is ${topName} at ${money(topFigs.invoiced)} invoiced${topFigs.open > 0 ? ` (${money(topFigs.open)} still open)` : ' (fully paid)'}.`,
+      },
+      {
+        type: 'table',
+        columns: ['Customer', 'Invoiced', 'Open balance', 'Status'],
+        rows: ranked.slice(0, 5).map(([name, f]) => [
+          name,
+          money(f.invoiced),
+          f.open > 0 ? money(f.open) : '—',
+          f.open === 0 ? 'Paid' : f.open === f.invoiced ? 'Unpaid' : 'Partially paid',
+        ]),
+      },
+    ],
+  };
+}
+
+function handleTopVendors(ledger: Ledger): AgentResponse {
+  const byVendor = new Map<string, number>();
+  for (const row of ledger.ap) {
+    const name = vendors.find(v => v.id === row.invoice.vendorId)?.name ?? row.invoice.vendorId;
+    byVendor.set(name, (byVendor.get(name) ?? 0) + row.invoice.amount);
+  }
+  const ranked = [...byVendor.entries()].sort((a, b) => b[1] - a[1]);
+  const total = ranked.reduce((s, [, amt]) => s + amt, 0);
+  return {
+    blocks: [
+      {
+        type: 'text',
+        text: `Your largest supplier by invoiced spend is ${ranked[0][0]} at ${money(ranked[0][1])} — ${Math.round((ranked[0][1] / total) * 100)}% of the ${money(total)} invoiced across ${ranked.length} vendors.`,
+      },
+      {
+        type: 'table',
+        columns: ['Vendor', 'Invoiced', 'Share'],
+        rows: ranked.slice(0, 5).map(([name, amt]) => [name, money(amt), `${Math.round((amt / total) * 100)}%`]),
+      },
+    ],
+  };
+}
+
+function handleWhoOwes(ledger: Ledger): AgentResponse {
+  const owing = ledger.ar
+    .filter(r => r.balance > 0)
+    .sort((a, b) => b.balance - a.balance);
+  if (owing.length === 0) {
+    return { blocks: [{ type: 'text', text: 'No customers have an outstanding balance — everything is collected.' }] };
+  }
+  const total = owing.reduce((s, r) => s + r.balance, 0);
+  return {
+    blocks: [
+      {
+        type: 'text',
+        text: `${owing.length} customers owe a combined ${money(total)}. ${owing[0].invoice.customer} owes the most at ${money(owing[0].balance)}.`,
+      },
+      {
+        type: 'table',
+        columns: ['Customer', 'Invoice', 'Balance', 'Due date'],
+        rows: owing.map(r => [
+          r.invoice.customer,
+          r.invoice.invoiceNo,
+          money(r.balance),
+          fmtDate(r.invoice.dueDate),
+        ]),
+      },
+    ],
+  };
+}
+
 function handleFallback(ledger: Ledger): AgentResponse {
   const top2 = ledger.exceptions.slice(0, 2);
   return {
     blocks: [
       {
         type: 'text',
-        text: `I can help with: exceptions/attention items, overdue invoices, unmatched payments, why an invoice wasn't auto-approved, and open AP/AR totals. Here are the top issues right now:`,
+        text: `I can help with: exceptions and attention items, overdue invoices, unmatched payments, why an invoice wasn't auto-approved, open AP/AR totals, net revenue and cash, top customers and vendors, and outstanding balances. I can also attach POs, approve invoices, change due dates, and send reminders. The top issues right now:`,
       },
       ...top2.map(e => ({
         type: 'action' as const,
@@ -526,6 +640,20 @@ export function matchIntent(q: string, ctx?: AgentContext): { handler: Handler; 
   }
   if (/send.*reminder|remind/.test(lower)) {
     return { handler: (ledger) => handleSendReminder(q, ledger), kind: 'action' };
+  }
+
+  // Analytics intents
+  if (/revenue|net\s+cash|cash\s+flow|cash\s+in|collected/.test(lower)) {
+    return { handler: handleRevenue, kind: 'normal' };
+  }
+  if (/(top|highest|biggest|largest|best)\s+.*(customer|buyer|client)|(customer|buyer|client).*\b(most|top|highest)\b/.test(lower)) {
+    return { handler: handleTopCustomers, kind: 'normal' };
+  }
+  if (/(top|highest|biggest|largest)\s+.*(vendor|supplier)|spend(ing)?\s+(the\s+)?most|biggest\s+spend|where.*money.*go/.test(lower)) {
+    return { handler: handleTopVendors, kind: 'normal' };
+  }
+  if (/who\s+owes|owes?\s+(me|us|the\s+most)|outstanding\s+balance|receivable\s+balance/.test(lower)) {
+    return { handler: handleWhoOwes, kind: 'normal' };
   }
 
   // Normal intents
