@@ -1,0 +1,23 @@
+[     198ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SVG7M4VJ.js?v=b16057a2:21606
+[     668ms] [ERROR] Warning: Unsupported style property %s. Did you mean %s?%s @media (prefers-reduced-motion: reduce) @media (prefersReducedMotion: reduce) 
+    at div
+    at div
+    at div
+    at CollectionRateTile (http://localhost:5173/src/screens/SalesInvoices.tsx:124:31)
+    at div
+    at div
+    at SalesInvoices (http://localhost:5173/src/screens/SalesInvoices.tsx:764:19)
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=b16057a2:4120:5)
+    at Outlet (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=b16057a2:4526:26)
+    at main
+    at div
+    at div
+    at ToastHostProvider (http://localhost:5173/src/components/ToastHost.tsx?t=1784375494089:29:37)
+    at AppShell
+    at RenderedRoute (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=b16057a2:4120:5)
+    at Routes (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=b16057a2:4590:5)
+    at AppRoutes
+    at AgentProviderComponent (http://localhost:5173/src/agent/AgentProvider.tsx?t=1784454921760:23:3)
+    at App
+    at Router (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=b16057a2:4533:15)
+    at BrowserRouter (http://localhost:5173/node_modules/.vite/deps/react-router-dom.js?v=b16057a2:5271:5) @ http://localhost:5173/node_modules/.vite/deps/chunk-SVG7M4VJ.js?v=b16057a2:518

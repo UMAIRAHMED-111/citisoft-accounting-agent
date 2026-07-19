@@ -30,10 +30,10 @@ type Message = UserMessage | AgentMsg | ThinkingMsg;
 // ---- Context-aware chips per route ----
 function getSuggestedChips(route: string): string[] {
   if (route === '/' || route === '') {
-    return ['What needs my attention today', 'Show open AP/AR totals', 'Why wasn\'t 78875 auto-approved'];
+    return ['What needs my attention today', 'What is the net revenue this month', 'Who is my highest buyer'];
   }
   if (route === '/inbox') {
-    return ['Summarize this screen', 'Why wasn\'t invoice 78875 auto-approved', 'Attach PO po-11166 to invoice 13992'];
+    return ['Summarize this screen', 'Which vendor do we spend the most with', 'Attach PO po-11166 to invoice 13992'];
   }
   if (route === '/po-matching') {
     return ['Summarize this screen', 'Approve invoice 78875', 'Attach PO po-11166 to invoice 13992'];
@@ -42,13 +42,16 @@ function getSuggestedChips(route: string): string[] {
     return ['Summarize this screen', 'Show unmatched deposits', 'Show overdue invoices'];
   }
   if (route === '/reminders') {
-    return ['Summarize this screen', 'Send a reminder for AR-2026-0041', 'Show overdue invoices'];
+    return ['Summarize this screen', 'Send a reminder for AR-2026-0041', 'Who owes me the most'];
   }
   if (route === '/bank-upload') {
     return ['Summarize this screen', 'Show unmatched deposits', 'What needs my attention today'];
   }
   if (route === '/connections') {
     return ['Summarize this screen', 'What needs my attention today', 'Show open AP/AR totals'];
+  }
+  if (route === '/sales') {
+    return ['Summarize this screen', 'Who owes me the most', 'Who is my highest buyer'];
   }
   return ['What needs my attention today', 'Show overdue invoices', 'Show unmatched payments'];
 }
@@ -57,12 +60,13 @@ function getSuggestedChips(route: string): string[] {
 function getRouteLabel(route: string): string {
   const labels: Record<string, string> = {
     '/': 'Dashboard',
-    '/inbox': 'Invoice inbox',
+    '/inbox': 'Vendor bills',
     '/po-matching': 'PO matching',
-    '/bank-upload': 'Bank upload',
+    '/bank-upload': 'Bank feed',
     '/ar-matching': 'AR matching',
     '/reminders': 'Reminders',
     '/connections': 'ERP connections',
+    '/sales': 'Sales invoices',
   };
   return labels[route] ?? 'Overview';
 }

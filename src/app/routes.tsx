@@ -7,6 +7,7 @@ import BankUpload from '../screens/BankUpload';
 import ArMatching from '../screens/ArMatching';
 import Reminders from '../screens/Reminders';
 import ErpConnections from '../screens/ErpConnections';
+import SalesInvoices from '../screens/SalesInvoices';
 
 export function AppRoutes() {
   return (
@@ -18,6 +19,7 @@ export function AppRoutes() {
         <Route path="bank-upload" element={<BankUpload />} />
         <Route path="ar-matching" element={<ArMatching />} />
         <Route path="reminders" element={<Reminders />} />
+        <Route path="sales" element={<SalesInvoices />} />
         <Route path="agent" element={<Navigate to="/" replace />} />
         <Route path="connections" element={<ErpConnections />} />
         <Route path="*" element={<Navigate to="/" replace />} />

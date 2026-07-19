@@ -8,6 +8,7 @@ import {
   ListChecks,
   BellRing,
   Plug,
+  FileOutput,
 } from 'lucide-react';
 import { Logo } from '../ds';
 import { buildLedger } from '../data/reconcile';
@@ -20,14 +21,40 @@ interface NavItemDef {
   showCount?: boolean;
 }
 
-const NAV_ITEMS: NavItemDef[] = [
-  { to: '/', label: 'Dashboard', icon: <LayoutGrid size={18} /> },
-  { to: '/inbox', label: 'Invoice inbox', icon: <Inbox size={18} />, showCount: true },
-  { to: '/po-matching', label: 'PO matching', icon: <GitCompareArrows size={18} /> },
-  { to: '/bank-upload', label: 'Bank upload', icon: <Upload size={18} /> },
-  { to: '/ar-matching', label: 'AR matching', icon: <ListChecks size={18} />, showCount: true },
-  { to: '/reminders', label: 'Reminders', icon: <BellRing size={18} /> },
-  { to: '/connections', label: 'Connections', icon: <Plug size={18} /> },
+interface NavGroup {
+  label: string | null;
+  items: NavItemDef[];
+}
+
+const NAV_GROUPS: NavGroup[] = [
+  {
+    label: null,
+    items: [
+      { to: '/', label: 'Dashboard', icon: <LayoutGrid size={18} /> },
+    ],
+  },
+  {
+    label: 'Payables',
+    items: [
+      { to: '/inbox', label: 'Vendor bills', icon: <Inbox size={18} />, showCount: true },
+      { to: '/po-matching', label: 'PO matching', icon: <GitCompareArrows size={18} /> },
+    ],
+  },
+  {
+    label: 'Receivables',
+    items: [
+      { to: '/sales', label: 'Sales invoices', icon: <FileOutput size={18} /> },
+      { to: '/bank-upload', label: 'Bank feed', icon: <Upload size={18} /> },
+      { to: '/ar-matching', label: 'AR matching', icon: <ListChecks size={18} />, showCount: true },
+      { to: '/reminders', label: 'Reminders', icon: <BellRing size={18} /> },
+    ],
+  },
+  {
+    label: null,
+    items: [
+      { to: '/connections', label: 'Connections', icon: <Plug size={18} /> },
+    ],
+  },
 ];
 
 interface NavItemProps {
@@ -232,20 +259,48 @@ export function Sidebar() {
           padding: compact ? '6px 8px' : '6px 12px',
           display: 'flex',
           flexDirection: 'column',
-          gap: 2,
+          gap: 0,
           flex: 1,
           overflowY: 'auto',
         }}
       >
-        {NAV_ITEMS.map((item) => {
-          const count =
-            item.to === '/inbox'
-              ? inboxCount
-              : item.to === '/ar-matching'
-              ? arMatchingCount
-              : 0;
-          return <NavItemRow key={item.to} item={item} count={count} compact={compact} />;
-        })}
+        {NAV_GROUPS.map((group, gi) => (
+          <div
+            key={gi}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+              marginBottom: group.label || gi < NAV_GROUPS.length - 1 ? 'var(--space-3)' : 0,
+            }}
+          >
+            {group.label && !compact && (
+              <span
+                style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: 11,
+                  fontWeight: 'var(--fw-medium)' as React.CSSProperties['fontWeight'],
+                  color: 'var(--text-faint)',
+                  textTransform: 'none',
+                  letterSpacing: '0.01em',
+                  padding: '4px 12px 2px',
+                  userSelect: 'none',
+                }}
+              >
+                {group.label}
+              </span>
+            )}
+            {group.items.map(item => {
+              const count =
+                item.to === '/inbox'
+                  ? inboxCount
+                  : item.to === '/ar-matching'
+                  ? arMatchingCount
+                  : 0;
+              return <NavItemRow key={item.to} item={item} count={count} compact={compact} />;
+            })}
+          </div>
+        ))}
       </nav>
 
       {/* Bottom strip */}
