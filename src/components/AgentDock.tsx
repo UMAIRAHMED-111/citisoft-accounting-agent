@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Send } from 'lucide-react';
+import { X, Send, Maximize2, Minimize2 } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAgent } from '../agent/AgentProvider';
 import type { AgentResponse } from '../agent/types';
@@ -169,6 +169,7 @@ export function AgentDock() {
   const route = location.pathname;
 
   const [open, setOpen] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false);
   const [hasUnread, setHasUnread] = React.useState(true);
   const [messages, setMessages] = React.useState<Message[]>([]);
   const [input, setInput] = React.useState('');
@@ -295,8 +296,9 @@ export function AgentDock() {
             aria-label="CitiSoft assistant"
             style={{
               pointerEvents: 'all',
-              width: 'min(400px, calc(100vw - 48px))',
-              height: 'min(640px, calc(100vh - 120px))',
+              width: expanded ? 'min(760px, calc(100vw - 48px))' : 'min(400px, calc(100vw - 48px))',
+              height: expanded ? 'calc(100vh - 110px)' : 'min(640px, calc(100vh - 120px))',
+              transition: 'width var(--dur) var(--ease-out), height var(--dur) var(--ease-out)',
               background: 'var(--surface-card)',
               borderRadius: 'var(--radius-xl)',
               boxShadow: 'var(--shadow-xl)',
@@ -352,6 +354,23 @@ export function AgentDock() {
                   Looking at: {routeLabel}
                 </span>
               </div>
+              <button
+                onClick={() => setExpanded(e => !e)}
+                aria-label={expanded ? 'Collapse chat' : 'Expand chat'}
+                title={expanded ? 'Collapse' : 'Expand'}
+                style={{
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: 'var(--slate-400)',
+                  padding: 4,
+                  borderRadius: 'var(--radius-sm)',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {expanded ? <Minimize2 size={15} /> : <Maximize2 size={15} />}
+              </button>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Close assistant"

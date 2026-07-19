@@ -8,9 +8,13 @@ function sleep(ms: number): Promise<void> {
 export class LocalAgent implements AgentProvider {
   async ask(q: string, ctx?: AgentContext): Promise<AgentResponse> {
     const { kind } = matchIntent(q, ctx);
-    const ms = kind === 'action'
-      ? 700 + Math.random() * 400   // 700–1100ms for actions
-      : 400 + Math.random() * 300;  // 400–700ms for queries
+    // Believable thinking time; near-instant under vitest so the suite stays fast.
+    const testMode = import.meta.env?.MODE === 'test';
+    const ms = testMode
+      ? 5
+      : kind === 'action'
+        ? 2000 + Math.random() * 900   // 2.0–2.9s: reading, mutating, re-matching
+        : 1200 + Math.random() * 800;  // 1.2–2.0s: querying the ledger
     await sleep(ms);
     return runIntent(q, ctx);
   }
