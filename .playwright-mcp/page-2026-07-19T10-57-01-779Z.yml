@@ -1,0 +1,193 @@
+- generic [ref=f7e3]:
+  - complementary [ref=f7e4]:
+    - generic [ref=f7e5]:
+      - img "Citisoft Solutions" [ref=f7e6]
+      - generic [ref=f7e7]:
+        - generic [ref=f7e8]: Powered by
+        - generic [ref=f7e9]: Claude
+    - navigation "Main navigation" [ref=f7e10]:
+      - link "Dashboard" [ref=f7e12] [cursor=pointer]:
+        - /url: /
+      - generic [ref=f7e20]:
+        - generic [ref=f7e21]: Payables
+        - link "Vendor bills 2" [ref=f7e22] [cursor=pointer]:
+          - /url: /inbox
+          - generic [ref=f7e27]: Vendor bills
+          - generic [ref=f7e28]: "2"
+        - link "PO matching" [ref=f7e29] [cursor=pointer]:
+          - /url: /po-matching
+      - generic [ref=f7e39]:
+        - generic [ref=f7e40]: Receivables
+        - link "Sales invoices" [ref=f7e41] [cursor=pointer]:
+          - /url: /sales
+        - link "Bank feed" [ref=f7e50] [cursor=pointer]:
+          - /url: /bank-upload
+        - link "AR matching 3" [ref=f7e56] [cursor=pointer]:
+          - /url: /ar-matching
+          - generic [ref=f7e61]: AR matching
+          - generic [ref=f7e62]: "3"
+        - link "Reminders" [ref=f7e63] [cursor=pointer]:
+          - /url: /reminders
+      - link "Connections" [ref=f7e72] [cursor=pointer]:
+        - /url: /connections
+    - paragraph [ref=f7e79]: Citisoft AP/AR
+  - generic [ref=f7e80]:
+    - banner [ref=f7e81]:
+      - searchbox "Search" [ref=f7e83]
+      - button "3 ERPs connected — view connections" [ref=f7e84] [cursor=pointer]:
+        - generic [ref=f7e86]: 3 ERPs · Connected
+      - button "Notifications" [ref=f7e88] [cursor=pointer]
+      - generic [ref=f7e93]:
+        - generic "Amara Okafor" [ref=f7e94]:
+          - img "Amara Okafor" [ref=f7e95]
+        - generic [ref=f7e96]:
+          - generic [ref=f7e97]: Amara Okafor
+          - generic [ref=f7e98]: Financial controller
+    - main [ref=f7e99]:
+      - generic [ref=f7e100]:
+        - generic [ref=f7e101]:
+          - heading "Good afternoon, Amara" [level=1] [ref=f7e102]
+          - paragraph [ref=f7e103]:
+            - text: You have
+            - strong [ref=f7e104]: 5 items
+            - text: that need your review.
+        - generic [ref=f7e105]:
+          - generic [ref=f7e223]:
+            - generic [ref=f7e224]: Open AP
+            - generic [ref=f7e229]: $6.2K
+          - generic [ref=f7e231]:
+            - generic [ref=f7e232]: Open AR
+            - generic [ref=f7e238]: $68.7K
+          - generic [ref=f7e240]:
+            - generic [ref=f7e241]: Exceptions
+            - generic [ref=f7e246]: "5"
+          - generic [ref=f7e248]:
+            - generic [ref=f7e249]: Reconciled MTD
+            - generic [ref=f7e255]: $136.5K
+        - generic [ref=f7e118]:
+          - generic [ref=f7e119]:
+            - generic [ref=f7e120]:
+              - generic [ref=f7e121]: Needs your attention
+              - generic [ref=f7e122]: 5 items
+            - generic [ref=f7e123]:
+              - generic [ref=f7e257]:
+                - generic [ref=f7e261]: 78875Amount $951.96 is $51.96 over PO po-11166
+                - link "Review" [ref=f7e262] [cursor=pointer]:
+                  - /url: /po-matching
+              - generic [ref=f7e263]:
+                - generic [ref=f7e267]: 13992AP invoice has no purchase-order reference
+                - link "Review" [ref=f7e268] [cursor=pointer]:
+                  - /url: /po-matching
+              - generic [ref=f7e269]:
+                - generic [ref=f7e273]: AR-2026-0061$3,000.00 of $5,875.50 applied — $2,875.50 still open
+                - link "Review" [ref=f7e274] [cursor=pointer]:
+                  - /url: /ar-matching
+              - generic [ref=f7e275]:
+                - generic [ref=f7e279]: "txn-6Bank txn ($500.00): No invoice matches this deposit"
+                - link "Review" [ref=f7e280] [cursor=pointer]:
+                  - /url: /ar-matching
+              - generic [ref=f7e281]:
+                - generic [ref=f7e285]: "txn-7Bank txn ($2,750.00): No invoice matches this deposit"
+                - link "Review" [ref=f7e286] [cursor=pointer]:
+                  - /url: /ar-matching
+          - generic [ref=f7e127]:
+            - generic [ref=f7e128]:
+              - paragraph [ref=f7e129]: Cash position
+              - generic [ref=f7e131]:
+                - generic [ref=f7e132]: Open AP
+                - generic [ref=f7e133]: $6,219.57
+              - generic [ref=f7e138]:
+                - generic [ref=f7e139]: Open AR
+                - generic [ref=f7e140]: $68,725.50
+              - generic [ref=f7e144]:
+                - generic [ref=f7e145]: Net exposure
+                - generic [ref=f7e146]: $62,505.93
+            - generic [ref=f7e147]:
+              - generic [ref=f7e148]: Recent activity
+              - generic [ref=f7e149]:
+                - generic [ref=f7e150]:
+                  - generic [ref=f7e155]:
+                    - paragraph [ref=f7e156]: ACH CREDIT GLOBAL AEROSPACE FABRICATORS REF AR-2026-0055
+                    - paragraph [ref=f7e157]: Jul 15, 2026
+                  - generic [ref=f7e158]: $22,100.00
+                - generic [ref=f7e159]:
+                  - generic [ref=f7e164]:
+                    - paragraph [ref=f7e165]: ACH CREDIT NORDWELL SYSTEMS REF AR-2026-0098
+                    - paragraph [ref=f7e166]: Jul 13, 2026
+                  - generic [ref=f7e167]: $7,500.00
+                - generic [ref=f7e168]:
+                  - generic [ref=f7e173]:
+                    - paragraph [ref=f7e174]: WIRE KEYSTONE INDL SUPPLY LUMP PYMT AR-2026-0067 AR-2026-0072
+                    - paragraph [ref=f7e175]: Jul 12, 2026
+                  - generic [ref=f7e176]: $23,840.00
+                - generic [ref=f7e177]:
+                  - generic [ref=f7e181]:
+                    - paragraph [ref=f7e182]: AP invoice 78875 received from A Plus Powder Coaters
+                    - paragraph [ref=f7e183]: Jul 10, 2026
+                  - generic [ref=f7e184]: $951.96
+                - generic [ref=f7e185]:
+                  - generic [ref=f7e190]:
+                    - paragraph [ref=f7e191]: ACH CREDIT DELTA MACHINING SOLUTIONS PARTIAL AR-2026-0061
+                    - paragraph [ref=f7e192]: Jul 10, 2026
+                  - generic [ref=f7e193]: $3,000.00
+                - generic [ref=f7e194]:
+                  - generic [ref=f7e199]:
+                    - paragraph [ref=f7e200]: WIRE INBOUND UNKNOWN SENDER 0047291
+                    - paragraph [ref=f7e201]: Jul 8, 2026
+                  - generic [ref=f7e202]: $2,750.00
+                - generic [ref=f7e203]:
+                  - generic [ref=f7e208]:
+                    - paragraph [ref=f7e209]: WIRE RIDGEWAY FABRICATION INC REF AR-2026-0078
+                    - paragraph [ref=f7e210]: Jul 7, 2026
+                  - generic [ref=f7e211]: $3,300.00
+                - generic [ref=f7e212]:
+                  - generic [ref=f7e216]:
+                    - paragraph [ref=f7e217]: AP invoice 13992 received from Anago Cleaning Service
+                    - paragraph [ref=f7e218]: Jul 6, 2026
+                  - generic [ref=f7e219]: $407.81
+  - generic:
+    - dialog "CitiSoft assistant" [ref=f7e287]:
+      - generic [ref=f7e288]:
+        - generic [ref=f7e289]:
+          - generic [ref=f7e290]: CitiSoft assistant
+          - generic [ref=f7e291]: "Looking at: Dashboard"
+        - button "Collapse chat" [active] [ref=f7e330] [cursor=pointer]
+        - button "Close assistant" [ref=f7e298] [cursor=pointer]
+      - generic [ref=f7e340]:
+        - paragraph [ref=f7e341]: "You have 5 items needing attention. Open AP: $6,219.57, Open AR: $68,725.50."
+        - table [ref=f7e344]:
+          - rowgroup [ref=f7e345]:
+            - row [ref=f7e346]:
+              - columnheader "Type" [ref=f7e347]
+              - columnheader "Ref" [ref=f7e348]
+              - columnheader "Description" [ref=f7e349]
+          - rowgroup [ref=f7e350]:
+            - row [ref=f7e351]:
+              - cell "Amount mismatch" [ref=f7e352]
+              - cell "78875" [ref=f7e353]
+              - 'cell "AP invoice 78875: Amount $951.96 is $51.96 over PO po-11166" [ref=f7e354]'
+            - row [ref=f7e355]:
+              - cell "Missing PO" [ref=f7e356]
+              - cell "13992" [ref=f7e357]
+              - cell "AP invoice 13992 has no purchase-order reference" [ref=f7e358]
+            - row [ref=f7e359]:
+              - cell "Partial payment" [ref=f7e360]
+              - cell "AR-2026-0061" [ref=f7e361]
+              - 'cell "AR-2026-0061: $3,000.00 of $5,875.50 applied — $2,875.50 still open" [ref=f7e362]'
+            - row [ref=f7e363]:
+              - cell "Unmatched deposit" [ref=f7e364]
+              - cell "txn-6" [ref=f7e365]
+              - 'cell "Bank txn txn-6 ($500.00): No invoice matches this deposit" [ref=f7e366]'
+            - row [ref=f7e367]:
+              - cell "Unmatched deposit" [ref=f7e368]
+              - cell "txn-7" [ref=f7e369]
+              - 'cell "Bank txn txn-7 ($2,750.00): No invoice matches this deposit" [ref=f7e370]'
+      - generic [ref=f7e311]:
+        - generic [ref=f7e312]:
+          - button "What needs my attention today" [ref=f7e313] [cursor=pointer]
+          - button "What is the net revenue this month" [ref=f7e314] [cursor=pointer]
+          - button "Who is my highest buyer" [ref=f7e315] [cursor=pointer]
+        - generic [ref=f7e316]:
+          - textbox "Ask about invoices, payments…" [ref=f7e320]
+          - button "Send message" [disabled] [ref=f7e321]: Send
+    - button "Close assistant" [ref=f7e326] [cursor=pointer]
