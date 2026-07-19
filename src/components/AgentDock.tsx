@@ -50,6 +50,9 @@ function getSuggestedChips(route: string): string[] {
   if (route === '/connections') {
     return ['Summarize this screen', 'What needs my attention today', 'Show open AP/AR totals'];
   }
+  if (route === '/sales') {
+    return ['Summarize this screen', 'Who owes me the most', 'Who is my highest buyer'];
+  }
   return ['What needs my attention today', 'Show overdue invoices', 'Show unmatched payments'];
 }
 
@@ -57,12 +60,13 @@ function getSuggestedChips(route: string): string[] {
 function getRouteLabel(route: string): string {
   const labels: Record<string, string> = {
     '/': 'Dashboard',
-    '/inbox': 'Invoice inbox',
+    '/inbox': 'Vendor bills',
     '/po-matching': 'PO matching',
-    '/bank-upload': 'Bank upload',
+    '/bank-upload': 'Bank feed',
     '/ar-matching': 'AR matching',
     '/reminders': 'Reminders',
     '/connections': 'ERP connections',
+    '/sales': 'Sales invoices',
   };
   return labels[route] ?? 'Overview';
 }

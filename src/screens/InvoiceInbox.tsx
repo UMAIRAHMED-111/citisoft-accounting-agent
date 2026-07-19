@@ -496,7 +496,7 @@ export default function InvoiceInbox() {
   if (loading) {
     return (
       <div>
-        <PageHeader title="Invoice inbox" subtitle="Review incoming AP invoices, verify PO matching, and post to your ERP" />
+        <PageHeader title="Vendor bills" subtitle="Incoming vendor invoices — review, match, and post to your ERP" />
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(280px, 380px) minmax(0, 1fr)', gap: 'var(--space-6)', alignItems: 'start' }}>
           <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', overflow: 'hidden' }}>
             <div style={{ padding: 'var(--space-4) var(--space-5)', borderBottom: '1px solid var(--border-subtle)' }}>
@@ -522,8 +522,8 @@ export default function InvoiceInbox() {
   return (
     <div>
       <PageHeader
-        title="Invoice inbox"
-        subtitle="Review incoming AP invoices, verify PO matching, and post to your ERP"
+        title="Vendor bills"
+        subtitle="Incoming vendor invoices — review, match, and post to your ERP"
       />
 
       {/* Split layout */}

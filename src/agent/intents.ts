@@ -438,6 +438,34 @@ function handleScreenSummary(ctx: AgentContext, ledger: Ledger): AgentResponse |
     };
   }
 
+  if (route === '/sales') {
+    const arRows = ledger.ar;
+    const invoicedTotal = arRows.reduce((s, r) => s + r.invoice.amount, 0);
+    const collected = arRows.reduce((s, r) => s + r.applied, 0);
+    const outstanding = arRows.reduce((s, r) => s + r.balance, 0);
+    const overdueRows = arRows.filter(r => r.balance > 0 && r.invoice.dueDate < TODAY);
+    const topOpen = [...arRows].sort((a, b) => b.balance - a.balance).find(r => r.balance > 0);
+    return {
+      blocks: [
+        {
+          type: 'text',
+          text: `Sales invoices: ${arRows.length} invoices issued totaling ${money(invoicedTotal)}. ${money(collected)} collected, ${money(outstanding)} outstanding. ${plural(overdueRows.length, 'invoice')} overdue.${topOpen ? ` Largest open balance: ${topOpen.invoice.customer} — ${money(topOpen.balance)} (${topOpen.invoice.invoiceNo}).` : ''}`,
+        },
+        {
+          type: 'table',
+          columns: ['Metric', 'Value'],
+          rows: [
+            ['Invoiced total', money(invoicedTotal)],
+            ['Collected', money(collected)],
+            ['Outstanding', money(outstanding)],
+            ['Overdue invoices', String(overdueRows.length)],
+            ['Top open balance', topOpen ? `${topOpen.invoice.customer} — ${money(topOpen.balance)}` : '—'],
+          ],
+        },
+      ],
+    };
+  }
+
   return null;
 }
 

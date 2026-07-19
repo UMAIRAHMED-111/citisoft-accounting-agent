@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronDown, ChevronRight, Link2Off, AlertCircle } from 'lucide-react';
+import { ChevronDown, ChevronRight, Link2Off, AlertCircle, PlusCircle } from 'lucide-react';
 import { PageHeader } from '../components/PageHeader';
 import { ConfidenceMeter } from '../components/ConfidenceMeter';
 import { Skeleton } from '../components/Skeleton';
@@ -7,12 +7,14 @@ import { Tabs } from '../ds/Tabs';
 import { Badge } from '../ds/Badge';
 import { Button } from '../ds/Button';
 import { Dialog } from '../ds/Dialog';
+import { Input } from '../ds/Input';
+import { Select } from '../ds/Select';
 import { useToast } from '../components/ToastHost';
 import { bankStatement, arInvoices } from '../data/seed';
-import { matchPaymentToInvoices } from '../data/reconcile';
-import { useLedgerVersion } from '../data/store';
+import { matchPaymentToInvoices, buildLedger } from '../data/reconcile';
+import { useLedgerVersion, mutateSeed } from '../data/store';
 import { useSimulatedLoad } from '../lib/useSimulatedLoad';
-import { money, fmtDate } from '../lib/format';
+import { money, fmtDate, daysOverdue } from '../lib/format';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -213,59 +215,282 @@ function ConfidenceMeterRow({ confidence }: { confidence: number }) {
 }
 
 // ---------------------------------------------------------------------------
-// Summary strip
+// AR overview band (improved)
 // ---------------------------------------------------------------------------
-function SummaryStrip({ totals }: { totals: { applied: number; unapplied: number; excluded: number } }) {
-  const items = [
-    { label: 'Applied', value: totals.applied, tone: 'var(--success-500)' },
-    { label: 'Unapplied cash', value: totals.unapplied, tone: 'var(--warning-600)' },
-    { label: 'Excluded', value: totals.excluded, tone: 'var(--text-muted)' },
-  ];
+const TODAY_DATE = new Date('2026-07-18');
+
+interface ArOverviewBandProps {
+  totals: { applied: number; unapplied: number; excluded: number };
+}
+
+function ArOverviewBand({ totals }: ArOverviewBandProps) {
+  const version = useLedgerVersion();
+  const ledger = React.useMemo(() => buildLedger(), [version]);
+  const arRows = ledger.ar;
+
+  const collectedTotal = arRows.reduce((s, r) => s + r.applied, 0);
+  const outstandingTotal = arRows.reduce((s, r) => s + r.balance, 0);
+  const overdueAmount = arRows
+    .filter(r => r.balance > 0 && r.invoice.dueDate < TODAY_DATE)
+    .reduce((s, r) => s + r.balance, 0);
+  const overdueRows = arRows.filter(r => r.balance > 0 && r.invoice.dueDate < TODAY_DATE);
+  const avgOverdue =
+    overdueRows.length > 0
+      ? Math.round(
+          overdueRows.reduce((s, r) => s + daysOverdue(r.invoice.dueDate, TODAY_DATE), 0) /
+            overdueRows.length,
+        )
+      : null;
+  const invoicedTotal = arRows.reduce((s, r) => s + r.invoice.amount, 0);
+  const collectionRate = invoicedTotal > 0 ? collectedTotal / invoicedTotal : 0;
+  const pct = Math.round(collectionRate * 100);
 
   return (
     <div
       style={{
-        display: 'flex',
-        gap: 'var(--space-5)',
-        padding: 'var(--space-5) var(--space-6)',
         background: 'var(--surface-card)',
         border: '1px solid var(--border-default)',
         borderRadius: 'var(--radius-md)',
         marginBottom: 'var(--space-6)',
         boxShadow: 'var(--shadow-xs)',
+        overflow: 'hidden',
       }}
     >
-      {items.map((item, i) => (
-        <React.Fragment key={item.label}>
-          {i > 0 && (
-            <div style={{ width: 1, background: 'var(--border-subtle)', alignSelf: 'stretch' }} />
+      {/* Main KPI row */}
+      <div style={{ display: 'flex' }}>
+        {/* Collected this period */}
+        <div style={{ flex: 1, padding: 'var(--space-5) var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-caption)', fontWeight: 'var(--fw-medium)', color: 'var(--text-muted)' }}>
+            Collected this period
+          </span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 26, fontWeight: 700, color: 'var(--success-500)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+            {money(collectedTotal)}
+          </span>
+        </div>
+
+        <div style={{ width: 1, background: 'var(--border-subtle)', alignSelf: 'stretch' }} />
+
+        {/* Outstanding receivables */}
+        <div style={{ flex: 1, padding: 'var(--space-5) var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-caption)', fontWeight: 'var(--fw-medium)', color: 'var(--text-muted)' }}>
+            Outstanding receivables
+          </span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 26, fontWeight: 700, color: 'var(--text-strong)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+            {money(outstandingTotal)}
+          </span>
+          {overdueAmount > 0 && (
+            <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-caption)', color: 'var(--rose-600)', marginTop: 2 }}>
+              of which {money(overdueAmount)} overdue
+            </span>
           )}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)', flex: 1 }}>
-            <span
+        </div>
+
+        <div style={{ width: 1, background: 'var(--border-subtle)', alignSelf: 'stretch' }} />
+
+        {/* Collection rate */}
+        <div style={{ flex: 1, padding: 'var(--space-5) var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-caption)', fontWeight: 'var(--fw-medium)', color: 'var(--text-muted)' }}>
+            Collection rate
+          </span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 26, fontWeight: 700, color: 'var(--text-strong)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+            {pct}%
+          </span>
+          <div style={{ height: 4, borderRadius: 'var(--radius-pill)', background: 'var(--border-default)', overflow: 'hidden' }}>
+            <div
               style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: 'var(--fs-caption)',
-                fontWeight: 'var(--fw-medium)',
-                color: 'var(--text-muted)',
+                height: '100%',
+                width: `${pct}%`,
+                borderRadius: 'var(--radius-pill)',
+                background: 'var(--grad-brand)',
+                transition: 'width 280ms var(--ease-out)',
               }}
-            >
-              {item.label}
-            </span>
-            <span
-              style={{
-                fontFamily: 'var(--font-mono)',
-                fontSize: 'var(--fs-h4)',
-                fontWeight: 700,
-                color: item.tone,
-                letterSpacing: '-0.01em',
-              }}
-            >
-              {money(item.value)}
-            </span>
+            />
           </div>
-        </React.Fragment>
-      ))}
+        </div>
+
+        <div style={{ width: 1, background: 'var(--border-subtle)', alignSelf: 'stretch' }} />
+
+        {/* Avg days overdue */}
+        <div style={{ flex: 1, padding: 'var(--space-5) var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+          <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-caption)', fontWeight: 'var(--fw-medium)', color: 'var(--text-muted)' }}>
+            Avg days overdue
+          </span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 26, fontWeight: 700, color: avgOverdue != null ? 'var(--rose-600)' : 'var(--text-strong)', letterSpacing: '-0.02em', lineHeight: 1 }}>
+            {avgOverdue != null ? `${avgOverdue}d` : '—'}
+          </span>
+        </div>
+      </div>
+
+      {/* Muted detail line */}
+      <div
+        style={{
+          borderTop: '1px solid var(--border-subtle)',
+          padding: 'var(--space-3) var(--space-6)',
+          display: 'flex',
+          gap: 'var(--space-6)',
+          background: 'var(--surface-sunken)',
+        }}
+      >
+        <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-caption)', color: 'var(--text-muted)' }}>
+          Unapplied cash:{' '}
+          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-muted)' }}>{money(totals.unapplied)}</span>
+        </span>
+        <span style={{ fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-caption)', color: 'var(--text-muted)' }}>
+          Excluded (fees / outbound):{' '}
+          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-muted)' }}>{money(totals.excluded)}</span>
+        </span>
+      </div>
     </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Record payment dialog
+// ---------------------------------------------------------------------------
+const PAYMENT_METHODS = [
+  { value: 'Cheque', label: 'Cheque' },
+  { value: 'Cash', label: 'Cash' },
+  { value: 'Bank transfer', label: 'Bank transfer' },
+];
+
+interface RecordPaymentDialogProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+function RecordPaymentDialog({ open, onClose }: RecordPaymentDialogProps) {
+  const toast = useToast();
+  const version = useLedgerVersion();
+  const ledger = React.useMemo(() => buildLedger(), [version]);
+
+  const [method, setMethod] = React.useState('Cheque');
+  const [amount, setAmount] = React.useState('');
+  const [date, setDate] = React.useState('2026-07-18');
+  const [reference, setReference] = React.useState('');
+  const [invoiceId, setInvoiceId] = React.useState('');
+  const [working, setWorking] = React.useState(false);
+  const [errors, setErrors] = React.useState<Record<string, string>>({});
+
+  const openInvoices = ledger.ar.filter(r => r.balance > 0);
+
+  React.useEffect(() => {
+    if (openInvoices.length > 0 && !invoiceId) {
+      setInvoiceId(openInvoices[0].invoice.ref);
+    }
+  }, [open]);
+
+  function reset() {
+    setMethod('Cheque');
+    setAmount('');
+    setDate('2026-07-18');
+    setReference('');
+    setInvoiceId(openInvoices[0]?.invoice.ref ?? '');
+    setErrors({});
+    setWorking(false);
+  }
+
+  function handleClose() {
+    reset();
+    onClose();
+  }
+
+  async function handleSubmit() {
+    const errs: Record<string, string> = {};
+    if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) errs.amount = 'Enter a valid amount';
+    if (!date) errs.date = 'Required';
+    if (!invoiceId) errs.invoiceId = 'Select an invoice';
+    if (Object.keys(errs).length) {
+      setErrors(errs);
+      return;
+    }
+
+    const selectedRow = openInvoices.find(r => r.invoice.ref === invoiceId);
+    if (!selectedRow) return;
+
+    setWorking(true);
+    await new Promise(r => setTimeout(r, 900));
+
+    const amt = Number(amount);
+    const n = bankStatement.txns.length + 1;
+    const memo = `${method} ${reference ? reference + ' ' : ''}${selectedRow.invoice.customer}`;
+
+    mutateSeed(() => {
+      bankStatement.txns.push({
+        id: `txn-manual-${n}`,
+        date: new Date(date),
+        amount: amt,
+        memo,
+        payerRef: invoiceId,
+      });
+      return invoiceId;
+    });
+
+    toast.push({
+      tone: 'success',
+      title: `Payment recorded — ${money(amt)} applied to ${invoiceId}`,
+    });
+
+    reset();
+    onClose();
+  }
+
+  const invoiceOptions = openInvoices.map(r => ({
+    value: r.invoice.ref,
+    label: `${r.invoice.ref} — ${r.invoice.customer} (${money(r.balance)} open)`,
+  }));
+
+  return (
+    <Dialog open={open} onClose={handleClose} title="Record payment" width={500}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+        <Select
+          label="Method"
+          options={PAYMENT_METHODS}
+          value={method}
+          onChange={e => setMethod(e.target.value)}
+          disabled={working}
+        />
+        <Input
+          label="Amount"
+          type="number"
+          value={amount}
+          onChange={e => setAmount(e.target.value)}
+          placeholder="0.00"
+          error={errors.amount}
+          disabled={working}
+        />
+        <Input
+          label="Date"
+          type="date"
+          value={date}
+          onChange={e => setDate(e.target.value)}
+          error={errors.date}
+          disabled={working}
+        />
+        <Input
+          label="Reference (e.g. cheque number)"
+          value={reference}
+          onChange={e => setReference(e.target.value)}
+          placeholder="e.g. CHQ-001234"
+          disabled={working}
+        />
+        <Select
+          label="Apply to"
+          options={invoiceOptions}
+          value={invoiceId}
+          onChange={e => setInvoiceId(e.target.value)}
+          error={errors.invoiceId}
+          disabled={working}
+        />
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--space-3)', marginTop: 'var(--space-2)' }}>
+          <Button variant="ghost" size="md" onClick={handleClose} disabled={working}>
+            Cancel
+          </Button>
+          <Button variant="primary" size="md" onClick={handleSubmit} disabled={working}>
+            {working ? 'Recording…' : 'Record payment'}
+          </Button>
+        </div>
+      </div>
+    </Dialog>
   );
 }
 
@@ -368,6 +593,7 @@ export default function ArMatching() {
   const loading = useSimulatedLoad(500);
   const [tab, setTab] = React.useState<TabKey>('all');
   const [matchDialogRow, setMatchDialogRow] = React.useState<MatchRow | null>(null);
+  const [recordPaymentOpen, setRecordPaymentOpen] = React.useState(false);
   const toast = useToast();
 
   // Derived rows — recomputed when agent mutations bump the ledger version.
@@ -437,9 +663,10 @@ export default function ArMatching() {
       <div>
         <PageHeader title="AR matching" subtitle="Bank deposits matched against open AR invoices — partial and unmatched receipts flagged for review" />
         <div style={{ display: 'flex', gap: 'var(--space-5)', padding: 'var(--space-5)', background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-md)', marginBottom: 'var(--space-6)' }}>
-          <Skeleton w="33%" h={48} />
-          <Skeleton w="33%" h={48} />
-          <Skeleton w="33%" h={48} />
+          <Skeleton w="25%" h={60} />
+          <Skeleton w="25%" h={60} />
+          <Skeleton w="25%" h={60} />
+          <Skeleton w="25%" h={60} />
         </div>
         <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
           {Array.from({ length: 6 }).map((_, i) => (
@@ -459,10 +686,20 @@ export default function ArMatching() {
       <PageHeader
         title="AR matching"
         subtitle="Bank deposits matched against open AR invoices — partial and unmatched receipts flagged for review"
+        actions={
+          <Button
+            variant="secondary"
+            size="md"
+            leadingIcon={<PlusCircle size={15} />}
+            onClick={() => setRecordPaymentOpen(true)}
+          >
+            Record payment
+          </Button>
+        }
       />
 
-      {/* Summary strip */}
-      <SummaryStrip totals={totals} />
+      {/* AR overview band */}
+      <ArOverviewBand totals={totals} />
 
       {/* Tabs */}
       <Tabs
@@ -530,6 +767,12 @@ export default function ArMatching() {
       >
         Outbound payments and bank fees are excluded from AR matching — they are not customer receipts and are never force-matched to open invoices.
       </p>
+
+      {/* Record payment dialog */}
+      <RecordPaymentDialog
+        open={recordPaymentOpen}
+        onClose={() => setRecordPaymentOpen(false)}
+      />
 
       {/* Manual match dialog */}
       <Dialog

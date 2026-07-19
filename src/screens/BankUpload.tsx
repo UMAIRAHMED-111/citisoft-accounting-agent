@@ -312,7 +312,7 @@ export default function BankUpload() {
   return (
     <div>
       <PageHeader
-        title="Bank statement upload"
+        title="Bank feed & uploads"
         subtitle="Connect a live bank feed or import a statement to match deposits against open AR invoices"
       />
 
