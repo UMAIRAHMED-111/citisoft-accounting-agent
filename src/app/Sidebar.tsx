@@ -184,7 +184,7 @@ export function Sidebar() {
   const version = useLedgerVersion();
   const ledger = useMemo(() => buildLedger(), [version]);
   const inboxCount = ledger.ap.filter(r => r.status !== 'auto_approved').length;
-  const arMatchingCount = ledger.ar.filter(r => r.kind === 'partial' || r.kind === 'unmatched').length;
+  const arMatchingCount = ledger.exceptions.filter(e => e.type === 'ar_partial' || e.type === 'ar_unmatched_deposit').length;
 
   // Compact (icon-rail) mode at narrow viewport widths
   const [compact, setCompact] = useState(() => window.innerWidth < 880);

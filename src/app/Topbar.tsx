@@ -295,7 +295,7 @@ export function Topbar() {
 
       {/* User block */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, paddingLeft: 4, flexShrink: 0 }}>
-        <Avatar name="Amara Okafor" size="sm" />
+        <Avatar name="Amara Okafor" src="/avatars/amara.jpg" size="sm" />
         <div style={{ lineHeight: 1.25 }}>
           <div style={{
             fontFamily: 'var(--font-sans)',

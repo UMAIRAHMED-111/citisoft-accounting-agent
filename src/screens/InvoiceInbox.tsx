@@ -1,6 +1,9 @@
 import { useMemo, useState } from 'react';
+import React from 'react';
 import { RefreshCw, Search, Link2 } from 'lucide-react';
 import { Badge, Button, Card, Dialog } from '../ds';
+import { Tag } from '../ds/Tag';
+import { SearchField, Pager } from '../components/TableControls';
 import { useToast } from '../components/ToastHost';
 import { PageHeader } from '../components/PageHeader';
 import { PdfViewer } from '../components/PdfViewer';
@@ -475,6 +478,10 @@ export default function InvoiceInbox() {
   const version = useLedgerVersion();
   const loading = useSimulatedLoad(450);
   const [selectedId, setSelectedId] = useState<string>(apInvoices[0].id);
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'auto_approved' | 'needs_review'>('all');
+  const [page, setPage] = useState(0);
+  const PAGE_SIZE = 8;
 
   // Pre-compute statuses (re-runs when version changes due to agent mutations)
   const rowData = useMemo(
@@ -491,7 +498,53 @@ export default function InvoiceInbox() {
     [version],
   );
 
-  const selected = apInvoices.find(i => i.id === selectedId) ?? apInvoices[0];
+  // Filter by search + status
+  const filteredData = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return rowData.filter(({ invoice, apStatus }) => {
+      const vendor = vendors.find(v => v.id === invoice.vendorId);
+      const matchesSearch = !q ||
+        (vendor?.name ?? '').toLowerCase().includes(q) ||
+        invoice.invoiceNo.toLowerCase().includes(q);
+      const matchesStatus = statusFilter === 'all' || apStatus === statusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }, [rowData, search, statusFilter]);
+
+  // Reset page when filter/search changes
+  const prevFilterRef = React.useRef({ search, statusFilter });
+  if (prevFilterRef.current.search !== search || prevFilterRef.current.statusFilter !== statusFilter) {
+    prevFilterRef.current = { search, statusFilter };
+    if (page !== 0) setPage(0);
+  }
+
+  // Paginate
+  const totalPages = Math.max(1, Math.ceil(filteredData.length / PAGE_SIZE));
+  const safePage = Math.min(page, totalPages - 1);
+  const pageData = filteredData.slice(safePage * PAGE_SIZE, (safePage + 1) * PAGE_SIZE);
+
+  // Keep selection valid — if selected not in current page, select first of page
+  const pageIds = new Set(pageData.map(r => r.invoice.id));
+  const effectiveSelectedId = pageIds.has(selectedId) && filteredData.some(r => r.invoice.id === selectedId)
+    ? selectedId
+    : (pageData[0]?.invoice.id ?? apInvoices[0].id);
+
+  const selected = apInvoices.find(i => i.id === effectiveSelectedId) ?? apInvoices[0];
+
+  // Status counts for chips
+  const allCount = rowData.length;
+  const approvedCount = rowData.filter(r => r.apStatus === 'auto_approved').length;
+  const reviewCount = rowData.filter(r => r.apStatus === 'needs_review').length;
+
+  function handleSearch(val: string) {
+    setSearch(val);
+    setPage(0);
+  }
+
+  function handleStatusFilter(f: typeof statusFilter) {
+    setStatusFilter(f);
+    setPage(0);
+  }
 
   if (loading) {
     return (
@@ -573,16 +626,57 @@ export default function InvoiceInbox() {
             </Badge>
           </div>
 
+          {/* Search + filter chips */}
+          <div style={{ padding: 'var(--space-3) var(--space-4)', borderBottom: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+            <SearchField value={search} onChange={handleSearch} placeholder="Search vendor or invoice…" />
+            <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+              <Tag active={statusFilter === 'all'} onClick={() => handleStatusFilter('all')}>All · {allCount}</Tag>
+              <Tag active={statusFilter === 'auto_approved'} onClick={() => handleStatusFilter('auto_approved')}>Auto-approved · {approvedCount}</Tag>
+              <Tag active={statusFilter === 'needs_review'} onClick={() => handleStatusFilter('needs_review')}>Needs review · {reviewCount}</Tag>
+            </div>
+          </div>
+
           {/* Rows */}
-          {rowData.map(({ invoice, apStatus }) => (
-            <InvoiceListRow
-              key={invoice.id}
-              invoice={invoice}
-              apStatus={apStatus}
-              selected={invoice.id === selectedId}
-              onClick={() => setSelectedId(invoice.id)}
-            />
-          ))}
+          {pageData.length === 0 ? (
+            <div style={{ padding: 'var(--space-8) var(--space-5)', textAlign: 'center' }}>
+              <EmptyState
+                icon={<Search size={20} />}
+                title={search ? `No matches for "${search}"` : 'No invoices'}
+                body={search ? 'Try a different search term or clear the filter.' : 'No invoices in this category.'}
+                cta={search ? (
+                  <button
+                    type="button"
+                    onClick={() => handleSearch('')}
+                    style={{ fontFamily: 'var(--font-sans)', fontSize: 13, color: 'var(--accent)', background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline', textDecorationStyle: 'dotted', textUnderlineOffset: 3 }}
+                  >
+                    Clear search
+                  </button>
+                ) : undefined}
+              />
+            </div>
+          ) : (
+            pageData.map(({ invoice, apStatus }) => (
+              <InvoiceListRow
+                key={invoice.id}
+                invoice={invoice}
+                apStatus={apStatus}
+                selected={invoice.id === effectiveSelectedId}
+                onClick={() => setSelectedId(invoice.id)}
+              />
+            ))
+          )}
+
+          {/* Pager */}
+          {filteredData.length > PAGE_SIZE && (
+            <div style={{ padding: 'var(--space-3) var(--space-5)', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'flex-end' }}>
+              <Pager
+                page={safePage}
+                pageSize={PAGE_SIZE}
+                total={filteredData.length}
+                onPage={setPage}
+              />
+            </div>
+          )}
         </div>
 
         {/* RIGHT: detail panel */}

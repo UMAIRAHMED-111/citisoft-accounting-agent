@@ -11,6 +11,7 @@ import { Dialog } from '../ds/Dialog';
 import { bankStatement } from '../data/seed';
 import { money, fmtDate } from '../lib/format';
 import { useToast } from '../components/ToastHost';
+import { Pager } from '../components/TableControls';
 
 type Phase = 'idle' | 'parsing' | 'parsed';
 
@@ -131,6 +132,8 @@ export default function BankUpload() {
   const [progress, setProgress] = useState(0);
   const [uploadedFileName, setUploadedFileName] = useState<string>('statement.pdf');
   const [dragOver, setDragOver] = useState(false);
+  const [txnPage, setTxnPage] = useState(0);
+  const TXN_PAGE_SIZE = 10;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Plaid connection state
@@ -143,6 +146,9 @@ export default function BankUpload() {
 
   // Statement renders in date order
   const txns = [...bankStatement.txns].sort((a, b) => a.date.getTime() - b.date.getTime());
+  const txnPageRows = txns.length > TXN_PAGE_SIZE
+    ? txns.slice(txnPage * TXN_PAGE_SIZE, (txnPage + 1) * TXN_PAGE_SIZE)
+    : txns;
   const net = txns.reduce((sum, t) => sum + t.amount, 0);
 
   function startParsing(filename: string) {
@@ -749,7 +755,12 @@ export default function BankUpload() {
 
           {/* Transaction table */}
           <Card padding={0} style={{ overflow: 'hidden' }}>
-            <DataTable columns={txnColumns} rows={txns} />
+            <DataTable columns={txnColumns} rows={txnPageRows} />
+            {txns.length > TXN_PAGE_SIZE && (
+              <div style={{ padding: 'var(--space-3) var(--space-5)', borderTop: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'flex-end' }}>
+                <Pager page={txnPage} pageSize={TXN_PAGE_SIZE} total={txns.length} onPage={setTxnPage} />
+              </div>
+            )}
           </Card>
         </div>
       )}

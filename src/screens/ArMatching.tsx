@@ -15,6 +15,7 @@ import { matchPaymentToInvoices, buildLedger } from '../data/reconcile';
 import { useLedgerVersion, mutateSeed } from '../data/store';
 import { useSimulatedLoad } from '../lib/useSimulatedLoad';
 import { money, fmtDate, daysOverdue } from '../lib/format';
+import { SearchField, Pager } from '../components/TableControls';
 
 // ---------------------------------------------------------------------------
 // Types
@@ -594,6 +595,9 @@ export default function ArMatching() {
   const [tab, setTab] = React.useState<TabKey>('all');
   const [matchDialogRow, setMatchDialogRow] = React.useState<MatchRow | null>(null);
   const [recordPaymentOpen, setRecordPaymentOpen] = React.useState(false);
+  const [search, setSearch] = React.useState('');
+  const [page, setPage] = React.useState(0);
+  const PAGE_SIZE = 10;
   const toast = useToast();
 
   // Derived rows — recomputed when agent mutations bump the ledger version.
@@ -643,6 +647,20 @@ export default function ArMatching() {
   ];
 
   const visibleRows = filterRows(rows, tab);
+
+  // Search within visible rows
+  const searchedRows = React.useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return visibleRows;
+    return visibleRows.filter(row => {
+      return row.txn.memo.toLowerCase().includes(q) ||
+        (row.txn.payerRef ?? '').toLowerCase().includes(q);
+    });
+  }, [visibleRows, search]);
+
+  // Reset page when tab/search changes
+  const searchedPage = Math.min(page, Math.max(0, Math.ceil(searchedRows.length / PAGE_SIZE) - 1));
+  const pageRows = searchedRows.slice(searchedPage * PAGE_SIZE, (searchedPage + 1) * PAGE_SIZE);
 
   const thStyle: React.CSSProperties = {
     padding: 'var(--space-3) var(--space-5)',
@@ -709,6 +727,16 @@ export default function ArMatching() {
         style={{ marginBottom: 'var(--space-5)' }}
       />
 
+      {/* Search */}
+      <div style={{ marginBottom: 'var(--space-4)' }}>
+        <SearchField
+          value={search}
+          onChange={v => { setSearch(v); setPage(0); }}
+          placeholder="Search memo or reference…"
+          style={{ maxWidth: 360 }}
+        />
+      </div>
+
       {/* Table */}
       <div
         style={{
@@ -719,7 +747,7 @@ export default function ArMatching() {
           overflow: 'hidden',
         }}
       >
-        {visibleRows.length === 0 ? (
+        {searchedRows.length === 0 ? (
           <div style={{ padding: 'var(--space-10)', textAlign: 'center', color: 'var(--text-muted)', fontFamily: 'var(--font-sans)', fontSize: 'var(--fs-body-sm)' }}>
             No transactions in this category.
           </div>
@@ -746,7 +774,7 @@ export default function ArMatching() {
               </tr>
             </thead>
             <tbody>
-              {visibleRows.map(row => (
+              {pageRows.map(row => (
                 <TxnRow key={row.txn.id} row={row} onMatchManually={setMatchDialogRow} />
               ))}
             </tbody>
@@ -754,6 +782,12 @@ export default function ArMatching() {
           </div>
         )}
       </div>
+
+      {searchedRows.length > PAGE_SIZE && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end', padding: 'var(--space-3) var(--space-5)', borderTop: '1px solid var(--border-subtle)', background: 'var(--surface-card)', border: '1px solid var(--border-default)', borderRadius: '0 0 var(--radius-md) var(--radius-md)' }}>
+          <Pager page={searchedPage} pageSize={PAGE_SIZE} total={searchedRows.length} onPage={setPage} />
+        </div>
+      )}
 
       {/* Footnote about exclusion logic */}
       <p
