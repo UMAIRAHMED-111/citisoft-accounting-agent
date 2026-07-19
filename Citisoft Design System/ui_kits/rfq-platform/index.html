@@ -1,0 +1,98 @@
+<!-- @dsCard group="RFQ Platform" viewport="1320x820" name="RFQ / Sales platform" subtitle="Dashboard, quote comparison & award flow — magenta product accent" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Citisoft — RFQ Platform</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; height: 100%; background: var(--surface-page); }
+  #root { height: 100vh; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="icons.jsx"></script>
+<script type="text/babel" src="data.jsx"></script>
+<script type="text/babel" src="AppShell.jsx"></script>
+<script type="text/babel" src="Dashboard.jsx"></script>
+<script type="text/babel" src="RfqDetail.jsx"></script>
+<script type="text/babel" data-presets="env,react">
+  const { Dialog, Input, Select, Button, Toast, Card } = window.CitisoftDesignSystem_1a14bd;
+
+  function NewRfqDialog({ open, onClose, onCreate }) {
+    return (
+      <Dialog open={open} onClose={onClose} title="New RFQ" width={520}
+        footer={<>
+          <Button variant="secondary" onClick={onClose}>Save draft</Button>
+          <Button accent="rfq" onClick={onCreate} trailingIcon={<RIcon name="arrowRight" size={17} color="#fff" />}>Publish to suppliers</Button>
+        </>}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <Input label="What are you sourcing?" placeholder='e.g. Flanged ball valve, 3"' />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <Select label="Category" options={['Valves & fittings', 'Steel & metals', 'Fasteners', 'Polymers']} />
+            <Input label="Quantity" placeholder="500" />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <Input label="Need-by date" type="date" />
+            <Select label="Route to" options={['All qualified suppliers', 'Preferred suppliers only', 'Specific list']} />
+          </div>
+        </div>
+      </Dialog>
+    );
+  }
+
+  function Placeholder({ title }) {
+    return (
+      <div style={{ padding: '40px 28px', maxWidth: 1180, margin: '0 auto' }}>
+        <h1 style={{ fontFamily: 'var(--font-sans)', fontSize: 27, fontWeight: 800, letterSpacing: '-0.02em', color: 'var(--text-strong)', margin: '0 0 18px' }}>{title}</h1>
+        <Card padding={48} style={{ textAlign: 'center' }}>
+          <div style={{ fontFamily: 'var(--font-sans)', fontSize: 15, color: 'var(--text-muted)' }}>
+            This area is part of the Citisoft RFQ Platform. This kit focuses on the Dashboard and RFQ workflow — see the Dashboard for the interactive flow.
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
+  function App() {
+    const [view, setView] = React.useState('dashboard');
+    const [rfq, setRfq] = React.useState(null);
+    const [newOpen, setNewOpen] = React.useState(false);
+    const [toast, setToast] = React.useState(null);
+
+    const openRfq = (r) => { setRfq(r); setView('detail'); };
+    const nav = (id) => { setView(id === 'rfqs' ? 'dashboard' : id); };
+    const showToast = (t) => { setToast(t); };
+
+    let main;
+    if (view === 'dashboard') main = <Dashboard onOpenRfq={openRfq} onNew={() => setNewOpen(true)} />;
+    else if (view === 'detail') main = <RfqDetail rfq={rfq} onBack={() => setView('dashboard')} onAward={(sup) => showToast({ tone: 'success', title: 'Quote awarded', body: sup + ' was notified. A purchase order draft is ready.' })} />;
+    else main = <Placeholder title={{ suppliers: 'Suppliers', insights: 'Spend insights', logistics: 'Logistics', settings: 'Settings' }[view] || 'Citisoft'} />;
+
+    return (
+      <div style={{ display: 'flex', height: '100%' }}>
+        <Sidebar active={view} onNav={nav} />
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+          <Topbar onNew={() => setNewOpen(true)} />
+          <div style={{ flex: 1, overflow: 'auto' }}>{main}</div>
+        </div>
+        <NewRfqDialog open={newOpen} onClose={() => setNewOpen(false)} onCreate={() => { setNewOpen(false); showToast({ tone: 'success', title: 'RFQ published', body: 'Routed to 14 qualified suppliers.' }); }} />
+        {toast && (
+          <div style={{ position: 'fixed', bottom: 22, right: 22, zIndex: 1100 }}>
+            <Toast tone={toast.tone} title={toast.title} onDismiss={() => setToast(null)}>{toast.body}</Toast>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

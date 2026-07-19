@@ -1,0 +1,332 @@
+/* Citisoft webfonts — Google Fonts.
+   IBM Plex superfamily (Sans / Serif / Mono) — chosen for the AP/AR product's
+   enterprise register; replaces the marketing-site faces (Hanken Grotesk /
+   Source Serif 4 / JetBrains Mono) across the app via the tokens below. */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+/* ============================================================
+   Citisoft — Color tokens
+   Light theme is the default surface; the dark theme is a
+   high-impact mode applied with [data-theme="dark"].
+   ============================================================ */
+
+:root {
+  /* ---- Brand blues (raw scale) ---- */
+  --blue-azure: #2b9fd4;   /* light azure  */
+  --blue-mid:   #2c79ba;   /* mid blue     */
+  --blue-deep:  #255b9c;   /* deep navy-blue */
+  --blue-700:   #1f4d85;   /* pressed / darkest brand */
+  --blue-100:   #e3f1f9;   /* tint surface  */
+  --blue-050:   #f1f8fc;   /* faintest tint */
+
+  /* ---- Signature brand gradient (135°) ---- */
+  --grad-brand: linear-gradient(135deg, var(--blue-azure) 0%, var(--blue-mid) 52%, var(--blue-deep) 100%); /* @kind color */
+  --grad-brand-hover: linear-gradient(135deg, #38a8da 0%, #3083c4 52%, #2a64a8 100%); /* @kind color */
+  --grad-brand-soft: linear-gradient(135deg, #eaf4fb 0%, #e0eef9 100%); /* @kind color */
+  /* Light-end gradient for brand text on dark surfaces (≥4.5:1 on --slate-900) */
+  --grad-brand-on-dark: linear-gradient(135deg, #7cc7e8 0%, #2b9fd4 100%); /* @kind color */
+
+  /* ---- Neutrals (slate scale) ---- */
+  --slate-900: #14181f;   /* charcoal-blue — dark surface base */
+  --slate-800: #1f2733;   /* near-black text */
+  --slate-700: #323c4a;
+  --slate-600: #4a5563;
+  --slate-500: #6b7686;
+  --slate-400: #939dac;
+  --slate-300: #c2c9d4;
+  --slate-200: #dde2e9;   /* borders */
+  --slate-150: #e7ebf0;
+  --slate-100: #f1f3f6;   /* subtle fill */
+  --slate-050: #f8fafb;   /* page tint */
+  --white:     #ffffff;
+
+  /* ---- Product accent: RFQ / Sales platform (magenta) ---- */
+  --rfq-from: #4a1e3d;
+  --rfq-to:   #8a3e5d;
+  --grad-rfq: linear-gradient(135deg, #4a1e3d 0%, #8a3e5d 100%); /* @kind color */
+  --rfq-accent: #a8466f;
+
+  /* ---- Semantic states ---- */
+  --rose-500: #d6394f;   /* problem / error */
+  --rose-600: #b82c40;
+  --rose-050: #fdeef0;
+  --success-500: #1f9d6b;
+  --success-050: #e9f7f1;
+  --warning-500: #d68a1e;
+  --warning-600: #a96a12;
+  --warning-050: #fbf2e3;
+
+  /* ============================================================
+     Semantic aliases — LIGHT THEME (default)
+     ============================================================ */
+  --surface-page:    var(--slate-050);
+  --surface-card:    var(--white);
+  --surface-sunken:  var(--slate-100);
+  --surface-inverse: var(--slate-900);
+  --surface-brand-tint: var(--blue-050);
+
+  --text-strong:  var(--slate-800);
+  --text-body:    var(--slate-700);
+  --text-muted:   var(--slate-500);
+  --text-faint:   var(--slate-400);
+  --text-on-brand: var(--white);
+  --text-link:    var(--blue-mid);
+
+  --border-subtle: var(--slate-150);
+  --border-default: var(--slate-200);
+  --border-strong: var(--slate-300);
+  --border-brand:  var(--blue-azure);
+
+  --accent: var(--blue-mid);
+  --accent-strong: var(--blue-deep);
+  --focus-ring: rgba(43, 159, 212, 0.45);
+}
+
+/* ============================================================
+   DARK THEME — hero / Products / Insights
+   ============================================================ */
+[data-theme="dark"] {
+  --surface-page:    var(--slate-900);
+  --surface-card:    #1b212b;
+  --surface-sunken:  #11151b;
+  --surface-inverse: var(--white);
+  --surface-brand-tint: rgba(43, 159, 212, 0.10);
+
+  --text-strong:  #f4f7fa;
+  --text-body:    #c8d0db;
+  --text-muted:   #8b97a6;
+  --text-faint:   #66707e;
+  --text-on-brand: var(--white);
+  --text-link:    var(--blue-azure);
+
+  --border-subtle: rgba(255,255,255,0.06);
+  --border-default: rgba(255,255,255,0.12);
+  --border-strong: rgba(255,255,255,0.20);
+  --border-brand:  var(--blue-azure);
+
+  --accent: var(--blue-azure);
+  --accent-strong: var(--blue-azure);
+  --focus-ring: rgba(43, 159, 212, 0.55);
+}
+/* ============================================================
+   Citisoft — Typography tokens
+   Display/UI : IBM Plex Sans
+   Editorial  : IBM Plex Serif
+   Code/Data  : IBM Plex Mono
+   ============================================================ */
+
+:root {
+  --font-sans:  'IBM Plex Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: 'IBM Plex Serif', Georgia, 'Times New Roman', serif;
+  --font-mono:  'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Weights — IBM Plex tops out at 700; extrabold maps there. */
+  --fw-light: 300; /* @kind font */
+  --fw-regular: 400; /* @kind font */
+  --fw-medium: 500; /* @kind font */
+  --fw-semibold: 600; /* @kind font */
+  --fw-bold: 700; /* @kind font */
+  --fw-extrabold: 700; /* @kind font */
+
+  /* Type scale (px-based, 1.250 major-third-ish, tuned) */
+  --fs-display-xl: 76px;
+  --fs-display-lg: 58px;
+  --fs-display-md: 44px;
+  --fs-h1: 36px;
+  --fs-h2: 28px;
+  --fs-h3: 22px;
+  --fs-h4: 18px;
+  --fs-body-lg: 18px;
+  --fs-body: 16px;
+  --fs-body-sm: 14px;
+  --fs-caption: 13px;
+  --fs-overline: 12px;
+
+  /* Line heights */
+  --lh-tight: 1.05; /* @kind font */
+  --lh-snug: 1.2; /* @kind font */
+  --lh-normal: 1.5; /* @kind font */
+  --lh-relaxed: 1.65; /* @kind font */
+
+  /* Letter spacing */
+  --ls-tight: -0.02em; /* @kind font */
+  --ls-snug: -0.011em; /* @kind font */
+  --ls-normal: 0; /* @kind font */
+  --ls-wide: 0.04em; /* @kind font */
+  --ls-overline: 0.14em; /* @kind font */
+}
+
+/* ---- Optional helper classes (semantic specimens) ---- */
+.cs-display {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-extrabold);
+  font-size: var(--fs-display-lg);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-tight);
+  color: var(--text-strong);
+}
+.cs-h1 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--ls-snug);
+  color: var(--text-strong);
+}
+.cs-h3 {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-snug);
+  color: var(--text-strong);
+}
+.cs-body {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  color: var(--text-body);
+}
+.cs-lede {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-relaxed);
+  color: var(--text-body);
+}
+.cs-overline {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-overline);
+  letter-spacing: var(--ls-overline);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.cs-mono {
+  font-family: var(--font-mono);
+  font-weight: var(--fw-regular);
+  font-size: var(--fs-body-sm);
+  letter-spacing: var(--ls-normal);
+  color: var(--text-body);
+}
+/* ============================================================
+   Citisoft — Spacing & layout tokens
+   8px base grid, with 2px/4px micro-steps for dense data UI.
+   ============================================================ */
+
+:root {
+  --space-0: 0;
+  --space-1: 2px;
+  --space-2: 4px;
+  --space-3: 8px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 20px;
+  --space-7: 24px;
+  --space-8: 32px;
+  --space-9: 40px;
+  --space-10: 48px;
+  --space-11: 64px;
+  --space-12: 80px;
+  --space-13: 96px;
+  --space-14: 128px;
+
+  /* Layout */
+  --container-max: 1200px;
+  --container-wide: 1320px;
+  --gutter: 24px;
+  --section-y: 96px;
+}
+/* ============================================================
+   Citisoft — Effects: radii, shadows, borders, motion
+   ============================================================ */
+
+:root {
+  /* Corner radii — soft but architectural, never pill-everything */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+  --radius-pill: 999px;
+
+  /* Shadows — cool-tinted, low and wide. Cards are flat-ish; elevation is gentle. */
+  --shadow-xs: 0 1px 2px rgba(20, 24, 31, 0.06);
+  --shadow-sm: 0 1px 3px rgba(20, 24, 31, 0.08), 0 1px 2px rgba(20, 24, 31, 0.04);
+  --shadow-md: 0 4px 12px rgba(20, 24, 31, 0.08), 0 2px 4px rgba(20, 24, 31, 0.04);
+  --shadow-lg: 0 12px 32px rgba(20, 24, 31, 0.12), 0 4px 8px rgba(20, 24, 31, 0.05);
+  --shadow-xl: 0 24px 60px rgba(20, 24, 31, 0.16);
+  --shadow-brand: 0 8px 24px rgba(43, 121, 186, 0.28);
+  --shadow-focus: 0 0 0 3px var(--focus-ring);
+
+  /* Border widths */
+  --border-1: 1px; /* @kind other */
+  --border-2: 2px; /* @kind other */
+
+  /* Motion — quick, confident, no bounce. Enterprise calm. */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1); /* @kind other */
+  --ease-in-out: cubic-bezier(0.45, 0.05, 0.55, 0.95); /* @kind other */
+  --dur-fast: 120ms; /* @kind other */
+  --dur: 180ms; /* @kind other */
+  --dur-slow: 280ms; /* @kind other */
+
+  /* Blur for glass / overlays */
+  --blur-overlay: 8px; /* @kind other */
+
+  /* Overlay scrim — matches --slate-900 at 55% */
+  --overlay-scrim: rgba(20, 24, 31, 0.55);
+
+  /* Danger button shadow */
+  --shadow-danger: 0 6px 18px rgba(214, 57, 79, 0.28);
+}
+/* ============================================================
+   Citisoft — Base resets & element defaults
+   Light, minimal. Sets the brand baseline on body.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  color: var(--text-body);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  color: var(--text-strong);
+  margin: 0;
+  letter-spacing: var(--ls-snug);
+}
+
+p { margin: 0; text-wrap: pretty; }
+
+a { color: var(--text-link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code, kbd, samp, pre {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+::selection { background: rgba(43, 159, 212, 0.22); }
+
+/* Brand focus ring — 3px azure, keyboard-only, on every interactive element */
+:where(a, button, [role="button"], [tabindex="0"], input, select, textarea):focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus);
+}
+
+/* Utility: the signature gradient as text fill */
+.cs-grad-text {
+  background: var(--grad-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

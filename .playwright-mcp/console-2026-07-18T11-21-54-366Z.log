@@ -1,0 +1,7 @@
+[      54ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SVG7M4VJ.js?v=b16057a2:21606
+[   62480ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/node_modules/.vite/deps/chunk-SVG7M4VJ.js?v=b16057a2:21606
+[  559977ms] [ERROR] [vite] ReferenceError: Bot is not defined
+    at http://localhost:5173/src/app/Sidebar.tsx?t=1784374274332:62:64 @ http://localhost:5173/@vite/client:881
+[  559977ms] [ERROR] [vite] Failed to reload /src/app/Sidebar.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:5173/@vite/client:881
+[  636959ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5173/src/screens/AgentChat.tsx?t=1784374351322:0
+[  636959ms] [ERROR] [vite] Failed to reload /src/screens/AgentChat.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:5173/@vite/client:881

@@ -1,0 +1,256 @@
+- generic [ref=f27e3]:
+  - complementary [ref=f27e4]:
+    - generic [ref=f27e5]:
+      - img "Citisoft Solutions" [ref=f27e6]
+      - generic [ref=f27e7]:
+        - generic [ref=f27e8]: Powered by
+        - generic [ref=f27e9]: Claude
+    - navigation "Main navigation" [ref=f27e10]:
+      - link "Dashboard" [ref=f27e11] [cursor=pointer]:
+        - /url: /
+      - link "Invoice inbox 2" [ref=f27e19] [cursor=pointer]:
+        - /url: /inbox
+        - generic [ref=f27e24]: Invoice inbox
+        - generic [ref=f27e25]: "2"
+      - link "PO matching" [ref=f27e26] [cursor=pointer]:
+        - /url: /po-matching
+      - link "Bank upload" [ref=f27e36] [cursor=pointer]:
+        - /url: /bank-upload
+      - link "AR matching 3" [ref=f27e42] [cursor=pointer]:
+        - /url: /ar-matching
+        - generic [ref=f27e47]: AR matching
+        - generic [ref=f27e48]: "3"
+      - link "Reminders" [ref=f27e49] [cursor=pointer]:
+        - /url: /reminders
+      - link "Connections" [ref=f27e57] [cursor=pointer]:
+        - /url: /connections
+    - paragraph [ref=f27e64]: Citisoft AP/AR
+  - generic [ref=f27e65]:
+    - banner [ref=f27e66]:
+      - searchbox "Search" [ref=f27e68]
+      - button "3 ERPs connected — view connections" [ref=f27e69] [cursor=pointer]:
+        - generic [ref=f27e71]: 3 ERPs · Connected
+      - button "Notifications" [ref=f27e73] [cursor=pointer]
+      - generic [ref=f27e78]:
+        - generic "Amara Okafor" [ref=f27e79]: AO
+        - generic [ref=f27e80]:
+          - generic [ref=f27e81]: Amara Okafor
+          - generic [ref=f27e82]: Financial controller
+    - main [ref=f27e83]:
+      - generic [ref=f27e84]:
+        - generic [ref=f27e85]:
+          - generic [ref=f27e86]:
+            - heading "PO matching" [level=1] [ref=f27e87]
+            - paragraph [ref=f27e88]: Review AP invoices that require a decision before posting to the ERP
+          - generic [ref=f27e89]: 2 pending
+        - generic [ref=f27e92]:
+          - generic [ref=f27e94]:
+            - paragraph [ref=f27e95]: Needs review
+            - button "78875 Amount mismatch A Plus Powder Coaters $951.96" [ref=f27e96] [cursor=pointer]:
+              - generic [ref=f27e97]:
+                - generic [ref=f27e98]: "78875"
+                - generic [ref=f27e99]: Amount mismatch
+              - generic [ref=f27e100]: A Plus Powder Coaters
+              - generic [ref=f27e101]: $951.96
+            - button "13992 No PO found Anago Cleaning Service $407.81" [ref=f27e102] [cursor=pointer]:
+              - generic [ref=f27e103]:
+                - generic [ref=f27e104]: "13992"
+                - generic [ref=f27e105]: No PO found
+              - generic [ref=f27e106]: Anago Cleaning Service
+              - generic [ref=f27e107]: $407.81
+          - generic [ref=f27e108]:
+            - generic [ref=f27e109]:
+              - generic [ref=f27e110]:
+                - generic [ref=f27e111]:
+                  - text: A Plus Powder Coaters
+                  - generic [ref=f27e112]: "#78875"
+                - generic [ref=f27e113]: Amount mismatch
+              - generic [ref=f27e115]:
+                - generic [ref=f27e116]:
+                  - generic [ref=f27e117]: Amount
+                  - generic [ref=f27e118]: $951.96
+                - generic [ref=f27e119]:
+                  - generic [ref=f27e120]: Due date
+                  - generic [ref=f27e121]: Sep 7, 2026
+                - generic [ref=f27e122]:
+                  - generic [ref=f27e123]: Received
+                  - generic [ref=f27e124]: Jul 10, 2026
+                - generic [ref=f27e125]:
+                  - generic [ref=f27e126]: PO ref
+                  - generic [ref=f27e127]: po-11166
+                - generic [ref=f27e128]:
+                  - generic [ref=f27e129]: PO total
+                  - generic [ref=f27e130]: $900.00
+              - generic [ref=f27e131]:
+                - generic [ref=f27e132]: Match confidence
+                - generic [ref=f27e133]:
+                  - meter "Confidence 50%" [ref=f27e134]
+                  - generic [ref=f27e136]: 50%
+            - generic [ref=f27e142]:
+              - paragraph [ref=f27e143]: Review required
+              - list [ref=f27e144]:
+                - listitem [ref=f27e145]: Amount $951.96 is $51.96 over PO po-11166
+            - generic [ref=f27e146]:
+              - paragraph [ref=f27e147]: Line-item matching
+              - generic [ref=f27e148]:
+                - generic [ref=f27e149]:
+                  - generic [ref=f27e151]:
+                    - meter "Confidence 73%" [ref=f27e152]
+                    - generic [ref=f27e154]: 73%
+                  - generic [ref=f27e155]: 8/11 lines matched — review
+                - generic [ref=f27e156]:
+                  - generic [ref=f27e157]: Invoice — extracted
+                  - generic [ref=f27e158]: Purchase order
+                - generic [ref=f27e159]:
+                  - generic [ref=f27e160]:
+                    - generic [ref=f27e161]:
+                      - generic [ref=f27e162]: "230195"
+                      - generic [ref=f27e166]: MID Engine Board Support, 1"×2.43"×20"
+                      - generic [ref=f27e167]:
+                        - generic [ref=f27e168]: $180.00
+                        - generic [ref=f27e169]: 36 × $5.00
+                    - generic [ref=f27e170]:
+                      - generic [ref=f27e171]: "230195"
+                      - generic [ref=f27e173]: MID Engine Board Support, 1"×2.43"×20"
+                      - generic [ref=f27e174]:
+                        - generic [ref=f27e175]: $180.00
+                        - generic [ref=f27e176]: 36 × $5.00
+                  - generic [ref=f27e177]:
+                    - generic [ref=f27e178]:
+                      - generic [ref=f27e179]: "230410"
+                      - generic [ref=f27e183]: FWD PORT Stanchion, 2"×3.68"×28"
+                      - generic [ref=f27e184]:
+                        - generic [ref=f27e185]: $60.48
+                        - generic [ref=f27e186]: 12 × $5.04
+                    - generic [ref=f27e187]:
+                      - generic [ref=f27e188]: "230410"
+                      - generic [ref=f27e190]: FWD PORT Stanchion, 2"×3.68"×28"
+                      - generic [ref=f27e191]:
+                        - generic [ref=f27e192]: $60.48
+                        - generic [ref=f27e193]: 12 × $5.04
+                  - generic [ref=f27e194]:
+                    - generic [ref=f27e195]:
+                      - generic [ref=f27e196]: "230411"
+                      - generic [ref=f27e200]: FWD STBD Stanchion, 2"×3.68"×28"
+                      - generic [ref=f27e201]:
+                        - generic [ref=f27e202]: $60.48
+                        - generic [ref=f27e203]: 12 × $5.04
+                    - generic [ref=f27e204]:
+                      - generic [ref=f27e205]: "230411"
+                      - generic [ref=f27e207]: FWD STBD Stanchion, 2"×3.68"×28"
+                      - generic [ref=f27e208]:
+                        - generic [ref=f27e209]: $60.48
+                        - generic [ref=f27e210]: 12 × $5.04
+                  - generic [ref=f27e211]:
+                    - generic [ref=f27e212]:
+                      - generic [ref=f27e213]: "230412"
+                      - generic [ref=f27e217]: AFT Port Stanchion, 2"×3.68"×27.25"
+                      - generic [ref=f27e218]:
+                        - generic [ref=f27e219]: $60.48
+                        - generic [ref=f27e220]: 12 × $5.04
+                    - generic [ref=f27e221]:
+                      - generic [ref=f27e222]: "230412"
+                      - generic [ref=f27e224]: AFT Port Stanchion, 2"×3.68"×27.25"
+                      - generic [ref=f27e225]:
+                        - generic [ref=f27e226]: $60.48
+                        - generic [ref=f27e227]: 12 × $5.04
+                  - generic [ref=f27e228]:
+                    - generic [ref=f27e229]:
+                      - generic [ref=f27e230]: "240386"
+                      - generic [ref=f27e234]: AFT PORT Stanchion, 3.5"×10"×19.13"
+                      - generic [ref=f27e235]:
+                        - generic [ref=f27e236]: $39.72
+                        - generic [ref=f27e237]: 6 × $6.62
+                    - generic [ref=f27e238]:
+                      - generic [ref=f27e239]: "240386"
+                      - generic [ref=f27e241]: AFT PORT Stanchion, 3.5"×10"×19.13"
+                      - generic [ref=f27e242]:
+                        - generic [ref=f27e243]: $39.72
+                        - generic [ref=f27e244]: 6 × $6.62
+                  - generic [ref=f27e245]:
+                    - generic [ref=f27e246]:
+                      - generic [ref=f27e247]: "240387"
+                      - generic [ref=f27e251]: AFT STBD Stanchion, 3.5"×10"×19"
+                      - generic [ref=f27e252]:
+                        - generic [ref=f27e253]: $39.72
+                        - generic [ref=f27e254]: 6 × $6.62
+                    - generic [ref=f27e255]:
+                      - generic [ref=f27e256]: "240387"
+                      - generic [ref=f27e258]: AFT STBD Stanchion, 3.5"×10"×19"
+                      - generic [ref=f27e259]:
+                        - generic [ref=f27e260]: $39.72
+                        - generic [ref=f27e261]: 6 × $6.62
+                  - generic [ref=f27e262]:
+                    - generic [ref=f27e263]:
+                      - generic [ref=f27e264]: "240388"
+                      - generic [ref=f27e268]: FWD PORT Stanchion, 3.5"×6.75"×28"
+                      - generic [ref=f27e269]:
+                        - generic [ref=f27e270]: $39.72
+                        - generic [ref=f27e271]: 6 × $6.62
+                    - generic [ref=f27e272]:
+                      - generic [ref=f27e273]: "240388"
+                      - generic [ref=f27e275]: FWD PORT Stanchion, 3.5"×6.75"×28"
+                      - generic [ref=f27e276]:
+                        - generic [ref=f27e277]: $39.72
+                        - generic [ref=f27e278]: 6 × $6.62
+                  - generic [ref=f27e279]:
+                    - generic [ref=f27e280]:
+                      - generic [ref=f27e281]: "240389"
+                      - generic [ref=f27e285]: FWD STBD Stanchion, 3.5"×6.75"×28"
+                      - generic [ref=f27e286]:
+                        - generic [ref=f27e287]: $39.72
+                        - generic [ref=f27e288]: 6 × $6.62
+                    - generic [ref=f27e289]:
+                      - generic [ref=f27e290]: "240389"
+                      - generic [ref=f27e292]: FWD STBD Stanchion, 3.5"×6.75"×28"
+                      - generic [ref=f27e293]:
+                        - generic [ref=f27e294]: $39.72
+                        - generic [ref=f27e295]: 6 × $6.62
+                  - generic [ref=f27e296]:
+                    - generic [ref=f27e297]:
+                      - generic [ref=f27e298]:
+                        - generic [ref=f27e299]: "240394"
+                        - generic [ref=f27e300]: Invoice only
+                      - generic [ref=f27e301]: Engine Board Stiffener, .75"×.75"×32" *PLUG 4 THREADS*
+                      - generic [ref=f27e302]:
+                        - generic [ref=f27e303]: $99.00
+                        - generic [ref=f27e304]: 15 × $6.60
+                    - generic [ref=f27e305]: Not on PO
+                  - generic [ref=f27e310]:
+                    - generic [ref=f27e311]:
+                      - generic [ref=f27e312]:
+                        - generic [ref=f27e313]: "250115"
+                        - generic [ref=f27e314]: Invoice only
+                      - generic [ref=f27e315]: AFT STBD Stanchion, 2"×3.38"×28.25"
+                      - generic [ref=f27e316]:
+                        - generic [ref=f27e317]: $181.44
+                        - generic [ref=f27e318]: 36 × $5.04
+                    - generic [ref=f27e319]: Not on PO
+                  - generic [ref=f27e324]:
+                    - generic [ref=f27e325]:
+                      - generic [ref=f27e326]:
+                        - generic [ref=f27e327]: "250114"
+                        - generic [ref=f27e328]: Invoice only
+                      - generic [ref=f27e329]: AFT PORT Stanchion, 2"×3.38"×28.25"
+                      - generic [ref=f27e330]:
+                        - generic [ref=f27e331]: $151.20
+                        - generic [ref=f27e332]: 30 × $5.04
+                    - generic [ref=f27e333]: Not on PO
+            - button "A Plus Powder Coaters — Invoice 78875 Open in new tab" [ref=f27e339] [cursor=pointer]:
+              - generic [ref=f27e343]: A Plus Powder Coaters — Invoice 78875
+              - button "Open in new tab" [ref=f27e344]
+            - generic [ref=f27e353]:
+              - generic [ref=f27e354]:
+                - generic [ref=f27e355]: ERP write-back
+                - generic [ref=f27e361]: Held for review
+              - generic [ref=f27e363]:
+                - img "Xero logo" [ref=f27e365]
+                - generic [ref=f27e366]:
+                  - generic [ref=f27e367]: Xero
+                  - generic [ref=f27e368]: Held — exceptions pending
+              - paragraph [ref=f27e372]: This invoice is held pending exception resolution. Resolve all flagged items before posting to Xero.
+              - button "Post to Xero" [disabled] [ref=f27e373]
+            - generic [ref=f27e374]:
+              - button "Approve anyway" [ref=f27e375] [cursor=pointer]
+              - button "Flag for vendor" [ref=f27e378] [cursor=pointer]
+  - button "Open CitiSoft assistant" [ref=f27e382] [cursor=pointer]

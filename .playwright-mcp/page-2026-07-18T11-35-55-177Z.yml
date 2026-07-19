@@ -1,0 +1,272 @@
+- generic [ref=f24e3]:
+  - complementary [ref=f24e4]:
+    - generic [ref=f24e5]:
+      - img "Citisoft Solutions" [ref=f24e6]
+      - generic [ref=f24e7]:
+        - generic [ref=f24e8]: Powered by
+        - generic [ref=f24e9]: Claude
+    - navigation "Main navigation" [ref=f24e10]:
+      - link "Dashboard" [ref=f24e11] [cursor=pointer]:
+        - /url: /
+      - link "Invoice inbox 2" [ref=f24e19] [cursor=pointer]:
+        - /url: /inbox
+        - generic [ref=f24e24]: Invoice inbox
+        - generic [ref=f24e25]: "2"
+      - link "PO matching" [ref=f24e26] [cursor=pointer]:
+        - /url: /po-matching
+      - link "Bank upload" [ref=f24e36] [cursor=pointer]:
+        - /url: /bank-upload
+      - link "AR matching 3" [ref=f24e42] [cursor=pointer]:
+        - /url: /ar-matching
+        - generic [ref=f24e47]: AR matching
+        - generic [ref=f24e48]: "3"
+      - link "Reminders" [ref=f24e49] [cursor=pointer]:
+        - /url: /reminders
+      - link "Connections" [ref=f24e57] [cursor=pointer]:
+        - /url: /connections
+    - paragraph [ref=f24e64]: Citisoft AP/AR
+  - generic [ref=f24e65]:
+    - banner [ref=f24e66]:
+      - textbox "Search invoices, payments, vendors…" [ref=f24e68]
+      - generic [ref=f24e69]: Xero · Connected
+      - button "Notifications" [ref=f24e72] [cursor=pointer]
+      - generic [ref=f24e76]:
+        - generic "Amara Okafor" [ref=f24e77]: AO
+        - generic [ref=f24e78]:
+          - generic [ref=f24e79]: Amara Okafor
+          - generic [ref=f24e80]: Financial controller
+    - main [ref=f24e81]:
+      - generic [ref=f24e82]:
+        - generic [ref=f24e84]:
+          - heading "Invoice inbox" [level=1] [ref=f24e85]
+          - paragraph [ref=f24e86]: Review incoming AP invoices, verify PO matching, and post to your ERP
+        - generic [ref=f24e87]:
+          - generic [ref=f24e88]:
+            - generic [ref=f24e89]:
+              - generic [ref=f24e117]: 6 invoices
+              - generic [ref=f24e118]: 2 pending
+            - button "Alro Steel Corporation GFB3506PV Auto-approved $3,419.49" [ref=f24e119] [cursor=pointer]:
+              - generic [ref=f24e120]:
+                - generic [ref=f24e121]:
+                  - generic [ref=f24e122]: Alro Steel Corporation
+                  - generic [ref=f24e123]: GFB3506PV
+                  - generic [ref=f24e124]: Auto-approved
+                - generic [ref=f24e125]: $3,419.49
+            - button "Curbell Plastics, Inc. 91918970 Auto-approved $17,173.58" [ref=f24e126] [cursor=pointer]:
+              - generic [ref=f24e127]:
+                - generic [ref=f24e128]:
+                  - generic [ref=f24e129]: Curbell Plastics, Inc.
+                  - generic [ref=f24e130]: "91918970"
+                  - generic [ref=f24e131]: Auto-approved
+                - generic [ref=f24e132]: $17,173.58
+            - button "McMaster-Carr Supply Co. 66861386 Auto-approved $732.67" [ref=f24e133] [cursor=pointer]:
+              - generic [ref=f24e134]:
+                - generic [ref=f24e135]:
+                  - generic [ref=f24e136]: McMaster-Carr Supply Co.
+                  - generic [ref=f24e137]: "66861386"
+                  - generic [ref=f24e138]: Auto-approved
+                - generic [ref=f24e139]: $732.67
+            - button "Klein Plating Works, Inc. 142924 Auto-approved $175.00" [ref=f24e140] [cursor=pointer]:
+              - generic [ref=f24e141]:
+                - generic [ref=f24e142]:
+                  - generic [ref=f24e143]: Klein Plating Works, Inc.
+                  - generic [ref=f24e144]: "142924"
+                  - generic [ref=f24e145]: Auto-approved
+                - generic [ref=f24e146]: $175.00
+            - button "A Plus Powder Coaters 78875 Needs review $951.96" [ref=f24e147] [cursor=pointer]:
+              - generic [ref=f24e148]:
+                - generic [ref=f24e149]:
+                  - generic [ref=f24e150]: A Plus Powder Coaters
+                  - generic [ref=f24e151]: "78875"
+                  - generic [ref=f24e152]: Needs review
+                - generic [ref=f24e153]: $951.96
+            - button "Anago Cleaning Service 13992 Needs review $407.81" [ref=f24e154] [cursor=pointer]:
+              - generic [ref=f24e155]:
+                - generic [ref=f24e156]:
+                  - generic [ref=f24e157]: Anago Cleaning Service
+                  - generic [ref=f24e158]: "13992"
+                  - generic [ref=f24e159]: Needs review
+                - generic [ref=f24e160]: $407.81
+          - generic [ref=f24e161]:
+            - generic [ref=f24e163]:
+              - generic [ref=f24e164]:
+                - generic [ref=f24e165]: Alro Steel Corporation
+                - generic [ref=f24e166]: GFB3506PV
+                - generic [ref=f24e167]:
+                  - generic [ref=f24e168]: Auto-approved
+                  - generic [ref=f24e169]:
+                    - text: Posted ·
+                    - generic [ref=f24e170]: BILL-10482
+              - generic [ref=f24e171]:
+                - generic [ref=f24e172]: $3,419.49
+                - generic [ref=f24e173]: Due Jul 2, 2026
+            - generic [ref=f24e174]:
+              - generic [ref=f24e175]:
+                - generic [ref=f24e176]: OCR-extracted fields
+                - button [ref=f24e177] [cursor=pointer]
+              - generic [ref=f24e184]:
+                - generic [ref=f24e185]:
+                  - generic [ref=f24e186]: Vendor
+                  - generic [ref=f24e188]:
+                    - text: Alro Steel Corporation
+                    - generic [ref=f24e189]: 98%
+                - generic [ref=f24e190]:
+                  - generic [ref=f24e191]: Invoice no.
+                  - generic [ref=f24e193]:
+                    - text: GFB3506PV
+                    - generic [ref=f24e194]: 99%
+                - generic [ref=f24e195]:
+                  - generic [ref=f24e196]: Amount
+                  - generic [ref=f24e198]:
+                    - text: $3,419.49
+                    - generic [ref=f24e199]: 97%
+                - generic [ref=f24e200]:
+                  - generic [ref=f24e201]: Received
+                  - generic [ref=f24e203]:
+                    - text: Jun 3, 2026
+                    - generic [ref=f24e204]: 95%
+                - generic [ref=f24e205]:
+                  - generic [ref=f24e206]: PO reference
+                  - generic [ref=f24e208]:
+                    - text: po-28954
+                    - generic [ref=f24e209]: 94%
+            - button "Alro Steel Corporation — Invoice GFB3506PV Open in new tab" [ref=f24e211] [cursor=pointer]:
+              - generic [ref=f24e215]: Alro Steel Corporation — Invoice GFB3506PV
+              - button "Open in new tab" [ref=f24e216]
+            - generic [ref=f24e224]:
+              - generic [ref=f24e225]: Line-item matching
+              - generic [ref=f24e226]:
+                - generic [ref=f24e227]:
+                  - generic [ref=f24e229]:
+                    - meter "Confidence 100%" [ref=f24e230]
+                    - generic [ref=f24e232]: 100%
+                  - generic [ref=f24e233]: 5/5 lines matched
+                - generic [ref=f24e234]:
+                  - generic [ref=f24e235]: Invoice — extracted
+                  - generic [ref=f24e236]: Purchase order
+                - generic [ref=f24e237]:
+                  - generic [ref=f24e238]:
+                    - generic [ref=f24e239]:
+                      - generic [ref=f24e240]: "02201600"
+                      - generic [ref=f24e244]: 1/2 RD CF C1144, 12 FT (15 LNG, 121 LB)
+                      - generic [ref=f24e245]:
+                        - generic [ref=f24e246]: $134.31
+                        - generic [ref=f24e247]: 121 × $1.11
+                    - generic [ref=f24e248]:
+                      - generic [ref=f24e249]: "02201600"
+                      - generic [ref=f24e251]: 1/2 RD CF C1144, 12 FT (15 LNG, 121 LB)
+                      - generic [ref=f24e252]:
+                        - generic [ref=f24e253]: $134.31
+                        - generic [ref=f24e254]: 121 × $1.11
+                  - generic [ref=f24e255]:
+                    - generic [ref=f24e256]:
+                      - generic [ref=f24e257]: RT12523349
+                      - generic [ref=f24e261]: 1/2 RD 316/316L Stainless, 12 FT (90 LNG, 726 LB)
+                      - generic [ref=f24e262]:
+                        - generic [ref=f24e263]: $3,216.18
+                        - generic [ref=f24e264]: 726 × $4.43
+                    - generic [ref=f24e265]:
+                      - generic [ref=f24e266]: RT12523349
+                      - generic [ref=f24e268]: 1/2 RD 316/316L Stainless, 12 FT (90 LNG, 726 LB)
+                      - generic [ref=f24e269]:
+                        - generic [ref=f24e270]: $3,216.18
+                        - generic [ref=f24e271]: 726 × $4.43
+                  - generic [ref=f24e272]:
+                    - generic [ref=f24e273]:
+                      - generic [ref=f24e274]: FREIGHT-1
+                      - generic [ref=f24e278]: Shipping & Handling Line 1
+                      - generic [ref=f24e279]:
+                        - generic [ref=f24e280]: $10.00
+                        - generic [ref=f24e281]: 1 × $10.00
+                    - generic [ref=f24e282]:
+                      - generic [ref=f24e283]: FREIGHT-1
+                      - generic [ref=f24e285]: Shipping & Handling Line 1
+                      - generic [ref=f24e286]:
+                        - generic [ref=f24e287]: $10.00
+                        - generic [ref=f24e288]: 1 × $10.00
+                  - generic [ref=f24e289]:
+                    - generic [ref=f24e290]:
+                      - generic [ref=f24e291]: FREIGHT-2
+                      - generic [ref=f24e295]: Shipping & Handling Line 2
+                      - generic [ref=f24e296]:
+                        - generic [ref=f24e297]: $40.00
+                        - generic [ref=f24e298]: 1 × $40.00
+                    - generic [ref=f24e299]:
+                      - generic [ref=f24e300]: FREIGHT-2
+                      - generic [ref=f24e302]: Shipping & Handling Line 2
+                      - generic [ref=f24e303]:
+                        - generic [ref=f24e304]: $40.00
+                        - generic [ref=f24e305]: 1 × $40.00
+                  - generic [ref=f24e306]:
+                    - generic [ref=f24e307]:
+                      - generic [ref=f24e308]: FREIGHT-STD
+                      - generic [ref=f24e312]: Standard Freight
+                      - generic [ref=f24e313]:
+                        - generic [ref=f24e314]: $19.00
+                        - generic [ref=f24e315]: 1 × $19.00
+                    - generic [ref=f24e316]:
+                      - generic [ref=f24e317]: FREIGHT-STD
+                      - generic [ref=f24e319]: Standard Freight
+                      - generic [ref=f24e320]:
+                        - generic [ref=f24e321]: $19.00
+                        - generic [ref=f24e322]: 1 × $19.00
+            - generic [ref=f24e323]:
+              - generic [ref=f24e324]:
+                - generic [ref=f24e325]: ERP write-back
+                - generic [ref=f24e331]:
+                  - text: Posted ·
+                  - generic [ref=f24e333]: BILL-10482
+              - generic [ref=f24e334]:
+                - img "NetSuite logo" [ref=f24e336]
+                - generic [ref=f24e337]:
+                  - generic [ref=f24e338]: NetSuite
+                  - generic [ref=f24e339]: Document BILL-10482 · posted
+              - generic [ref=f24e344]: Bill record created in NetSuite
+  - generic:
+    - dialog "CitiSoft assistant" [ref=f24e349]:
+      - generic [ref=f24e350]:
+        - generic [ref=f24e351]:
+          - generic [ref=f24e352]: CitiSoft assistant
+          - generic [ref=f24e353]: "Looking at: Invoice inbox"
+        - button "Close assistant" [ref=f24e354] [cursor=pointer]
+      - generic [ref=f24e358]:
+        - generic [ref=f24e390]:
+          - paragraph [ref=f24e391]: "You have 5 item(s) needing attention. Open AP: $1,534.77, Open AR: $23,625.50."
+          - table [ref=f24e394]:
+            - rowgroup [ref=f24e395]:
+              - row [ref=f24e396]:
+                - columnheader "Type" [ref=f24e397]
+                - columnheader "Ref" [ref=f24e398]
+                - columnheader "Description" [ref=f24e399]
+            - rowgroup [ref=f24e400]:
+              - row [ref=f24e401]:
+                - cell "ap mismatch" [ref=f24e402]
+                - cell "78875" [ref=f24e403]
+                - 'cell "AP invoice 78875: Amount $951.96 is $51.96 over PO po-11166" [ref=f24e404]'
+              - row [ref=f24e405]:
+                - cell "ap no po" [ref=f24e406]
+                - cell "13992" [ref=f24e407]
+                - cell "AP invoice 13992 has no purchase-order reference" [ref=f24e408]
+              - row [ref=f24e409]:
+                - cell "ar partial" [ref=f24e410]
+                - cell "AR-2026-0061" [ref=f24e411]
+                - 'cell "AR-2026-0061: $3,000.00 of $5,875.50 applied — $2,875.50 still open" [ref=f24e412]'
+              - row [ref=f24e413]:
+                - cell "ar unmatched deposit" [ref=f24e414]
+                - cell "txn-6" [ref=f24e415]
+                - 'cell "Bank txn txn-6 ($500.00): No invoice matches this deposit" [ref=f24e416]'
+              - row [ref=f24e417]:
+                - cell "ar unmatched deposit" [ref=f24e418]
+                - cell "txn-7" [ref=f24e419]
+                - 'cell "Bank txn txn-7 ($2,750.00): No invoice matches this deposit" [ref=f24e420]'
+        - generic [ref=f24e421]: Attach PO po-11166 to invoice 13992
+        - paragraph [ref=f24e436]: Purchase order po-po-11166 not found.
+      - generic [ref=f24e367]:
+        - generic [ref=f24e368]:
+          - button "Summarize this screen" [ref=f24e369] [cursor=pointer]
+          - button "Why wasn't invoice 78875 auto-approved" [ref=f24e370] [cursor=pointer]
+          - button "Attach PO po-11166 to invoice 13992" [ref=f24e371] [cursor=pointer]
+        - generic [ref=f24e372]:
+          - textbox "Ask about invoices, payments…" [ref=f24e376]
+          - button "Send message" [disabled] [ref=f24e377]: Send
+    - button "Close assistant" [ref=f24e382] [cursor=pointer]

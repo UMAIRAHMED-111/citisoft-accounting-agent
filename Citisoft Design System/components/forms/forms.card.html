@@ -1,0 +1,45 @@
+<!-- @dsCard group="Components" viewport="700x330" name="Forms — Input, Select, Checkbox, Switch" subtitle="Fields, dropdowns, toggles with brand states" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; padding:22px; background:var(--surface-card); }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:18px 24px; align-items:start; }
+  .stack { display:flex; flex-direction:column; gap:14px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { Input, Select, Checkbox, Switch } = window.CitisoftDesignSystem_1a14bd;
+    const Hash = () => <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="9" x2="20" y2="9"/><line x1="4" y1="15" x2="20" y2="15"/><line x1="10" y1="3" x2="8" y2="21"/><line x1="16" y1="3" x2="14" y2="21"/></svg>;
+    function Demo() {
+      return (
+        <div className="grid">
+          <div className="stack">
+            <Input label="Work email" placeholder="you@company.com" />
+            <Input label="Part number" leadingIcon={<Hash/>} hint="Format: 90-44-1182" defaultValue="90-44-1182" />
+            <Input label="Quantity" error="This RFQ is missing a quantity" />
+          </div>
+          <div className="stack">
+            <Select label="Category" options={['Steel','Aluminium','Polymers','Fasteners']} />
+            <div style={{display:'flex',flexDirection:'column',gap:12,marginTop:4}}>
+              <Checkbox label="Notify me when quotes arrive" defaultChecked />
+              <Checkbox label="Require supplier certification" />
+              <Switch label="Auto-route to qualified suppliers" defaultChecked />
+              <Switch label="Pause new bids" size="sm" />
+            </div>
+          </div>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+- generic [ref=f6e3]:
+  - complementary [ref=f6e4]:
+    - img "Citisoft Solutions" [ref=f6e6]
+    - navigation "Main navigation" [ref=f6e7]:
+      - link "Dashboard" [ref=f6e8] [cursor=pointer]:
+        - /url: /
+      - link "Invoice inbox 2" [ref=f6e16] [cursor=pointer]:
+        - /url: /inbox
+        - generic [ref=f6e21]: Invoice inbox
+        - generic [ref=f6e22]: "2"
+      - link "PO matching" [ref=f6e23] [cursor=pointer]:
+        - /url: /po-matching
+      - link "Bank upload" [ref=f6e33] [cursor=pointer]:
+        - /url: /bank-upload
+      - link "AR matching 3" [ref=f6e39] [cursor=pointer]:
+        - /url: /ar-matching
+        - generic [ref=f6e44]: AR matching
+        - generic [ref=f6e45]: "3"
+      - link "Reminders" [ref=f6e46] [cursor=pointer]:
+        - /url: /reminders
+      - link "Agent" [ref=f6e54] [cursor=pointer]:
+        - /url: /agent
+      - link "Connections" [ref=f6e60] [cursor=pointer]:
+        - /url: /connections
+    - paragraph [ref=f6e67]: Citisoft AP/AR
+  - generic [ref=f6e68]:
+    - banner [ref=f6e69]:
+      - textbox "Search invoices, payments, vendors…" [ref=f6e71]
+      - generic [ref=f6e72]: Xero · Connected
+      - button "Notifications" [ref=f6e75] [cursor=pointer]
+      - generic [ref=f6e79]:
+        - generic "Amara Okafor" [ref=f6e80]: AO
+        - generic [ref=f6e81]:
+          - generic [ref=f6e82]: Amara Okafor
+          - generic [ref=f6e83]: Financial controller
+    - main [ref=f6e84]:
+      - generic [ref=f6e85]:
+        - generic [ref=f6e87]:
+          - heading "Bank statement upload" [level=1] [ref=f6e88]
+          - paragraph [ref=f6e89]: Import a bank statement to match deposits against open AR invoices
+        - generic [ref=f6e91]:
+          - generic [ref=f6e96]:
+            - paragraph [ref=f6e97]: Drop a bank statement (PDF or CSV)
+            - paragraph [ref=f6e98]: Supports JPMorgan Chase, Bank of America, Wells Fargo exports
+          - generic [ref=f6e99]:
+            - button [ref=f6e100] [cursor=pointer]
+            - button "or browse for a file" [ref=f6e105] [cursor=pointer]

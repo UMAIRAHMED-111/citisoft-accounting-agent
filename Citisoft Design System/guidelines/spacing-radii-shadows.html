@@ -1,0 +1,25 @@
+<!-- @dsCard group="Spacing" viewport="700x160" name="Radii & shadows" subtitle="Soft architectural corners, cool low elevation" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; padding:24px 22px; background:var(--surface-page); font-family:var(--font-sans); }
+  .row { display:flex; gap:20px; align-items:center; }
+  .box { width:84px; height:64px; background:var(--surface-card); border:1px solid var(--border-default); display:flex; align-items:flex-end; justify-content:center; }
+  .l { font-family:var(--font-mono); font-size:10px; color:var(--text-muted); padding-bottom:6px; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="box" style="border-radius:6px"><span class="l">sm 6</span></div>
+    <div class="box" style="border-radius:10px"><span class="l">md 10</span></div>
+    <div class="box" style="border-radius:14px"><span class="l">lg 14</span></div>
+    <div class="box" style="border-radius:999px;width:64px"><span class="l">pill</span></div>
+    <div class="box" style="border:none;border-radius:10px;box-shadow:var(--shadow-sm)"><span class="l">sm</span></div>
+    <div class="box" style="border:none;border-radius:10px;box-shadow:var(--shadow-md)"><span class="l">md</span></div>
+    <div class="box" style="border:none;border-radius:10px;box-shadow:var(--shadow-lg)"><span class="l">lg</span></div>
+  </div>
+</body>
+</html>

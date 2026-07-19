@@ -1,0 +1,86 @@
+- generic [ref=f18e3]:
+  - complementary [ref=f18e4]:
+    - img "Citisoft Solutions" [ref=f18e6]
+    - navigation "Main navigation" [ref=f18e7]:
+      - link "Dashboard" [ref=f18e8] [cursor=pointer]:
+        - /url: /
+      - link "Invoice inbox" [ref=f18e15] [cursor=pointer]:
+        - /url: /inbox
+        - generic "2 items" [ref=f18e20]
+      - link "PO matching" [ref=f18e21] [cursor=pointer]:
+        - /url: /po-matching
+      - link "Bank upload" [ref=f18e30] [cursor=pointer]:
+        - /url: /bank-upload
+      - link "AR matching" [ref=f18e35] [cursor=pointer]:
+        - /url: /ar-matching
+        - generic "3 items" [ref=f18e40]
+      - link "Reminders" [ref=f18e41] [cursor=pointer]:
+        - /url: /reminders
+      - link "Agent" [ref=f18e48] [cursor=pointer]:
+        - /url: /agent
+      - link "Connections" [ref=f18e53] [cursor=pointer]:
+        - /url: /connections
+  - generic [ref=f18e57]:
+    - banner [ref=f18e58]:
+      - textbox "Search invoices, payments, vendors…" [ref=f18e60]
+      - generic [ref=f18e61]: Xero · Connected
+      - button "Notifications" [ref=f18e64] [cursor=pointer]
+      - generic [ref=f18e68]:
+        - generic "Amara Okafor" [ref=f18e69]: AO
+        - generic [ref=f18e70]:
+          - generic [ref=f18e71]: Amara Okafor
+          - generic [ref=f18e72]: Financial controller
+    - main [ref=f18e73]:
+      - generic [ref=f18e74]:
+        - generic [ref=f18e76]:
+          - heading "Reminders" [level=1] [ref=f18e77]
+          - paragraph [ref=f18e78]: 2 overdue invoices need attention
+        - generic [ref=f18e79]:
+          - generic [ref=f18e80]:
+            - generic [ref=f18e81]: Overdue invoices
+            - generic [ref=f18e82]:
+              - button "Precision Parts LLC AR-2026-0041 $12,450.00 34d overdue" [ref=f18e83] [cursor=pointer]:
+                - generic [ref=f18e84]: Precision Parts LLC
+                - generic [ref=f18e86]:
+                  - generic [ref=f18e87]: AR-2026-0041
+                  - generic [ref=f18e88]:
+                    - generic [ref=f18e89]: $12,450.00
+                    - generic [ref=f18e90]: 34d overdue
+              - button "Apex Manufacturing Co. AR-2026-0048 $8,300.00 17d overdue" [ref=f18e91] [cursor=pointer]:
+                - generic [ref=f18e92]: Apex Manufacturing Co.
+                - generic [ref=f18e94]:
+                  - generic [ref=f18e95]: AR-2026-0048
+                  - generic [ref=f18e96]:
+                    - generic [ref=f18e97]: $8,300.00
+                    - generic [ref=f18e98]: 17d overdue
+          - generic [ref=f18e99]:
+            - generic [ref=f18e100]:
+              - heading "Draft reminder" [level=2] [ref=f18e101]
+              - paragraph [ref=f18e102]: Review the draft below before sending. No email is sent until you confirm.
+            - generic [ref=f18e103]:
+              - generic [ref=f18e104]:
+                - generic [ref=f18e105]:
+                  - generic [ref=f18e106]: To
+                  - generic [ref=f18e107]: accounts@precisionpartsllc.com
+                - generic [ref=f18e109]:
+                  - generic [ref=f18e110]: Subject
+                  - generic [ref=f18e111]: "Payment reminder: AR-2026-0041"
+              - generic [ref=f18e112]:
+                - generic [ref=f18e113]: "Hi Precision Parts LLC, We wanted to follow up on invoice AR-2026-0041 for $12,450.00, which was due on Jun 14, 2026 — 34 days ago. If payment has already been sent, please disregard this note and let us know so we can update our records. If you have any questions about the invoice or need to make arrangements, we are happy to help. To pay online, you can use the link below:"
+                - generic [ref=f18e114]: pay.citisoft.io/invoice/ar-2026-0041
+                - paragraph [ref=f18e120]: Thank you for your business.
+                - generic [ref=f18e122]:
+                  - generic [ref=f18e123]:
+                    - generic [ref=f18e124]: Invoice
+                    - generic [ref=f18e125]: AR-2026-0041
+                  - generic [ref=f18e126]:
+                    - generic [ref=f18e127]: Amount due
+                    - generic [ref=f18e128]: $12,450.00
+                  - generic [ref=f18e129]:
+                    - generic [ref=f18e130]: Due date
+                    - generic [ref=f18e131]: Jun 14, 2026
+            - generic [ref=f18e132]:
+              - generic [ref=f18e133] [cursor=pointer]:
+                - switch [ref=f18e134]
+                - text: Auto-remind every 7 days
+              - button [ref=f18e136] [cursor=pointer]

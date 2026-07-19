@@ -1,0 +1,47 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Surfaces — Card, StatCard, FeatureChip" subtitle="Cards, KPI tiles, gradient feature rows" -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; padding:22px; background:var(--surface-page); }
+  .grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+</style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { Card, StatCard, FeatureChip } = window.CitisoftDesignSystem_1a14bd;
+    const I = (p) => <svg width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML={{__html:p}} />;
+    const clock='<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>';
+    const branch='<line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>';
+    const shield='<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/>';
+    function Demo() {
+      return (
+        <div>
+          <div className="grid" style={{marginBottom:14}}>
+            <StatCard label="Avg. turnaround" value="4.2" unit="hrs" delta="38% faster" icon={<I p={clock}/>} accent />
+            <StatCard label="Open RFQs" value="27" delta="3 vs last week" deltaDir="down" />
+            <StatCard label="Award rate" value="92" unit="%" delta="5 pts" />
+          </div>
+          <Card>
+            <FeatureChip icon={<I p={branch}/>} title="One auditable workflow">
+              Every request, quote, and award tracked on a single timeline.
+            </FeatureChip>
+            <div style={{height:1,background:'var(--border-subtle)',margin:'16px 0'}}></div>
+            <FeatureChip icon={<I p={shield}/>} title="Certified suppliers only" accent="rfq">
+              Route requests to pre-qualified, compliance-checked vendors.
+            </FeatureChip>
+          </Card>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+  </script>
+</body>
+</html>

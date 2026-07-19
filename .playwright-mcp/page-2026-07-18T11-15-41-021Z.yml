@@ -1,0 +1,145 @@
+- generic [ref=f6e3]:
+  - complementary [ref=f6e4]:
+    - img "Citisoft Solutions" [ref=f6e6]
+    - navigation "Main navigation" [ref=f6e7]:
+      - link "Dashboard" [ref=f6e8] [cursor=pointer]:
+        - /url: /
+      - link "Invoice inbox 2" [ref=f6e16] [cursor=pointer]:
+        - /url: /inbox
+        - generic [ref=f6e21]: Invoice inbox
+        - generic [ref=f6e22]: "2"
+      - link "PO matching" [ref=f6e23] [cursor=pointer]:
+        - /url: /po-matching
+      - link "Bank upload" [ref=f6e33] [cursor=pointer]:
+        - /url: /bank-upload
+      - link "AR matching 3" [ref=f6e39] [cursor=pointer]:
+        - /url: /ar-matching
+        - generic [ref=f6e44]: AR matching
+        - generic [ref=f6e45]: "3"
+      - link "Reminders" [ref=f6e46] [cursor=pointer]:
+        - /url: /reminders
+      - link "Agent" [ref=f6e54] [cursor=pointer]:
+        - /url: /agent
+      - link "Connections" [ref=f6e60] [cursor=pointer]:
+        - /url: /connections
+    - paragraph [ref=f6e67]: Citisoft AP/AR
+  - generic [ref=f6e68]:
+    - banner [ref=f6e69]:
+      - textbox "Search invoices, payments, vendors…" [ref=f6e71]
+      - generic [ref=f6e72]: Xero · Connected
+      - button "Notifications" [ref=f6e75] [cursor=pointer]
+      - generic [ref=f6e79]:
+        - generic "Amara Okafor" [ref=f6e80]: AO
+        - generic [ref=f6e81]:
+          - generic [ref=f6e82]: Amara Okafor
+          - generic [ref=f6e83]: Financial controller
+    - main [ref=f6e84]:
+      - generic [ref=f6e221]:
+        - generic [ref=f6e223]:
+          - heading "AR matching" [level=1] [ref=f6e224]
+          - paragraph [ref=f6e225]: Bank deposits matched against open AR invoices — partial and unmatched receipts flagged for review.
+        - generic [ref=f6e226]:
+          - generic [ref=f6e227]:
+            - generic [ref=f6e228]: Applied
+            - generic [ref=f6e229]: $70,990.00
+          - generic [ref=f6e231]:
+            - generic [ref=f6e232]: Unapplied cash
+            - generic [ref=f6e233]: $6,125.50
+          - generic [ref=f6e235]:
+            - generic [ref=f6e236]: Excluded
+            - generic [ref=f6e237]: $3,454.49
+        - tablist [ref=f6e238]:
+          - tab "All 9" [selected] [ref=f6e239] [cursor=pointer]:
+            - text: All
+            - generic [ref=f6e240]: "9"
+          - tab "Matched 4" [ref=f6e242] [cursor=pointer]:
+            - text: Matched
+            - generic [ref=f6e243]: "4"
+          - tab "Partial 1" [ref=f6e245] [cursor=pointer]:
+            - text: Partial
+            - generic [ref=f6e246]: "1"
+          - tab "Unmatched 2" [ref=f6e248] [cursor=pointer]:
+            - text: Unmatched
+            - generic [ref=f6e249]: "2"
+        - table [ref=f6e253]:
+          - rowgroup [ref=f6e261]:
+            - row [ref=f6e262]:
+              - columnheader [ref=f6e263]
+              - columnheader "Date" [ref=f6e264]
+              - columnheader "Memo / payer" [ref=f6e265]
+              - columnheader "Amount" [ref=f6e266]
+              - columnheader "Matched to" [ref=f6e267]
+              - columnheader "Kind" [ref=f6e268]
+          - rowgroup [ref=f6e269]:
+            - row [ref=f6e270] [cursor=pointer]:
+              - cell [ref=f6e271]
+              - cell "Jul 2, 2026" [ref=f6e274]
+              - cell "ACH CREDIT PITTSBURGH AUTOMATION PARTNERS REF AR-2026-0083 AR-2026-0083" [ref=f6e275]:
+                - generic [ref=f6e276]: ACH CREDIT PITTSBURGH AUTOMATION PARTNERS REF AR-2026-0083
+                - generic [ref=f6e277]: AR-2026-0083
+              - cell "$18,750.00" [ref=f6e278]
+              - cell "AR-2026-0083" [ref=f6e279]
+              - cell [ref=f6e280]
+            - row [ref=f6e283] [cursor=pointer]:
+              - cell [ref=f6e284]
+              - cell "Jul 7, 2026" [ref=f6e287]
+              - cell "WIRE RIDGEWAY FABRICATION INC REF AR-2026-0078 AR-2026-0078" [ref=f6e288]:
+                - generic [ref=f6e289]: WIRE RIDGEWAY FABRICATION INC REF AR-2026-0078
+                - generic [ref=f6e290]: AR-2026-0078
+              - cell "$3,300.00" [ref=f6e291]
+              - cell "AR-2026-0078" [ref=f6e292]
+              - cell [ref=f6e293]
+            - row [ref=f6e296] [cursor=pointer]:
+              - cell [ref=f6e297]
+              - cell "Jul 15, 2026" [ref=f6e300]
+              - cell "ACH CREDIT GLOBAL AEROSPACE FABRICATORS REF AR-2026-0055 AR-2026-0055" [ref=f6e301]:
+                - generic [ref=f6e302]: ACH CREDIT GLOBAL AEROSPACE FABRICATORS REF AR-2026-0055
+                - generic [ref=f6e303]: AR-2026-0055
+              - cell "$22,100.00" [ref=f6e304]
+              - cell "AR-2026-0055" [ref=f6e305]
+              - cell [ref=f6e306]
+            - row [ref=f6e309] [cursor=pointer]:
+              - cell [ref=f6e310]
+              - cell "Jul 10, 2026" [ref=f6e313]
+              - cell "ACH CREDIT DELTA MACHINING SOLUTIONS PARTIAL AR-2026-0061 AR-2026-0061" [ref=f6e314]:
+                - generic [ref=f6e315]: ACH CREDIT DELTA MACHINING SOLUTIONS PARTIAL AR-2026-0061
+                - generic [ref=f6e316]: AR-2026-0061
+              - cell "$3,000.00" [ref=f6e317]
+              - cell "AR-2026-0061" [ref=f6e318]
+              - cell [ref=f6e319]
+            - row [ref=f6e322] [cursor=pointer]:
+              - cell [ref=f6e323]
+              - cell "Jul 12, 2026" [ref=f6e326]
+              - cell "WIRE KEYSTONE INDL SUPPLY LUMP PYMT AR-2026-0067 AR-2026-0072" [ref=f6e327]
+              - cell "$23,840.00" [ref=f6e329]
+              - cell "AR-2026-0067 · AR-2026-0072" [ref=f6e330]
+              - cell [ref=f6e331]
+            - row [ref=f6e334] [cursor=pointer]:
+              - cell [ref=f6e335]
+              - cell "Jul 3, 2026" [ref=f6e338]
+              - cell "CASH DEPOSIT — BRANCH TELLER" [ref=f6e339]
+              - cell "$500.00" [ref=f6e341]
+              - cell "—" [ref=f6e342]
+              - cell [ref=f6e343]
+            - row [ref=f6e346] [cursor=pointer]:
+              - cell [ref=f6e347]
+              - cell "Jul 8, 2026" [ref=f6e350]
+              - cell "WIRE INBOUND UNKNOWN SENDER 0047291" [ref=f6e351]
+              - cell "$2,750.00" [ref=f6e353]
+              - cell "—" [ref=f6e354]
+              - cell [ref=f6e355]
+            - row [ref=f6e358] [cursor=pointer]:
+              - cell [ref=f6e359]
+              - cell "Jul 1, 2026" [ref=f6e362]
+              - cell "MONTHLY ACCOUNT SERVICE FEE" [ref=f6e363]
+              - cell "-$35.00" [ref=f6e365]
+              - cell "—" [ref=f6e366]
+              - cell "excluded" [ref=f6e367]
+            - row [ref=f6e369] [cursor=pointer]:
+              - cell [ref=f6e370]
+              - cell "Jul 5, 2026" [ref=f6e373]
+              - cell "ACH DEBIT ALRO STEEL CORP BILL-10482" [ref=f6e374]
+              - cell "-$3,419.49" [ref=f6e376]
+              - cell "—" [ref=f6e377]
+              - cell "excluded" [ref=f6e378]
+        - paragraph [ref=f6e380]: Outbound payments and bank fees are excluded from AR matching — they are not customer receipts and are never force-matched to open invoices.
