@@ -52,6 +52,8 @@ export interface ArInvoice {
   dueDate: Date;
   ref: string;
   reminderSent?: boolean;
+  /** Provenance: synced from the ERP (default) or recorded manually (off-book). */
+  source?: 'erp' | 'manual';
 }
 
 export interface BankTxn {

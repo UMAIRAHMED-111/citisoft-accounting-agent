@@ -1,0 +1,49 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - img "Citisoft Solutions" [ref=e6]
+      - generic [ref=e7]:
+        - generic [ref=e8]: Powered by
+        - generic [ref=e9]: Claude
+    - navigation "Main navigation" [ref=e10]:
+      - link "Dashboard" [ref=e12] [cursor=pointer]:
+        - /url: /
+      - generic [ref=e20]:
+        - generic [ref=e21]: Payables
+        - link "Vendor bills 2" [ref=e22] [cursor=pointer]:
+          - /url: /inbox
+          - generic [ref=e27]: Vendor bills
+          - generic [ref=e28]: "2"
+        - link "PO matching" [ref=e29] [cursor=pointer]:
+          - /url: /po-matching
+      - generic [ref=e39]:
+        - generic [ref=e40]: Receivables
+        - link "Sales invoices" [ref=e41] [cursor=pointer]:
+          - /url: /sales
+        - link "Bank feed" [ref=e50] [cursor=pointer]:
+          - /url: /bank-upload
+        - link "AR matching 3" [ref=e56] [cursor=pointer]:
+          - /url: /ar-matching
+          - generic [ref=e61]: AR matching
+          - generic [ref=e62]: "3"
+        - link "Reminders" [ref=e63] [cursor=pointer]:
+          - /url: /reminders
+      - link "Connections" [ref=e72] [cursor=pointer]:
+        - /url: /connections
+    - paragraph [ref=e79]: Citisoft AP/AR
+  - generic [ref=e80]:
+    - banner [ref=e81]:
+      - searchbox "Search" [ref=e83]
+      - button "3 ERPs connected — view connections" [ref=e84] [cursor=pointer]:
+        - generic [ref=e86]: 3 ERPs · Connected
+      - button "Notifications" [ref=e88] [cursor=pointer]
+      - generic [ref=e93]:
+        - generic "Amara Okafor" [ref=e94]: AO
+        - generic [ref=e95]:
+          - generic [ref=e96]: Amara Okafor
+          - generic [ref=e97]: Financial controller
+    - main [ref=e98]:
+      - generic [ref=e101]:
+        - heading "Sales invoices" [level=1] [ref=e102]
+        - paragraph [ref=e103]: Invoices you've issued — collections tracked against bank receipts
+  - button "Open CitiSoft assistant" [ref=e162] [cursor=pointer]

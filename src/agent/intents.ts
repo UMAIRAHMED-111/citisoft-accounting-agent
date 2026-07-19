@@ -449,7 +449,7 @@ function handleScreenSummary(ctx: AgentContext, ledger: Ledger): AgentResponse |
       blocks: [
         {
           type: 'text',
-          text: `Sales invoices: ${arRows.length} invoices issued totaling ${money(invoicedTotal)}. ${money(collected)} collected, ${money(outstanding)} outstanding. ${plural(overdueRows.length, 'invoice')} overdue.${topOpen ? ` Largest open balance: ${topOpen.invoice.customer} — ${money(topOpen.balance)} (${topOpen.invoice.invoiceNo}).` : ''}`,
+          text: `Sales invoices: ${arRows.length} invoices issued totaling ${money(invoicedTotal)} — ${arRows.filter(r => r.invoice.source !== 'manual').length} synced from your ERP, ${arRows.filter(r => r.invoice.source === 'manual').length} recorded off-book. ${money(collected)} collected, ${money(outstanding)} outstanding. ${plural(overdueRows.length, 'invoice')} overdue.${topOpen ? ` Largest open balance: ${topOpen.invoice.customer} — ${money(topOpen.balance)} (${topOpen.invoice.invoiceNo}).` : ''}`,
         },
         {
           type: 'table',

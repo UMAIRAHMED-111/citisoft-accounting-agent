@@ -131,9 +131,10 @@ function CollectionRateTile({ rate }: CollectionRateTileProps) {
             width: `${pct}%`,
             borderRadius: 'var(--radius-pill)',
             background: 'var(--grad-brand)',
-            transition: 'width 280ms var(--ease-out)',
-            '@media (prefers-reduced-motion: reduce)': { transition: 'none' },
-          } as React.CSSProperties}
+            transition: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+              ? 'none'
+              : 'width 280ms var(--ease-out)',
+          }}
         />
       </div>
     </div>
@@ -289,6 +290,25 @@ function InvoiceRow({ row }: { row: ArRow }) {
           <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-caption)', color: 'var(--accent)', fontWeight: 600 }}>
             {invoice.invoiceNo}
           </span>
+          {invoice.source === 'manual' && (
+            <span
+              title="Recorded manually — not synced from the ERP"
+              style={{
+                marginLeft: 8,
+                fontFamily: 'var(--font-sans)',
+                fontSize: 10.5,
+                fontWeight: 600,
+                padding: '1px 6px',
+                borderRadius: 'var(--radius-pill)',
+                background: 'var(--surface-sunken)',
+                border: '1px solid var(--border-default)',
+                color: 'var(--text-muted)',
+                verticalAlign: 'middle',
+              }}
+            >
+              Off-book
+            </span>
+          )}
         </td>
         <td style={{ ...cellBase }}>{invoice.customer}</td>
         <td style={{ ...cellBase, fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-caption)', color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
@@ -380,13 +400,14 @@ function NewInvoiceDialog({ open, onClose, currentMaxRef, currentCount }: NewInv
         issuedDate: new Date(TODAY_STR),
         dueDate: new Date(dueDate),
         ref: nextRef,
+        source: 'manual',
       });
       return nextRef;
     });
 
     toast.push({
       tone: 'success',
-      title: `Invoice ${nextRef} issued to ${customer.trim()}`,
+      title: `Off-book invoice ${nextRef} recorded for ${customer.trim()}`,
     });
 
     reset();
@@ -394,8 +415,19 @@ function NewInvoiceDialog({ open, onClose, currentMaxRef, currentCount }: NewInv
   }
 
   return (
-    <Dialog open={open} onClose={handleClose} title="New invoice" width={480}>
+    <Dialog open={open} onClose={handleClose} title="Record off-book invoice" width={480}>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: 'var(--fs-body-sm)',
+          color: 'var(--text-muted)',
+          lineHeight: 'var(--lh-normal)',
+          margin: 0,
+        }}>
+          Sales invoices sync from your ERP automatically. Use this to record an
+          invoice issued outside the ERP so collections and reconciliation still
+          track it.
+        </p>
         <Input
           label="Customer"
           value={customer}
@@ -540,10 +572,24 @@ export default function SalesInvoices() {
             leadingIcon={<FileOutput size={16} />}
             onClick={() => setDialogOpen(true)}
           >
-            New invoice
+            Record off-book invoice
           </Button>
         }
       />
+
+      {/* ERP sync status */}
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--space-3)',
+        margin: 'calc(-1 * var(--space-4)) 0 var(--space-6)',
+        fontFamily: 'var(--font-sans)',
+        fontSize: 'var(--fs-caption)',
+        color: 'var(--text-muted)',
+      }}>
+        <span aria-hidden style={{ width: 7, height: 7, borderRadius: '50%', background: 'var(--success-500)' }} />
+        <span>Synced from Xero · Last sync 2 min ago</span>
+      </div>
 
       {/* KPI band */}
       <div
